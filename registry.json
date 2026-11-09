@@ -17,7 +17,8 @@
       "cssVars": {
         "theme": {
           "font-sans": "-apple-system, BlinkMacSystemFont, \"SF Pro Text\", \"Inter Variable\", \"Sarabun\", system-ui, sans-serif",
-          "font-heading": "-apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Inter Variable\", \"Sarabun\", system-ui, sans-serif"
+          "font-heading": "-apple-system, BlinkMacSystemFont, \"SF Pro Display\", \"Inter Variable\", \"Sarabun\", system-ui, sans-serif",
+          "shadow-lift": "0 1px 3px oklch(0.2 0.02 260 / 0.14), 0 0 0 0.5px oklch(0.2 0.02 260 / 0.06)"
         },
         "light": {
           "background": "oklch(0.975 0.004 250)",
@@ -60,7 +61,8 @@
           "glass-field-1": "oklch(0.85 0.09 255)",
           "glass-field-2": "oklch(0.9 0.07 200)",
           "glass-field-3": "oklch(0.88 0.07 300)",
-          "field": "oklch(0.955 0.004 255)"
+          "field": "oklch(0.955 0.004 255)",
+          "destructive-solid": "oklch(0.53 0.21 25)"
         },
         "dark": {
           "background": "oklch(0.17 0.01 260)",
@@ -77,7 +79,7 @@
           "muted-foreground": "oklch(0.7 0.015 260)",
           "accent": "oklch(0.56 0.2 260 / 0.22)",
           "accent-foreground": "oklch(0.78 0.13 258)",
-          "destructive": "oklch(0.68 0.19 22)",
+          "destructive": "oklch(0.72 0.17 22)",
           "success": "oklch(0.72 0.17 150)",
           "success-text": "oklch(0.78 0.17 150)",
           "warning": "oklch(0.8 0.15 75)",
@@ -102,7 +104,8 @@
           "glass-field-1": "oklch(0.36 0.12 262)",
           "glass-field-2": "oklch(0.33 0.08 200)",
           "glass-field-3": "oklch(0.32 0.1 300)",
-          "field": "oklch(0.25 0.012 260)"
+          "field": "oklch(0.25 0.012 260)",
+          "destructive-solid": "oklch(0.55 0.2 25)"
         }
       },
       "css": {
@@ -135,6 +138,20 @@
           },
           "::selection": {
             "background-color": "var(--accent)"
+          },
+          "@media (prefers-reduced-motion: reduce)": {
+            "*, ::before, ::after": {
+              "--tw-enter-scale": "1 !important",
+              "--tw-enter-translate-x": "0 !important",
+              "--tw-enter-translate-y": "0 !important",
+              "--tw-enter-rotate": "0 !important",
+              "--tw-enter-blur": "0 !important",
+              "--tw-exit-scale": "1 !important",
+              "--tw-exit-translate-x": "0 !important",
+              "--tw-exit-translate-y": "0 !important",
+              "--tw-exit-rotate": "0 !important",
+              "--tw-exit-blur": "0 !important"
+            }
           }
         },
         "@utility glass-clear": {

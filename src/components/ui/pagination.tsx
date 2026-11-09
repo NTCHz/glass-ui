@@ -53,7 +53,7 @@ function PaginationLink({
       variant="ghost"
       size={size}
       className={cn(
-        "tabular-nums data-active:bg-card data-active:shadow-[0_1px_3px_oklch(0.2_0.02_260/0.14),0_0_0_0.5px_oklch(0.2_0.02_260/0.06)] data-active:hover:bg-card dark:data-active:bg-[oklch(1_0_0/0.16)] dark:data-active:hover:bg-[oklch(1_0_0/0.16)]",
+        "tabular-nums data-active:bg-card data-active:shadow-lift data-active:hover:bg-card dark:data-active:bg-[oklch(1_0_0/0.16)] dark:data-active:hover:bg-[oklch(1_0_0/0.16)]",
         className
       )}
       nativeButton={false}

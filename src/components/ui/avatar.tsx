@@ -43,7 +43,7 @@ function AvatarFallback({
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
       className={cn(
-        "flex size-full items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--card),var(--primary)_10%)] text-xs font-semibold text-primary group-data-[size=sm]/avatar:text-xs",
+        "flex size-full items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--card),var(--primary)_10%)] text-xs font-semibold text-primary group-data-[size=sm]/avatar:text-xs dark:text-accent-foreground",
         className
       )}
       {...props}

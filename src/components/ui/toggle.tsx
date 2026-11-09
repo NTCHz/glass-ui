@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 
 const toggleVariants = cva(
-  "group/toggle inline-flex items-center justify-center gap-1 rounded-full border border-transparent text-sm font-medium whitespace-nowrap text-muted-foreground transition-[background-color,color,box-shadow,scale] duration-300 ease-(--ease-spring) outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-[0_1px_3px_oklch(0.2_0.02_260/0.14),0_0_0_0.5px_oklch(0.2_0.02_260/0.06)] motion-reduce:transition-none dark:aria-invalid:ring-destructive/40 dark:aria-pressed:bg-[oklch(1_0_0/0.16)] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/toggle inline-flex items-center justify-center gap-1 rounded-full border border-transparent text-sm font-medium whitespace-nowrap text-muted-foreground transition-[background-color,color,box-shadow,scale] duration-300 ease-(--ease-spring) outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-lift motion-reduce:transition-none dark:aria-invalid:ring-destructive/40 dark:aria-pressed:bg-[oklch(1_0_0/0.16)] [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {

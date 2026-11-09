@@ -66,3 +66,13 @@ v0.1 put glass on every surface (cards, inputs) and read as washed-out. Rebuilt 
 - Combobox list uses shadcn's scroll-aware `scroll-fade-b` (fades only while more content is below).
 - Carousel gains `CarouselDots`; mobile catalog header tracks the section in view.
 - Detector after polish: 0 findings (was 2 CLI advisories + 33 in-browser).
+
+## 2026-11-09 — audit fixes (15/20 → re-verified with axe)
+
+- Split red into two tokens: `--destructive` for text and tints, `--destructive-solid` for white-on-red fills (destructive-solid button, focused destructive menu rows). Dark `--destructive` 0.68 → 0.72 (text on card 6.62:1); dark `--destructive-solid` 0.55 (white 5.38:1). Before, white on dark 0.68 red was 3.15:1.
+- Avatar fallback text in dark uses `accent-foreground` (≈8:1; was `primary` at 3.36:1).
+- Reduced motion: theme `@layer base` forces tw-animate's enter/exit scale, translate, rotate and blur to neutral under `prefers-reduced-motion: reduce` (`!important`, so it beats utilities across layers). Overlays keep a fade only.
+- Touch: default buttons, icon buttons and every field family grow to 44px under `pointer-coarse`. Checkbox and switch already extend their hit area with `after:-inset-*`, so their small visible size is not a target-size failure.
+- `shadow-lift` theme token replaces six copies of the Lift shadow.
+- Combobox trigger/clear/chip-remove ship default `aria-label`s; Slider forwards `aria-label` to every thumb; ItemGroup no longer claims `role="list"` over non-listitem children.
+- Remaining axe items are upstream: cmdk puts a separator inside its listbox, react-day-picker day buttons use full-date names (more informative than the visible number), shiki github-light token colours in code-block.

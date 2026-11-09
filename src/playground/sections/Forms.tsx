@@ -187,7 +187,7 @@ export const InputGroupDemo: FC = () => (
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
-        <InputGroupInput placeholder="Search files" />
+        <InputGroupInput placeholder="Search files" aria-label="Search files" />
         <InputGroupAddon align="inline-end">
           <Kbd>⌘K</Kbd>
         </InputGroupAddon>
@@ -196,7 +196,10 @@ export const InputGroupDemo: FC = () => (
         <InputGroupAddon>
           <InputGroupText>https://</InputGroupText>
         </InputGroupAddon>
-        <InputGroupInput defaultValue="example.com/share" />
+        <InputGroupInput
+          defaultValue="example.com/share"
+          aria-label="Share link"
+        />
         <InputGroupAddon align="inline-end">
           <InputGroupButton size="icon-xs" aria-label="Copy link">
             <CopyIcon />
@@ -204,7 +207,11 @@ export const InputGroupDemo: FC = () => (
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput aria-invalid defaultValue="not-an-email" />
+        <InputGroupInput
+          aria-invalid
+          defaultValue="not-an-email"
+          aria-label="Email"
+        />
         <InputGroupAddon align="inline-end">
           <InputGroupText>@mail</InputGroupText>
         </InputGroupAddon>
@@ -224,7 +231,11 @@ export const InputGroupDemo: FC = () => (
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput disabled placeholder="Disabled" />
+        <InputGroupInput
+          disabled
+          placeholder="Disabled"
+          aria-label="Disabled field"
+        />
       </InputGroup>
     </div>
   </Section>
@@ -233,7 +244,7 @@ export const InputGroupDemo: FC = () => (
 export const InputOTPDemo: FC = () => (
   <Section id="input-otp" title="Input OTP" note="Separate filled cells.">
     <div className="grid gap-4">
-      <InputOTP maxLength={6} defaultValue="314">
+      <InputOTP maxLength={6} defaultValue="314" aria-label="Verification code">
         <InputOTPGroup>
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />
@@ -246,7 +257,7 @@ export const InputOTPDemo: FC = () => (
           <InputOTPSlot index={5} />
         </InputOTPGroup>
       </InputOTP>
-      <InputOTP maxLength={4} disabled>
+      <InputOTP maxLength={4} disabled aria-label="PIN (disabled)">
         <InputOTPGroup>
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />
@@ -408,7 +419,12 @@ export const CalendarDemo: FC = () => {
       note="Today in accent, selection in solid tint."
     >
       <Calendar mode="single" selected={day} onSelect={setDay} />
-      <Calendar mode="range" selected={range} onSelect={setRange} />
+      <Calendar
+        mode="range"
+        selected={range}
+        onSelect={setRange}
+        labels={{ labelNav: () => "Range calendar navigation" }}
+      />
     </Section>
   );
 };

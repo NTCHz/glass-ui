@@ -82,7 +82,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarInset,
   SidebarMenu,
   SidebarMenuBadge,
   SidebarMenuButton,
@@ -201,7 +200,7 @@ export const Sidebars: FC = () => (
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <SidebarInset className="bg-transparent p-3">
+        <div className="relative flex min-w-0 flex-1 flex-col bg-transparent p-3">
           <div className="flex h-full flex-col gap-3 rounded-2xl bg-card p-4 ring-1 ring-border">
             <div className="flex items-center gap-2">
               <SidebarTrigger />
@@ -213,7 +212,7 @@ export const Sidebars: FC = () => (
               Press the toggle or ⌘B to collapse the sidebar.
             </p>
           </div>
-        </SidebarInset>
+        </div>
       </SidebarProvider>
     </div>
   </Section>

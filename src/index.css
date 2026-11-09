@@ -70,6 +70,9 @@
   --color-success-text: var(--success-text);
   --color-success: var(--success);
   --color-field: var(--field);
+  --shadow-lift:
+    0 1px 3px oklch(0.2 0.02 260 / 0.14), 0 0 0 0.5px oklch(0.2 0.02 260 / 0.06);
+  --color-destructive-solid: var(--destructive-solid);
 }
 
 :root {
@@ -129,6 +132,7 @@
     0 2px 6px -2px oklch(0.25 0.04 260 / 0.1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --field: oklch(0.955 0.004 255);
+  --destructive-solid: oklch(0.53 0.21 25);
 }
 
 .dark {
@@ -146,7 +150,7 @@
   --muted-foreground: oklch(0.7 0.015 260);
   --accent: oklch(0.56 0.2 260 / 0.22);
   --accent-foreground: oklch(0.78 0.13 258);
-  --destructive: oklch(0.68 0.19 22);
+  --destructive: oklch(0.72 0.17 22);
   --border: oklch(1 0 0 / 0.08);
   --input: oklch(1 0 0 / 0.12);
   --ring: oklch(0.68 0.16 258 / 0.6);
@@ -184,6 +188,7 @@
   --glass-shadow:
     0 10px 30px -6px oklch(0 0 0 / 0.5), 0 2px 6px oklch(0 0 0 / 0.3);
   --field: oklch(0.25 0.012 260);
+  --destructive-solid: oklch(0.55 0.2 25);
 }
 
 @layer base {
@@ -202,6 +207,23 @@
   }
   ::selection {
     background-color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      --tw-enter-scale: 1 !important;
+      --tw-enter-translate-x: 0 !important;
+      --tw-enter-translate-y: 0 !important;
+      --tw-enter-rotate: 0 !important;
+      --tw-enter-blur: 0 !important;
+      --tw-exit-scale: 1 !important;
+      --tw-exit-translate-x: 0 !important;
+      --tw-exit-translate-y: 0 !important;
+      --tw-exit-rotate: 0 !important;
+      --tw-exit-blur: 0 !important;
+    }
   }
 }
 
@@ -224,6 +246,12 @@
     var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000),
     var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow, 0 0 #0000);
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background-color: var(--glass-solid);
+    background-image: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
   @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
     background-color: var(--glass-solid);
     background-image: none;
@@ -270,6 +298,12 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background-color: var(--glass-solid);
+    background-image: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 @utility glass-thick {
@@ -304,6 +338,12 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background-color: var(--glass-solid);
+    background-image: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 @utility glass-press {
@@ -318,6 +358,14 @@
     transform: scale(1.05);
     filter: brightness(1.12) saturate(1.15);
     transition-duration: 140ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0ms;
+    transform: none !important;
+  }
+  @variant hover {
+    transform: scale(1.02);
+    filter: brightness(1.06) saturate(1.1);
   }
   @media (prefers-reduced-motion: reduce) {
     transition-duration: 0ms;

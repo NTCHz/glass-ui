@@ -58,8 +58,7 @@ const Brand: FC = () => (
   </div>
 );
 
-const LIFT =
-  "bg-card text-primary shadow-[0_1px_3px_oklch(0.2_0.02_260/0.14),0_0_0_0.5px_oklch(0.2_0.02_260/0.06)] dark:bg-[oklch(1_0_0/0.16)]";
+const LIFT = "bg-card text-primary shadow-lift dark:bg-[oklch(1_0_0/0.16)]";
 
 const ACTIVE_BAND = "-30% 0px -65% 0px";
 
@@ -99,13 +98,16 @@ export const AppShell: FC<ShellProps> = ({ nav, children }) => {
   return (
     <div className="min-h-svh glass-backdrop text-foreground">
       <aside
-        aria-label="Components"
+        aria-label="Component index"
         className="fixed inset-y-3 left-3 z-40 hidden w-60 flex-col rounded-[28px] glass p-3 md:flex"
       >
         <div className="px-2 pt-1 pb-5">
           <Brand />
         </div>
-        <nav className="-mx-1 grid [scrollbar-width:thin] gap-4 overflow-y-auto px-1 pb-2">
+        <nav
+          aria-label="Components"
+          className="-mx-1 grid [scrollbar-width:thin] gap-4 overflow-y-auto px-1 pb-2"
+        >
           {groupsOf(nav).map(({ group, items }) => (
             <div key={group} className="grid gap-0.5">
               <p className="px-3 pb-1 text-xs font-medium text-muted-foreground">
@@ -141,7 +143,7 @@ export const AppShell: FC<ShellProps> = ({ nav, children }) => {
         </div>
         <nav
           ref={chipsRef}
-          aria-label="Components"
+          aria-label="Jump to component"
           className="-mx-3 mt-2 flex [scrollbar-width:none] gap-1.5 overflow-x-auto px-3 pb-1"
         >
           {nav.map(item => (

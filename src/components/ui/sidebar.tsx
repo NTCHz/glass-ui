@@ -466,7 +466,7 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
 }
 
 const sidebarActiveItem =
-  "data-active:bg-card/80 data-active:font-medium data-active:text-foreground data-active:shadow-[0_1px_3px_oklch(0.2_0.02_260/0.14),0_0_0_0.5px_oklch(0.2_0.02_260/0.06)] dark:data-active:bg-[oklch(1_0_0/0.16)] data-active:[&_svg]:text-primary";
+  "data-active:bg-card/80 data-active:font-medium data-active:text-foreground data-active:shadow-lift dark:data-active:bg-[oklch(1_0_0/0.16)] data-active:[&_svg]:text-primary";
 
 const sidebarMenuButtonVariants = cva(
   cn(
