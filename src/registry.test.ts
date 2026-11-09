@@ -51,9 +51,10 @@ describe("registry.json", () => {
   it("has a theme item that defines glass utilities", () => {
     expect(Object.keys(theme?.css ?? {})).toEqual(
       expect.arrayContaining([
-        "@utility glass-thin",
+        "@utility glass-clear",
         "@utility glass",
         "@utility glass-thick",
+        "@utility glass-press",
       ])
     );
   });

@@ -1,0 +1,865 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T00:00:00Z",
+  "title": "Design System: glass-ui",
+  "extensions": {
+    "colorMeta": {
+      "background": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "canonical": "oklch(0.975 0.004 250)",
+        "dark": "oklch(0.17 0.01 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.004 250)",
+          "oklch(0.26 0.004 250)",
+          "oklch(0.38 0.004 250)",
+          "oklch(0.49 0.004 250)",
+          "oklch(0.61 0.004 250)",
+          "oklch(0.72 0.004 250)",
+          "oklch(0.84 0.004 250)",
+          "oklch(0.95 0.004 250)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.21 0.015 260)",
+        "dark": "oklch(0.96 0.004 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 260)",
+          "oklch(0.26 0.015 260)",
+          "oklch(0.38 0.015 260)",
+          "oklch(0.49 0.015 260)",
+          "oklch(0.61 0.015 260)",
+          "oklch(0.72 0.015 260)",
+          "oklch(0.84 0.015 260)",
+          "oklch(0.95 0.015 260)"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "oklch(1 0 0)",
+        "dark": "oklch(0.21 0.012 260)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "popover": {
+        "role": "neutral",
+        "displayName": "Popover White",
+        "canonical": "oklch(0.99 0.002 250)",
+        "dark": "oklch(0.23 0.012 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.002 250)",
+          "oklch(0.26 0.002 250)",
+          "oklch(0.38 0.002 250)",
+          "oklch(0.49 0.002 250)",
+          "oklch(0.61 0.002 250)",
+          "oklch(0.72 0.002 250)",
+          "oklch(0.84 0.002 250)",
+          "oklch(0.95 0.002 250)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "System Blue",
+        "canonical": "oklch(0.53 0.21 262)",
+        "dark": "oklch(0.56 0.2 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 262)",
+          "oklch(0.26 0.2 262)",
+          "oklch(0.38 0.2 262)",
+          "oklch(0.49 0.2 262)",
+          "oklch(0.61 0.2 262)",
+          "oklch(0.72 0.2 262)",
+          "oklch(0.84 0.2 262)",
+          "oklch(0.95 0.2 262)"
+        ]
+      },
+      "primary-foreground": {
+        "role": "primary",
+        "displayName": "On Blue White",
+        "canonical": "oklch(1 0 0)",
+        "dark": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Ink Veil 5.5%",
+        "canonical": "oklch(0.21 0.015 260 / 0.055)",
+        "dark": "oklch(1 0 0 / 0.08)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 260)",
+          "oklch(0.26 0.015 260)",
+          "oklch(0.38 0.015 260)",
+          "oklch(0.49 0.015 260)",
+          "oklch(0.61 0.015 260)",
+          "oklch(0.72 0.015 260)",
+          "oklch(0.84 0.015 260)",
+          "oklch(0.95 0.015 260)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Ink Veil 4%",
+        "canonical": "oklch(0.21 0.015 260 / 0.04)",
+        "dark": "oklch(1 0 0 / 0.05)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 260)",
+          "oklch(0.26 0.015 260)",
+          "oklch(0.38 0.015 260)",
+          "oklch(0.49 0.015 260)",
+          "oklch(0.61 0.015 260)",
+          "oklch(0.72 0.015 260)",
+          "oklch(0.84 0.015 260)",
+          "oklch(0.95 0.015 260)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Graphite Muted",
+        "canonical": "oklch(0.47 0.015 260)",
+        "dark": "oklch(0.7 0.015 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 260)",
+          "oklch(0.26 0.015 260)",
+          "oklch(0.38 0.015 260)",
+          "oklch(0.49 0.015 260)",
+          "oklch(0.61 0.015 260)",
+          "oklch(0.72 0.015 260)",
+          "oklch(0.84 0.015 260)",
+          "oklch(0.95 0.015 260)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Blue Wash",
+        "canonical": "oklch(0.53 0.21 262 / 0.1)",
+        "dark": "oklch(0.56 0.2 260 / 0.22)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 262)",
+          "oklch(0.26 0.2 262)",
+          "oklch(0.38 0.2 262)",
+          "oklch(0.49 0.2 262)",
+          "oklch(0.61 0.2 262)",
+          "oklch(0.72 0.2 262)",
+          "oklch(0.84 0.2 262)",
+          "oklch(0.95 0.2 262)"
+        ]
+      },
+      "accent-foreground": {
+        "role": "primary",
+        "displayName": "Deep Blue Text",
+        "canonical": "oklch(0.45 0.2 262)",
+        "dark": "oklch(0.78 0.13 258)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 262)",
+          "oklch(0.26 0.2 262)",
+          "oklch(0.38 0.2 262)",
+          "oklch(0.49 0.2 262)",
+          "oklch(0.61 0.2 262)",
+          "oklch(0.72 0.2 262)",
+          "oklch(0.84 0.2 262)",
+          "oklch(0.95 0.2 262)"
+        ]
+      },
+      "destructive": {
+        "role": "secondary",
+        "displayName": "Status Red",
+        "canonical": "oklch(0.58 0.22 25)",
+        "dark": "oklch(0.68 0.19 22)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 25)",
+          "oklch(0.26 0.2 25)",
+          "oklch(0.38 0.2 25)",
+          "oklch(0.49 0.2 25)",
+          "oklch(0.61 0.2 25)",
+          "oklch(0.72 0.2 25)",
+          "oklch(0.84 0.2 25)",
+          "oklch(0.95 0.2 25)"
+        ]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Status Green",
+        "canonical": "oklch(0.68 0.17 150)",
+        "dark": "oklch(0.72 0.17 150)",
+        "tonalRamp": [
+          "oklch(0.15 0.17 150)",
+          "oklch(0.26 0.17 150)",
+          "oklch(0.38 0.17 150)",
+          "oklch(0.49 0.17 150)",
+          "oklch(0.61 0.17 150)",
+          "oklch(0.72 0.17 150)",
+          "oklch(0.84 0.17 150)",
+          "oklch(0.95 0.17 150)"
+        ]
+      },
+      "success-text": {
+        "role": "secondary",
+        "displayName": "Green Text",
+        "canonical": "oklch(0.5 0.14 150)",
+        "dark": "oklch(0.78 0.17 150)",
+        "tonalRamp": [
+          "oklch(0.15 0.14 150)",
+          "oklch(0.26 0.14 150)",
+          "oklch(0.38 0.14 150)",
+          "oklch(0.49 0.14 150)",
+          "oklch(0.61 0.14 150)",
+          "oklch(0.72 0.14 150)",
+          "oklch(0.84 0.14 150)",
+          "oklch(0.95 0.14 150)"
+        ]
+      },
+      "warning": {
+        "role": "secondary",
+        "displayName": "Status Amber",
+        "canonical": "oklch(0.78 0.16 70)",
+        "dark": "oklch(0.8 0.15 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.16 70)",
+          "oklch(0.26 0.16 70)",
+          "oklch(0.38 0.16 70)",
+          "oklch(0.49 0.16 70)",
+          "oklch(0.61 0.16 70)",
+          "oklch(0.72 0.16 70)",
+          "oklch(0.84 0.16 70)",
+          "oklch(0.95 0.16 70)"
+        ]
+      },
+      "warning-text": {
+        "role": "secondary",
+        "displayName": "Amber Text",
+        "canonical": "oklch(0.52 0.13 65)",
+        "dark": "oklch(0.82 0.15 75)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 65)",
+          "oklch(0.26 0.13 65)",
+          "oklch(0.38 0.13 65)",
+          "oklch(0.49 0.13 65)",
+          "oklch(0.61 0.13 65)",
+          "oklch(0.72 0.13 65)",
+          "oklch(0.84 0.13 65)",
+          "oklch(0.95 0.13 65)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(0.21 0.015 260 / 0.09)",
+        "dark": "oklch(1 0 0 / 0.08)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 260)",
+          "oklch(0.26 0.015 260)",
+          "oklch(0.38 0.015 260)",
+          "oklch(0.49 0.015 260)",
+          "oklch(0.61 0.015 260)",
+          "oklch(0.72 0.015 260)",
+          "oklch(0.84 0.015 260)",
+          "oklch(0.95 0.015 260)"
+        ]
+      },
+      "input": {
+        "role": "neutral",
+        "displayName": "Field Stroke",
+        "canonical": "oklch(0.21 0.015 260 / 0.12)",
+        "dark": "oklch(1 0 0 / 0.12)",
+        "tonalRamp": [
+          "oklch(0.15 0.015 260)",
+          "oklch(0.26 0.015 260)",
+          "oklch(0.38 0.015 260)",
+          "oklch(0.49 0.015 260)",
+          "oklch(0.61 0.015 260)",
+          "oklch(0.72 0.015 260)",
+          "oklch(0.84 0.015 260)",
+          "oklch(0.95 0.015 260)"
+        ]
+      },
+      "ring": {
+        "role": "neutral",
+        "displayName": "Focus Ring",
+        "canonical": "oklch(0.53 0.21 262 / 0.5)",
+        "dark": "oklch(0.68 0.16 258 / 0.6)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 262)",
+          "oklch(0.26 0.2 262)",
+          "oklch(0.38 0.2 262)",
+          "oklch(0.49 0.2 262)",
+          "oklch(0.61 0.2 262)",
+          "oklch(0.72 0.2 262)",
+          "oklch(0.84 0.2 262)",
+          "oklch(0.95 0.2 262)"
+        ]
+      },
+      "chart-1": {
+        "role": "tertiary",
+        "displayName": "Chart Blue",
+        "canonical": "oklch(0.6 0.2 262)",
+        "dark": "oklch(0.68 0.17 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 262)",
+          "oklch(0.26 0.2 262)",
+          "oklch(0.38 0.2 262)",
+          "oklch(0.49 0.2 262)",
+          "oklch(0.61 0.2 262)",
+          "oklch(0.72 0.2 262)",
+          "oklch(0.84 0.2 262)",
+          "oklch(0.95 0.2 262)"
+        ]
+      },
+      "chart-2": {
+        "role": "tertiary",
+        "displayName": "Chart Teal",
+        "canonical": "oklch(0.72 0.13 195)",
+        "dark": "oklch(0.76 0.12 195)",
+        "tonalRamp": [
+          "oklch(0.15 0.13 195)",
+          "oklch(0.26 0.13 195)",
+          "oklch(0.38 0.13 195)",
+          "oklch(0.49 0.13 195)",
+          "oklch(0.61 0.13 195)",
+          "oklch(0.72 0.13 195)",
+          "oklch(0.84 0.13 195)",
+          "oklch(0.95 0.13 195)"
+        ]
+      },
+      "chart-3": {
+        "role": "tertiary",
+        "displayName": "Chart Violet",
+        "canonical": "oklch(0.6 0.2 300)",
+        "dark": "oklch(0.7 0.16 300)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 300)",
+          "oklch(0.26 0.2 300)",
+          "oklch(0.38 0.2 300)",
+          "oklch(0.49 0.2 300)",
+          "oklch(0.61 0.2 300)",
+          "oklch(0.72 0.2 300)",
+          "oklch(0.84 0.2 300)",
+          "oklch(0.95 0.2 300)"
+        ]
+      },
+      "chart-4": {
+        "role": "tertiary",
+        "displayName": "Chart Amber",
+        "canonical": "oklch(0.75 0.16 60)",
+        "dark": "oklch(0.8 0.14 65)",
+        "tonalRamp": [
+          "oklch(0.15 0.16 60)",
+          "oklch(0.26 0.16 60)",
+          "oklch(0.38 0.16 60)",
+          "oklch(0.49 0.16 60)",
+          "oklch(0.61 0.16 60)",
+          "oklch(0.72 0.16 60)",
+          "oklch(0.84 0.16 60)",
+          "oklch(0.95 0.16 60)"
+        ]
+      },
+      "chart-5": {
+        "role": "tertiary",
+        "displayName": "Chart Rose",
+        "canonical": "oklch(0.66 0.2 350)",
+        "dark": "oklch(0.72 0.17 350)",
+        "tonalRamp": [
+          "oklch(0.15 0.2 350)",
+          "oklch(0.26 0.2 350)",
+          "oklch(0.38 0.2 350)",
+          "oklch(0.49 0.2 350)",
+          "oklch(0.61 0.2 350)",
+          "oklch(0.72 0.2 350)",
+          "oklch(0.84 0.2 350)",
+          "oklch(0.95 0.2 350)"
+        ]
+      },
+      "glass-solid": {
+        "role": "neutral",
+        "displayName": "Glass Solid Fallback",
+        "canonical": "oklch(0.985 0.003 250)",
+        "dark": "oklch(0.23 0.012 260)",
+        "tonalRamp": [
+          "oklch(0.15 0.003 250)",
+          "oklch(0.26 0.003 250)",
+          "oklch(0.38 0.003 250)",
+          "oklch(0.49 0.003 250)",
+          "oklch(0.61 0.003 250)",
+          "oklch(0.72 0.003 250)",
+          "oklch(0.84 0.003 250)",
+          "oklch(0.95 0.003 250)"
+        ]
+      },
+      "glass-clear": {
+        "role": "neutral",
+        "displayName": "Clear Glass Tint",
+        "canonical": "oklch(1 0 0 / 0.2)",
+        "dark": "oklch(0.22 0.012 260 / 0.2)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "glass-regular": {
+        "role": "neutral",
+        "displayName": "Regular Glass Tint",
+        "canonical": "oklch(1 0 0 / 0.55)",
+        "dark": "oklch(0.24 0.012 260 / 0.5)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "glass-thick": {
+        "role": "neutral",
+        "displayName": "Thick Glass Tint",
+        "canonical": "oklch(0.99 0.002 250 / 0.8)",
+        "dark": "oklch(0.24 0.012 260 / 0.74)",
+        "tonalRamp": [
+          "oklch(0.15 0.002 250)",
+          "oklch(0.26 0.002 250)",
+          "oklch(0.38 0.002 250)",
+          "oklch(0.49 0.002 250)",
+          "oklch(0.61 0.002 250)",
+          "oklch(0.72 0.002 250)",
+          "oklch(0.84 0.002 250)",
+          "oklch(0.95 0.002 250)"
+        ]
+      },
+      "glass-sheen": {
+        "role": "neutral",
+        "displayName": "Specular Sheen",
+        "canonical": "oklch(1 0 0 / 0.6)",
+        "dark": "oklch(1 0 0 / 0.07)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "glass-rim-hi": {
+        "role": "neutral",
+        "displayName": "Rim Light",
+        "canonical": "oklch(1 0 0 / 0.95)",
+        "dark": "oklch(1 0 0 / 0.3)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "glass-rim-lo": {
+        "role": "neutral",
+        "displayName": "Counter Rim",
+        "canonical": "oklch(1 0 0 / 0.35)",
+        "dark": "oklch(1 0 0 / 0.1)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "glass-edge": {
+        "role": "neutral",
+        "displayName": "Glass Edge",
+        "canonical": "oklch(0.2 0.02 260 / 0.08)",
+        "dark": "oklch(1 0 0 / 0.07)",
+        "tonalRamp": [
+          "oklch(0.15 0.02 260)",
+          "oklch(0.26 0.02 260)",
+          "oklch(0.38 0.02 260)",
+          "oklch(0.49 0.02 260)",
+          "oklch(0.61 0.02 260)",
+          "oklch(0.72 0.02 260)",
+          "oklch(0.84 0.02 260)",
+          "oklch(0.95 0.02 260)"
+        ]
+      },
+      "glass-glow": {
+        "role": "neutral",
+        "displayName": "Inner Glow",
+        "canonical": "oklch(1 0 0 / 0.35)",
+        "dark": "oklch(1 0 0 / 0.05)",
+        "tonalRamp": [
+          "oklch(0.15 0 0)",
+          "oklch(0.26 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.49 0 0)",
+          "oklch(0.61 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.84 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "glass-field-1": {
+        "role": "tertiary",
+        "displayName": "Backdrop Blue Field",
+        "canonical": "oklch(0.85 0.09 255)",
+        "dark": "oklch(0.36 0.12 262)",
+        "tonalRamp": [
+          "oklch(0.15 0.09 255)",
+          "oklch(0.26 0.09 255)",
+          "oklch(0.38 0.09 255)",
+          "oklch(0.49 0.09 255)",
+          "oklch(0.61 0.09 255)",
+          "oklch(0.72 0.09 255)",
+          "oklch(0.84 0.09 255)",
+          "oklch(0.95 0.09 255)"
+        ]
+      },
+      "glass-field-2": {
+        "role": "tertiary",
+        "displayName": "Backdrop Aqua Field",
+        "canonical": "oklch(0.9 0.07 200)",
+        "dark": "oklch(0.33 0.08 200)",
+        "tonalRamp": [
+          "oklch(0.15 0.07 200)",
+          "oklch(0.26 0.07 200)",
+          "oklch(0.38 0.07 200)",
+          "oklch(0.49 0.07 200)",
+          "oklch(0.61 0.07 200)",
+          "oklch(0.72 0.07 200)",
+          "oklch(0.84 0.07 200)",
+          "oklch(0.95 0.07 200)"
+        ]
+      },
+      "glass-field-3": {
+        "role": "tertiary",
+        "displayName": "Backdrop Lilac Field",
+        "canonical": "oklch(0.88 0.07 300)",
+        "dark": "oklch(0.32 0.1 300)",
+        "tonalRamp": [
+          "oklch(0.15 0.07 300)",
+          "oklch(0.26 0.07 300)",
+          "oklch(0.38 0.07 300)",
+          "oklch(0.49 0.07 300)",
+          "oklch(0.61 0.07 300)",
+          "oklch(0.72 0.07 300)",
+          "oklch(0.84 0.07 300)",
+          "oklch(0.95 0.07 300)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page title only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Dialog titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headings and card titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default UI text, cells, menu items, buttons at 500."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Descriptions, section notes, tab and small-button labels."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Badges, tooltips, table headers, menu group labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "glass-lift",
+        "value": "0 8px 24px -6px oklch(0.25 0.04 260 / 0.16), 0 2px 6px -2px oklch(0.25 0.04 260 / 0.1)",
+        "dark": "0 10px 30px -6px oklch(0 0 0 / 0.5), 0 2px 6px oklch(0 0 0 / 0.3)",
+        "purpose": "Ambient lift under regular and thick glass."
+      },
+      {
+        "name": "specular-rim",
+        "value": "inset 1px 1px 0 0 var(--glass-rim-hi), inset -1px -1px 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
+        "purpose": "Rim on every glass material, written via --tw-inset-shadow so rings compose."
+      },
+      {
+        "name": "primary-glow",
+        "value": "inset 1px 1px 0 0 rgb(255 255 255 / 0.4), inset -1px -1px 0 0 rgb(255 255 255 / 0.12), 0 6px 16px -6px var(--primary)",
+        "purpose": "Filled primary button."
+      },
+      {
+        "name": "indicator-lift",
+        "value": "0 1px 3px oklch(0.2 0.02 260 / 0.14), 0 0 0 0.5px oklch(0.2 0.02 260 / 0.06)",
+        "purpose": "Segmented-control thumb."
+      },
+      {
+        "name": "switch-knob",
+        "value": "0 2px 6px rgb(0 0 0 / 0.18), 0 0 0 0.5px rgb(0 0 0 / 0.04)",
+        "purpose": "Switch knob."
+      }
+    ],
+    "materials": [
+      {
+        "name": "glass-clear",
+        "blur": "7px",
+        "tint": "var(--glass-clear)",
+        "lift": false,
+        "purpose": "Controls over photos and media."
+      },
+      {
+        "name": "glass",
+        "blur": "14px",
+        "tint": "var(--glass-regular)",
+        "lift": true,
+        "purpose": "Sidebar, toolbar, tab bar."
+      },
+      {
+        "name": "glass-thick",
+        "blur": "28px",
+        "tint": "var(--glass-thick)",
+        "lift": true,
+        "purpose": "Menus, dialogs, tooltips, popovers."
+      },
+      {
+        "name": "filter",
+        "value": "saturate(190%) brightness(1.04); dark saturate(160%) brightness(0.96)"
+      },
+      {
+        "name": "fallback",
+        "value": "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) -> background var(--glass-solid), no image, no backdrop-filter"
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-spring",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "purpose": "Deliberate overshoot for press, tab thumb, switch knob, dialog open."
+      },
+      {
+        "name": "press",
+        "value": "380ms ease-spring; hover scale(1.02) brightness(1.06) saturate(1.1); active scale(1.05) brightness(1.12) saturate(1.15) at 140ms",
+        "purpose": "glass-press on primary and glass controls."
+      },
+      {
+        "name": "tab-indicator",
+        "value": "left,width 500ms ease-spring",
+        "purpose": "Segmented-control thumb slide."
+      },
+      {
+        "name": "switch-thumb",
+        "value": "translate,width 400ms ease-spring",
+        "purpose": "Switch knob slide and stretch."
+      },
+      {
+        "name": "dialog",
+        "value": "300ms ease-spring, zoom-in from 90%",
+        "purpose": "Dialog open."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0ms, transform none",
+        "purpose": "prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Sidebar replaces mobile header; inputs 16px to 14px."
+      },
+      {
+        "name": "lg",
+        "value": "1024px",
+        "purpose": "Two-column catalog sections."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Filled System Blue capsule with rim and liquid press.",
+      "html": "<button class=\"ds-btn-primary\">Save</button>",
+      "css": ".ds-btn-primary{height:36px;padding:0 16px;border:1px solid transparent;border-radius:9999px;background:var(--primary);color:var(--primary-foreground);font:500 14px/1 var(--font-sans,system-ui);box-shadow:inset 1px 1px 0 0 rgb(255 255 255/.4),inset -1px -1px 0 0 rgb(255 255 255/.12),0 6px 16px -6px var(--primary);transition:transform 380ms var(--ease-spring),filter 380ms var(--ease-spring);cursor:pointer}.ds-btn-primary:hover{transform:scale(1.02);filter:brightness(1.06) saturate(1.1)}.ds-btn-primary:active{transform:scale(1.05);filter:brightness(1.12) saturate(1.15);transition-duration:140ms}.ds-btn-primary:focus-visible{outline:none;box-shadow:0 0 0 3px var(--ring)}"
+    },
+    {
+      "name": "Glass Button",
+      "kind": "button",
+      "refersTo": "button-glass",
+      "description": "Regular glass capsule for actions on chrome or media.",
+      "html": "<div class=\"ds-stage\"><button class=\"ds-btn-glass\">Glass</button></div>",
+      "css": ".ds-stage{padding:24px;border-radius:28px;background:radial-gradient(60% 80% at 10% 0%,var(--glass-field-1),transparent 70%),radial-gradient(50% 70% at 100% 100%,var(--glass-field-3),transparent 70%),var(--background)}.ds-btn-glass{height:36px;padding:0 16px;border:0;border-radius:9999px;color:var(--foreground);font:500 14px/1 var(--font-sans,system-ui);background-color:var(--glass-regular);background-image:radial-gradient(120% 90% at 0% 0%,var(--glass-sheen) 0%,transparent 55%);backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));box-shadow:inset 1px 1px 0 0 var(--glass-rim-hi),inset -1px -1px 0 0 var(--glass-rim-lo),inset 0 0 0 .5px var(--glass-edge),inset 0 0 14px 0 var(--glass-glow),var(--glass-shadow);transition:transform 380ms var(--ease-spring),filter 380ms var(--ease-spring);cursor:pointer}.ds-btn-glass:hover{transform:scale(1.02);filter:brightness(1.06) saturate(1.1)}.ds-btn-glass:active{transform:scale(1.05);transition-duration:140ms}.ds-btn-glass:focus-visible{outline:none;box-shadow:0 0 0 3px var(--ring),var(--glass-shadow)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ink-veil capsule for non-primary actions.",
+      "html": "<button class=\"ds-btn-secondary\">Secondary</button>",
+      "css": ".ds-btn-secondary{height:36px;padding:0 16px;border:1px solid transparent;border-radius:9999px;background:var(--secondary);color:var(--secondary-foreground);font:500 14px/1 var(--font-sans,system-ui);transition:background-color 150ms,transform 150ms;cursor:pointer}.ds-btn-secondary:hover{background:color-mix(in oklch,var(--secondary),var(--foreground) 6%)}.ds-btn-secondary:active{transform:scale(.97)}.ds-btn-secondary:focus-visible{outline:none;box-shadow:0 0 0 3px var(--ring)}"
+    },
+    {
+      "name": "Filled Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Borderless veil field that turns card-white on focus.",
+      "html": "<input class=\"ds-input\" placeholder=\"Search\" />",
+      "css": ".ds-input{height:36px;width:240px;padding:4px 12px;border:1px solid transparent;border-radius:12px;background:var(--secondary);color:var(--foreground);font:400 14px/1.4 var(--font-sans,system-ui);outline:none;transition:background-color 150ms,border-color 150ms,box-shadow 150ms}.ds-input::placeholder{color:var(--muted-foreground)}.ds-input:hover{background:color-mix(in oklch,var(--secondary),var(--foreground) 4%)}.ds-input:focus-visible{background:var(--card);border-color:var(--ring);box-shadow:0 0 0 3px color-mix(in oklch,var(--ring),transparent 60%)}"
+    },
+    {
+      "name": "Status Badges",
+      "kind": "chip",
+      "refersTo": "badge-success",
+      "description": "Tinted status capsules with darker text partners.",
+      "html": "<span class=\"ds-badge ds-badge-success\">Active</span> <span class=\"ds-badge ds-badge-warning\">Pending</span> <span class=\"ds-badge ds-badge-danger\">Failed</span> <span class=\"ds-badge ds-badge-info\">Info</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;font:500 12px/1 var(--font-sans,system-ui)}.ds-badge-success{background:color-mix(in oklch,var(--success) 15%,transparent);color:var(--success-text)}.ds-badge-warning{background:color-mix(in oklch,var(--warning) 20%,transparent);color:var(--warning-text)}.ds-badge-danger{background:color-mix(in oklch,var(--destructive) 12%,transparent);color:var(--destructive)}.ds-badge-info{background:var(--accent);color:var(--accent-foreground)}"
+    },
+    {
+      "name": "Paper Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Opaque content surface: hairline ring, no shadow.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">Storage</div><div class=\"ds-card-desc\">12 of 50 GB used</div></div>",
+      "css": ".ds-card{display:grid;gap:4px;width:280px;padding:20px;border-radius:21.6px;background:var(--card);color:var(--card-foreground);box-shadow:0 0 0 1px var(--border);font-family:var(--font-sans,system-ui)}.ds-card-title{font:600 15px/1.375 var(--font-heading,system-ui);letter-spacing:-.01em}.ds-card-desc{font-size:13px;color:var(--muted-foreground)}"
+    },
+    {
+      "name": "Glass Sidebar",
+      "kind": "nav",
+      "refersTo": "nav-sidebar",
+      "description": "Floating regular-glass slab with capsule-cornered rows.",
+      "html": "<div class=\"ds-stage\"><nav class=\"ds-sidebar\"><a class=\"ds-nav-item\" href=\"#\">Button</a><a class=\"ds-nav-item\" href=\"#\">Badge</a><a class=\"ds-nav-item\" href=\"#\">Table</a></nav></div>",
+      "css": ".ds-stage{padding:24px;border-radius:28px;background:radial-gradient(60% 80% at 10% 0%,var(--glass-field-1),transparent 70%),radial-gradient(50% 70% at 100% 100%,var(--glass-field-2),transparent 70%),var(--background)}.ds-sidebar{display:grid;gap:2px;width:240px;padding:12px;border-radius:28px;background-color:var(--glass-regular);background-image:radial-gradient(120% 90% at 0% 0%,var(--glass-sheen) 0%,transparent 55%);backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));-webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));box-shadow:inset 1px 1px 0 0 var(--glass-rim-hi),inset -1px -1px 0 0 var(--glass-rim-lo),inset 0 0 0 .5px var(--glass-edge),inset 0 0 14px 0 var(--glass-glow),var(--glass-shadow)}.ds-nav-item{display:flex;align-items:center;height:36px;padding:0 12px;border-radius:16.8px;color:color-mix(in oklch,var(--foreground) 80%,transparent);font:500 14px/1 var(--font-sans,system-ui);text-decoration:none;transition:background-color 150ms,color 150ms}.ds-nav-item:hover{background:var(--secondary);color:var(--foreground)}.ds-nav-item:focus-visible{outline:none;box-shadow:0 0 0 3px var(--ring)}"
+    },
+    {
+      "name": "Glass Menu",
+      "kind": "custom",
+      "refersTo": "menu",
+      "description": "Thick-glass menu with solid blue highlighted row.",
+      "html": "<div class=\"ds-menu\" role=\"menu\"><div class=\"ds-menu-item\" role=\"menuitem\" tabindex=\"0\">Rename</div><div class=\"ds-menu-item\" role=\"menuitem\" tabindex=\"0\">Duplicate</div><div class=\"ds-menu-item\" role=\"menuitem\" tabindex=\"0\">Archive</div></div>",
+      "css": ".ds-menu{width:200px;padding:6px;border-radius:21.6px;color:var(--popover-foreground);background-color:var(--glass-thick);background-image:radial-gradient(120% 90% at 0% 0%,var(--glass-sheen) 0%,transparent 55%);backdrop-filter:blur(calc(var(--glass-blur)*2)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));-webkit-backdrop-filter:blur(calc(var(--glass-blur)*2)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness));box-shadow:inset 1px 1px 0 0 var(--glass-rim-hi),inset -1px -1px 0 0 var(--glass-rim-lo),inset 0 0 0 .5px var(--glass-edge),inset 0 0 14px 0 var(--glass-glow),var(--glass-shadow);font:400 14px/1.43 var(--font-sans,system-ui)}.ds-menu-item{padding:6px 10px;border-radius:12px;outline:none;cursor:default}.ds-menu-item:hover,.ds-menu-item:focus-visible{background:var(--primary);color:var(--primary-foreground)}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "custom",
+      "refersTo": "tabs-list",
+      "description": "Capsule track with a sliding card-white thumb.",
+      "html": "<div class=\"ds-seg\"><span class=\"ds-seg-thumb\"></span><button class=\"ds-seg-tab ds-on\">Small</button><button class=\"ds-seg-tab\">Medium</button><button class=\"ds-seg-tab\">Large</button></div>",
+      "css": ".ds-seg{position:relative;isolation:isolate;display:inline-flex;height:36px;padding:2px;border-radius:9999px;background:var(--secondary)}.ds-seg-thumb{position:absolute;z-index:-1;top:2px;left:2px;height:32px;width:72px;border-radius:9999px;background:var(--card);box-shadow:0 1px 3px oklch(.2 .02 260/.14),0 0 0 .5px oklch(.2 .02 260/.06);transition:left 500ms var(--ease-spring)}.ds-seg-tab{width:72px;border:0;border-radius:9999px;background:none;color:var(--muted-foreground);font:500 13px/1 var(--font-sans,system-ui);cursor:pointer}.ds-seg-tab:hover,.ds-seg-tab.ds-on{color:var(--foreground)}.ds-seg-tab:focus-visible{outline:none;box-shadow:0 0 0 3px var(--ring)}"
+    },
+    {
+      "name": "Switch",
+      "kind": "custom",
+      "refersTo": "switch-on",
+      "description": "iOS-proportioned green switch with spring knob.",
+      "html": "<button class=\"ds-switch\" role=\"switch\" aria-checked=\"true\" aria-label=\"Wi-Fi\"><span class=\"ds-switch-knob\"></span></button>",
+      "css": ".ds-switch{display:inline-flex;align-items:center;width:48px;height:28px;padding:2px;border:0;border-radius:9999px;background:var(--success);cursor:pointer}.ds-switch-knob{width:24px;height:24px;border-radius:9999px;background:#fff;box-shadow:0 2px 6px rgb(0 0 0/.18),0 0 0 .5px rgb(0 0 0/.04);transform:translateX(20px);transition:transform 400ms var(--ease-spring),width 400ms var(--ease-spring)}.ds-switch:active .ds-switch-knob{width:28px;transform:translateX(16px)}.ds-switch:focus-visible{outline:none;box-shadow:0 0 0 3px var(--ring)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Paper Under Glass",
+    "overview": "Two layers, never mixed. Content is calm, opaque, hairline-bordered paper: cards, tables, fields and empty states sit flat on a near-white cool ground. Everything that navigates or acts floats above that paper as Apple Liquid Glass: capsules and rounded slabs that blur, saturate and brighten what is behind them, with a specular rim that catches light from the top-left. The visual reference is binding (iOS 26 / macOS 26), and the kit refuses the category default of glass smeared on every card.\n\nDensity is dense-but-calm: a 4px grid, 36px default controls, 13-15px working text, and type that has to carry Thai tone marks and lower vowels without clipping. Soft colour fields sit behind the chrome so the glass has something to bend. Action is system blue; state is iOS-style green, amber and red, always tinted rather than filled.\n\nGlass is CSS only (blur + saturate + brightness + tint + sheen gradient + inset rim). Every material falls back to an opaque solid under `prefers-reduced-transparency: reduce` or `prefers-contrast: more`.",
+    "keyCharacteristics": [
+      "Opaque content layer, glass control layer; the boundary is the system.",
+      "Three glass thicknesses: clear (controls over media), regular (sidebar, toolbar, tab bar), thick (menus, dialogs, tooltips, popovers).",
+      "Capsule controls; concentric radii stepping down from 28px panels.",
+      "Liquid press: glass and primary controls swell and brighten on a spring.",
+      "Light and dark are both first-class; every material has a dark counterpart."
+    ],
+    "rules": [
+      {
+        "name": "The Tint, Not Fill, Rule",
+        "body": "Status colour reaches the screen as a 12-20% tint with its darker `-text` partner. The only solid status fills are the switch \"on\" track and a highlighted destructive menu row.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Blue Rule",
+        "body": "System blue is the only action colour. A second accent is not part of this system.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tight Heading Rule",
+        "body": "Headings track negative in steps (-0.01em, -0.015em, -0.03em) as size grows; body text keeps normal tracking.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sixteen On Touch Rule",
+        "body": "Text inputs are 16px below 768px and 14px above, so iOS Safari does not zoom on focus.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Layers Rule",
+        "body": "Glass only on the control layer: nav, toolbars, tab bars, menus, selects, popovers, dialogs, tooltips, toasts. Cards, tables and fields stay opaque.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Material Is Whole Rule",
+        "body": "A glass surface carries no extra `bg-*`, `ring-1` or `shadow-*`; change a material through its `--glass-*` variables, not by stacking classes.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Solid Fallback Rule",
+        "body": "Every glass material drops blur and sheen and becomes `glass-solid` under reduced transparency or increased contrast.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do put glass only on what floats and acts: nav, toolbars, tab bars, menus, selects, popovers, dialogs, tooltips, toasts.",
+      "Do pick the material by job: `glass-clear` over photos and media, `glass` for sidebars, toolbars and tab bars, `glass-thick` for anything with text to read.",
+      "Do keep content opaque and flat: Card White, 1px hairline, no shadow.",
+      "Do step radii down concentrically (28px, 21.6px, 16.8px, 12px) and make standalone controls capsules.",
+      "Do give glass something to refract: place chrome over the `glass-backdrop` fields or real media.",
+      "Do write status as a tint plus its darker `-text` partner.",
+      "Do recompute WCAG ratios in both themes for any colour change; AA on every glass material is a product requirement.",
+      "Do respect `prefers-reduced-motion` (press and spring transitions drop to 0ms) and keep the solid glass fallback."
+    ],
+    "donts": [
+      "Don't use glass on cards, tables, fields or other content-layer surfaces.",
+      "Don't add `bg-*`, `ring-1` or `shadow-*` to a glass surface, or stack two glass classes; tune the `--glass-*` variables instead.",
+      "Don't add a second accent colour or fill status colours solid on large areas.",
+      "Don't use SVG displacement or `backdrop-filter: url()` refraction; it is Chromium-only and costly.",
+      "Don't use type styles that clip Thai tone marks or lower vowels: no line-height below 1.25 on text that can be Thai."
+    ]
+  }
+}

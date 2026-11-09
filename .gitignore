@@ -29,3 +29,6 @@ public/r
 .env*
 !.env.example
 coverage
+
+# impeccable review captures
+.impeccable/review/
