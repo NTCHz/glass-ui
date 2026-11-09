@@ -11,7 +11,7 @@ Requires a project already set up with `shadcn init` (Tailwind v4, `@/` alias).
 ```bash
 npx shadcn@latest add NTCHz/glass-ui/theme NTCHz/glass-ui/button NTCHz/glass-ui/card
 npx shadcn@latest add NTCHz/glass-ui/dialog              # later adds: component only
-npx shadcn@latest add NTCHz/glass-ui/button#v0.3.0       # pin to a tag
+npx shadcn@latest add NTCHz/glass-ui/button#v0.4.0       # pin to a tag
 ```
 
 Name `theme` in the command at least once. Pulled in only as a dependency, it adds the new tokens but does not overwrite the ones `shadcn init` wrote (`--background`, `--primary`, `--radius`, `--font-sans`), so colours and fonts stay shadcn's with no warning. Afterwards delete the `@import` of the font `shadcn init` added (e.g. `@fontsource-variable/geist`); the CLI leaves it in.
