@@ -14,6 +14,27 @@ import {
 import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 import { CheckIcon, SearchIcon } from "lucide-react";
 
+// cmdk calls scrollIntoView({ block: "nearest" }) on mount and on every selection, which also
+// scrolls the page to any palette below the fold; keep that scroll inside the list.
+function scrollInsideList(el: HTMLElement) {
+  const list = el.closest<HTMLElement>("[cmdk-list]");
+  if (!list) return;
+  const item = el.getBoundingClientRect();
+  const box = list.getBoundingClientRect();
+  if (item.top < box.top) list.scrollTop -= box.top - item.top;
+  else if (item.bottom > box.bottom) list.scrollTop += item.bottom - box.bottom;
+}
+
+const containScroll = (el: Element | null | undefined) => {
+  if (el instanceof HTMLElement) el.scrollIntoView = () => scrollInsideList(el);
+};
+
+// ref on a child, so the consumer's own ref on Item/Group passes through untouched
+const containItemScroll = (child: Element | null) =>
+  containScroll(child?.parentElement);
+const containHeadingScroll = (child: Element | null) =>
+  containScroll(child?.parentElement?.previousElementSibling);
+
 function Command({
   className,
   ...props
@@ -118,6 +139,7 @@ function CommandEmpty({
 
 function CommandGroup({
   className,
+  children,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Group>) {
   return (
@@ -128,7 +150,10 @@ function CommandGroup({
         className
       )}
       {...props}
-    />
+    >
+      <span hidden ref={containHeadingScroll} />
+      {children}
+    </CommandPrimitive.Group>
   );
 }
 
@@ -160,7 +185,10 @@ function CommandItem({
       {...props}
     >
       {children}
-      <CheckIcon className="ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100" />
+      <CheckIcon
+        ref={containItemScroll}
+        className="ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100"
+      />
     </CommandPrimitive.Item>
   );
 }

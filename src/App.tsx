@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -219,26 +219,36 @@ const CATALOG: readonly CatalogEntry[] = [
   },
 ];
 
-const App: FC = () => (
-  <TooltipProvider>
-    <AppShell nav={CATALOG}>
-      <div className="pt-6 pb-8 md:pt-10">
-        <h1 className="font-heading text-[2rem] leading-tight font-bold tracking-[-0.03em]">
-          Components
-        </h1>
-        <p className="mt-1 text-[0.9375rem] text-muted-foreground">
-          Every shadcn component, in Liquid Glass. Each installs with
-        </p>
-        <code className="mt-2 inline-block max-w-full rounded-lg bg-secondary px-2.5 py-1 text-[0.8125rem] break-all text-foreground">
-          npx shadcn add NTCHz/glass-ui/&lt;name&gt;
-        </code>
-      </div>
-      {CATALOG.map(({ id, Demo }) => (
-        <Demo key={id} />
-      ))}
-    </AppShell>
-    <Toaster position="top-center" />
-  </TooltipProvider>
-);
+// the browser looks for #hash before React has rendered the sections
+const useScrollToHashOnLoad = () =>
+  useEffect(() => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id) document.getElementById(id)?.scrollIntoView();
+  }, []);
+
+const App: FC = () => {
+  useScrollToHashOnLoad();
+  return (
+    <TooltipProvider>
+      <AppShell nav={CATALOG}>
+        <div className="pt-6 pb-8 md:pt-10">
+          <h1 className="font-heading text-[2rem] leading-tight font-bold tracking-[-0.03em]">
+            Components
+          </h1>
+          <p className="mt-1 text-[0.9375rem] text-muted-foreground">
+            Every shadcn component, in Liquid Glass. Each installs with
+          </p>
+          <code className="mt-2 inline-block max-w-full rounded-lg bg-secondary px-2.5 py-1 text-[0.8125rem] break-all text-foreground">
+            npx shadcn add NTCHz/glass-ui/&lt;name&gt;
+          </code>
+        </div>
+        {CATALOG.map(({ id, Demo }) => (
+          <Demo key={id} />
+        ))}
+      </AppShell>
+      <Toaster position="top-center" />
+    </TooltipProvider>
+  );
+};
 
 export default App;
