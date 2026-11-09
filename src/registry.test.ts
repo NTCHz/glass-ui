@@ -61,6 +61,11 @@ describe("registry.json", () => {
     );
   });
 
+  it("gives every item a unique name", () => {
+    const names = registry.items.map(item => item.name);
+    expect(names.filter((n, i) => names.indexOf(n) !== i)).toEqual([]);
+  });
+
   it("points every item at a file that exists", () => {
     const paths = components.flatMap(item => item.files ?? []);
     expect(paths.filter(f => !existsSync(f.path))).toEqual([]);

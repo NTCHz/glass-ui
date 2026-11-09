@@ -17,7 +17,8 @@
     "registry:validate": "shadcn registry validate ./registry.json",
     "registry:build": "shadcn build",
     "prepare": "husky",
-    "registry:gen": "node scripts/gen-registry.mjs"
+    "registry:gen": "node scripts/gen-registry.mjs",
+    "theme:sync": "shadcn build && shadcn add ./public/r/theme.json -y && node scripts/dedupe-css.mjs && prettier --write src/index.css"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -53,6 +54,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
+    "postcss": "8.5.32",
     "prettier": "^3.9.10",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.8.1",

@@ -74,4 +74,4 @@ pnpm registry:gen                   # สร้าง item ใน registry.json 
 pnpm test && pnpm registry:validate
 ```
 
-แก้ theme: แก้ item `theme` ใน `registry.json` → `pnpm registry:build && npx shadcn add ./public/r/theme.json -y` เพื่อ sync CSS ของ playground (test จับถ้าไม่ตรงกัน)
+แก้ theme: แก้ item `theme` ใน `registry.json` → `pnpm theme:sync` เพื่อ sync CSS ของ playground (test จับถ้าไม่ตรงกัน)

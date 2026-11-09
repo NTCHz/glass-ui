@@ -14,7 +14,7 @@ public/r/                  `shadcn build` output (gitignored; only used for loca
 ## Flow
 
 1. Edit a component in `src/components/ui/` → it ships on next push/tag.
-2. Edit tokens/utilities in `registry.json` `theme` → `pnpm registry:build && npx shadcn add ./public/r/theme.json -y` → playground CSS updated.
+2. Edit tokens/utilities in `registry.json` `theme` → `pnpm theme:sync` → playground CSS updated.
 3. Release: `git tag v0.x.y && git push --tags`. Consumers pin with `#v0.x.y`.
 
 ## Versions (checked 2026-11-09 via `npm view`)

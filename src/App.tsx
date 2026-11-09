@@ -52,6 +52,7 @@ import {
   Resizables,
   ScrollAreas,
 } from "./playground/sections/Layout";
+import { LiquidSection } from "./playground/sections/Liquid";
 import {
   AlertDialogSection,
   BreadcrumbSection,
@@ -75,6 +76,12 @@ const CATALOG: readonly CatalogEntry[] = [
     id: "materials",
     label: "Materials",
     Demo: Materials,
+  },
+  {
+    group: "Foundations",
+    id: "liquid-glass",
+    label: "Liquid Glass",
+    Demo: LiquidSection,
   },
   { group: "Actions", id: "button", label: "Button", Demo: Buttons },
   {

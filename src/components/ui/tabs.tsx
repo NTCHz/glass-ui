@@ -57,7 +57,8 @@ function TabsList({
         <TabsPrimitive.Indicator
           data-slot="tabs-indicator"
           className={cn(
-            "absolute top-(--active-tab-top) left-(--active-tab-left) -z-10 h-(--active-tab-height) w-(--active-tab-width) rounded-full transition-[left,width] duration-500 ease-(--ease-spring) motion-reduce:transition-none",
+            // edges move at different speeds (leading fast, trailing slow) so the pill stretches like liquid
+            "absolute top-(--active-tab-top) right-(--active-tab-right) bottom-(--active-tab-bottom) left-(--active-tab-left) -z-10 rounded-full transition-[left,right,top,bottom] duration-500 ease-(--ease-spring) data-[activation-direction=down]:[transition-duration:500ms,500ms,500ms,260ms] data-[activation-direction=left]:[transition-duration:260ms,500ms,500ms,500ms] data-[activation-direction=right]:[transition-duration:500ms,260ms,500ms,500ms] data-[activation-direction=up]:[transition-duration:500ms,500ms,260ms,500ms] motion-reduce:transition-none",
             variant === "glass"
               ? "bg-[color-mix(in_oklab,var(--card),transparent_15%)] shadow-[0_2px_8px_-2px_oklch(0.2_0.02_260/0.2),inset_1px_1px_0_0_var(--glass-rim-hi)] dark:bg-[oklch(1_0_0/0.16)]"
               : "bg-card shadow-lift dark:bg-[oklch(1_0_0/0.16)]"

@@ -152,14 +152,54 @@
               "--tw-exit-rotate": "0 !important",
               "--tw-exit-blur": "0 !important"
             }
+          },
+          "[data-glass-tone=\"light\"]": {
+            "--glass-solid": "oklch(0.985 0.003 250)",
+            "--glass-clear": "oklch(1 0 0 / 0.2)",
+            "--glass-regular": "oklch(1 0 0 / 0.55)",
+            "--glass-thick": "oklch(0.99 0.002 250 / 0.8)",
+            "--glass-sheen": "oklch(1 0 0 / 0.6)",
+            "--glass-rim-hi": "oklch(1 0 0 / 0.95)",
+            "--glass-rim-lo": "oklch(1 0 0 / 0.35)",
+            "--glass-edge": "oklch(0.2 0.02 260 / 0.08)",
+            "--glass-glow": "oklch(1 0 0 / 0.35)",
+            "--foreground": "oklch(0.21 0.015 260)",
+            "--muted-foreground": "oklch(0.47 0.015 260)",
+            "--popover-foreground": "oklch(0.21 0.015 260)",
+            "--card-foreground": "oklch(0.21 0.015 260)",
+            "--accent": "oklch(0.53 0.21 262 / 0.1)",
+            "--accent-foreground": "oklch(0.45 0.2 262)",
+            "--glass-saturate": "190%",
+            "--glass-brightness": "1.04",
+            "color": "var(--foreground)"
+          },
+          "[data-glass-tone=\"dark\"]": {
+            "--glass-solid": "oklch(0.23 0.012 260)",
+            "--glass-clear": "oklch(0.22 0.012 260 / 0.2)",
+            "--glass-regular": "oklch(0.24 0.012 260 / 0.5)",
+            "--glass-thick": "oklch(0.24 0.012 260 / 0.74)",
+            "--glass-sheen": "oklch(1 0 0 / 0.07)",
+            "--glass-rim-hi": "oklch(1 0 0 / 0.3)",
+            "--glass-rim-lo": "oklch(1 0 0 / 0.1)",
+            "--glass-edge": "oklch(1 0 0 / 0.07)",
+            "--glass-glow": "oklch(1 0 0 / 0.05)",
+            "--foreground": "oklch(0.96 0.004 260)",
+            "--muted-foreground": "oklch(0.7 0.015 260)",
+            "--popover-foreground": "oklch(0.96 0.004 260)",
+            "--card-foreground": "oklch(0.96 0.004 260)",
+            "--accent": "oklch(0.56 0.2 260 / 0.22)",
+            "--accent-foreground": "oklch(0.78 0.13 258)",
+            "--glass-saturate": "160%",
+            "--glass-brightness": "0.96",
+            "color": "var(--foreground)"
           }
         },
         "@utility glass-clear": {
           "background-color": "var(--glass-clear)",
-          "background-image": "radial-gradient(120% 90% at 0% 0%, var(--glass-sheen) 0%, transparent 55%)",
+          "background-image": "radial-gradient(120% 90% at var(--glass-light-x, 0%) var(--glass-light-y, 0%), var(--glass-sheen) 0%, transparent 55%)",
           "-webkit-backdrop-filter": "blur(calc(var(--glass-blur) * 0.5)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))",
           "backdrop-filter": "blur(calc(var(--glass-blur) * 0.5)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))",
-          "--tw-inset-shadow": "inset 1px 1px 0 0 var(--glass-rim-hi), inset -1px -1px 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
+          "--tw-inset-shadow": "inset calc(var(--glass-rim-x, 1) * 1px) calc(var(--glass-rim-y, 1) * 1px) 0 0 var(--glass-rim-hi), inset calc(var(--glass-rim-x, 1) * -1px) calc(var(--glass-rim-y, 1) * -1px) 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
           "box-shadow": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000)",
           "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more)": {
             "background-color": "var(--glass-solid)",
@@ -170,10 +210,10 @@
         },
         "@utility glass": {
           "background-color": "var(--glass-regular)",
-          "background-image": "radial-gradient(120% 90% at 0% 0%, var(--glass-sheen) 0%, transparent 55%)",
+          "background-image": "radial-gradient(120% 90% at var(--glass-light-x, 0%) var(--glass-light-y, 0%), var(--glass-sheen) 0%, transparent 55%)",
           "-webkit-backdrop-filter": "blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))",
           "backdrop-filter": "blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))",
-          "--tw-inset-shadow": "inset 1px 1px 0 0 var(--glass-rim-hi), inset -1px -1px 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
+          "--tw-inset-shadow": "inset calc(var(--glass-rim-x, 1) * 1px) calc(var(--glass-rim-y, 1) * 1px) 0 0 var(--glass-rim-hi), inset calc(var(--glass-rim-x, 1) * -1px) calc(var(--glass-rim-y, 1) * -1px) 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
           "--tw-shadow": "var(--glass-shadow)",
           "box-shadow": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000)",
           "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more)": {
@@ -185,10 +225,10 @@
         },
         "@utility glass-thick": {
           "background-color": "var(--glass-thick)",
-          "background-image": "radial-gradient(120% 90% at 0% 0%, var(--glass-sheen) 0%, transparent 55%)",
+          "background-image": "radial-gradient(120% 90% at var(--glass-light-x, 0%) var(--glass-light-y, 0%), var(--glass-sheen) 0%, transparent 55%)",
           "-webkit-backdrop-filter": "blur(calc(var(--glass-blur) * 2)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))",
           "backdrop-filter": "blur(calc(var(--glass-blur) * 2)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))",
-          "--tw-inset-shadow": "inset 1px 1px 0 0 var(--glass-rim-hi), inset -1px -1px 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
+          "--tw-inset-shadow": "inset calc(var(--glass-rim-x, 1) * 1px) calc(var(--glass-rim-y, 1) * 1px) 0 0 var(--glass-rim-hi), inset calc(var(--glass-rim-x, 1) * -1px) calc(var(--glass-rim-y, 1) * -1px) 0 0 var(--glass-rim-lo), inset 0 0 0 0.5px var(--glass-edge), inset 0 0 14px 0 var(--glass-glow)",
           "--tw-shadow": "var(--glass-shadow)",
           "box-shadow": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000)",
           "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more)": {
@@ -220,6 +260,19 @@
           "background-color": "var(--background)",
           "background-image": "radial-gradient(60% 50% at 8% 0%, var(--glass-field-1) 0, transparent 70%), radial-gradient(45% 40% at 100% 10%, var(--glass-field-3) 0, transparent 70%), radial-gradient(50% 45% at 60% 100%, var(--glass-field-2) 0, transparent 70%)",
           "background-attachment": "fixed"
+        },
+        "@utility glass-morph": {
+          "&[data-open]": {
+            "--tw-enter-scale": "0.4",
+            "--tw-enter-blur": "8px",
+            "animation-duration": "420ms",
+            "animation-timing-function": "var(--ease-spring)"
+          },
+          "&[data-closed]": {
+            "--tw-exit-scale": "0.7",
+            "--tw-exit-blur": "4px",
+            "animation-duration": "180ms"
+          }
         }
       }
     },
@@ -689,6 +742,22 @@
       ]
     },
     {
+      "name": "liquid-glass",
+      "type": "registry:ui",
+      "title": "Liquid Glass",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/glass-optics"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/liquid-glass.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "marker",
       "type": "registry:ui",
       "title": "Marker",
@@ -1129,6 +1198,19 @@
         {
           "path": "src/hooks/use-mobile.ts",
           "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "glass-optics",
+      "type": "registry:lib",
+      "title": "Glass Optics",
+      "dependencies": [],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/lib/glass-optics.ts",
+          "type": "registry:lib"
         }
       ]
     },

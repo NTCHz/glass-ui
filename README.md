@@ -34,6 +34,24 @@ Give the page soft colour fields so the glass has something to bend:
 | `glass-thick`    | menus, popovers, dialogs, tooltips (text-heavy)   |
 | `glass-press`    | spring "swell" on hover/press (pair with a glass) |
 | `glass-backdrop` | page background colour fields                     |
+| `glass-morph`    | popups grow out of their trigger on the spring    |
+
+### Liquid optics
+
+`<LiquidGlass>` (or `useLiquidGlass()` on your own element) adds what frosted glass lacks:
+
+```tsx
+<LiquidGlass className="rounded-3xl p-4">…</LiquidGlass>            // lensing rim + light that follows the pointer
+<LiquidGlass adaptive refraction={false}>…</LiquidGlass>           // tint flips with the backdrop
+<section data-glass-backdrop="dark"><img … /></section>            // tell adaptive glass what an image is
+
+<LiquidGlassGroup>                                                  // shapes fuse when they touch
+  <LiquidGlassItem><Button variant="ghost" size="icon">…</Button></LiquidGlassItem>
+  <LiquidGlassItem>…</LiquidGlassItem>
+</LiquidGlassGroup>
+```
+
+Lensing renders in Chromium only; Safari and Firefox keep the frosted glass. Details and limits: `docs/DECISIONS.md`.
 
 All glass falls back to opaque `--glass-solid` under `prefers-reduced-transparency: reduce` or `prefers-contrast: more`.
 
@@ -43,7 +61,7 @@ Type: system SF on Apple devices → Inter Variable → Sarabun for Thai glyphs.
 
 Every component in shadcn’s base registry (64), plus `theme`. `form` is omitted — upstream ships it with no files; use `field`.
 
-`accordion` · `alert` · `alert-dialog` · `aspect-ratio` · `attachment` · `avatar` · `badge` · `breadcrumb` · `bubble` · `button` · `button-group` · `calendar` · `card` · `carousel` · `chart` · `checkbox` · `code-block` · `collapsible` · `combobox` · `command` · `context-menu` · `dialog` · `direction` · `drawer` · `dropdown-menu` · `empty` · `field` · `hover-card` · `input` · `input-group` · `input-otp` · `item` · `kbd` · `label` · `marker` · `menubar` · `message` · `message-scroller` · `native-select` · `navigation-menu` · `pagination` · `popover` · `progress` · `questionnaire` · `radio-group` · `resizable` · `scroll-area` · `select` · `separator` · `sheet` · `sidebar` · `skeleton` · `slider` · `sonner` · `spinner` · `switch` · `table` · `tabs` · `textarea` · `toast` · `toggle` · `toggle-group` · `tooltip` · `trace`
+`accordion` · `alert` · `alert-dialog` · `aspect-ratio` · `attachment` · `avatar` · `badge` · `breadcrumb` · `bubble` · `button` · `button-group` · `calendar` · `card` · `carousel` · `chart` · `checkbox` · `code-block` · `collapsible` · `combobox` · `command` · `context-menu` · `dialog` · `direction` · `drawer` · `dropdown-menu` · `empty` · `field` · `hover-card` · `input` · `input-group` · `input-otp` · `item` · `liquid-glass` · `kbd` · `label` · `marker` · `menubar` · `message` · `message-scroller` · `native-select` · `navigation-menu` · `pagination` · `popover` · `progress` · `questionnaire` · `radio-group` · `resizable` · `scroll-area` · `select` · `separator` · `sheet` · `sidebar` · `skeleton` · `slider` · `sonner` · `spinner` · `switch` · `table` · `tabs` · `textarea` · `toast` · `toggle` · `toggle-group` · `tooltip` · `trace`
 
 The playground (`src/playground/`) is a one-page catalog: a section per component, generic sample data.
 
@@ -59,7 +77,7 @@ pnpm registry:validate
 Changing the theme: edit the `theme` item in `registry.json`, then re-sync the playground:
 
 ```bash
-pnpm registry:build && npx shadcn add ./public/r/theme.json -y
+pnpm theme:sync   # shadcn add theme, then drop the duplicate blocks the CLI appends
 ```
 
 See `docs/STRUCTURE.md` and `docs/DECISIONS.md`.

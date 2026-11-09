@@ -4,7 +4,7 @@ shadcn GitHub registry (liquid glass). Consumers run `npx shadcn add NTCHz/glass
 
 ## Rules
 
-- `registry.json` `theme` item is the **single source** for tokens and `@utility glass*`. Never hand-edit glass rules in `src/index.css` — edit `registry.json`, then `pnpm registry:build && npx shadcn add ./public/r/theme.json -y`. `pnpm test` fails on drift.
+- `registry.json` `theme` item is the **single source** for tokens and `@utility glass*`. Never hand-edit glass rules in `src/index.css` — edit `registry.json`, then `pnpm theme:sync`. `pnpm test` fails on drift.
 - After adding a file to `src/components/ui/`, `src/hooks/` or `src/lib/`, or changing its imports, run `pnpm registry:gen` — it rebuilds every non-theme item in `registry.json` from the imports (deps, intra-registry deps, theme dep). Never hand-edit those items; the test fails on drift.
 - Intra-registry deps use `NTCHz/glass-ui/<name>`, never a bare name — bare `button` pulls upstream shadcn.
 - Components keep shadcn's `function` style (not `FC`) so upstream diffs stay readable. `FC` applies to playground code only.
