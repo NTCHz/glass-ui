@@ -9,17 +9,16 @@ Stack: Base UI · Tailwind CSS v4 · `cva` · `cn` · lucide-react
 Requires a project already set up with `shadcn init` (Tailwind v4, `@/` alias).
 
 ```bash
-gh auth login                                   # private repo — CLI reads through gh
 npx shadcn@latest add NTCHz/glass-ui/theme      # tokens + glass utilities into your CSS
 npx shadcn@latest add NTCHz/glass-ui/button NTCHz/glass-ui/card
-npx shadcn@latest add NTCHz/glass-ui/button#v0.1.0   # pin to a tag
+npx shadcn@latest add NTCHz/glass-ui/button#v0.3.0   # pin to a tag
 ```
 
-CI: set `GH_TOKEN` (fine-grained PAT, Contents: read-only).
+How the install works, updating, and version pinning: [`docs/INSTALL.md`](docs/INSTALL.md) (Thai).
 
 ## Two layers (Apple Liquid Glass)
 
-- **Content layer** — opaque: `Card`, `Table`, fields (`bg-secondary` fills). Hairline borders, no glass.
+- **Content layer** — opaque: `Card`, `Table`, fields (`bg-field` fills). Hairline borders, no glass.
 - **Control layer** — glass: sidebar, toolbar, tab bar, menus, dialogs, tooltips, toasts. Floats above content.
 
 Give the page soft colour fields so the glass has something to bend:
@@ -64,3 +63,7 @@ pnpm registry:build && npx shadcn add ./public/r/theme.json -y
 ```
 
 See `docs/STRUCTURE.md` and `docs/DECISIONS.md`.
+
+## License
+
+MIT. Components are derived from [shadcn/ui](https://github.com/shadcn-ui/ui) (MIT) — see [LICENSE](LICENSE).

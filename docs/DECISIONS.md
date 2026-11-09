@@ -4,9 +4,7 @@
 
 **Distribution: shadcn GitHub registry, not an npm package.**
 Consumers own the code and can tweak per project. The CLI reads `registry.json` from the repo directly, so no hosting and no build step for consumers; private access goes through `gh auth` / `GH_TOKEN`; versions are git tags (`#v0.1.0`). Trade-off: fixes don't propagate — consumers re-run `add`.
-GitHub registries only work on github.com, which is why this lives under NTCHz and not company GitLab.
-
-**Repo owner: personal (NTCHz), `~/Projects/glass-ui`.** Started under `~/TCC`, moved before first commit.
+GitHub registries only work on github.com (not GitLab or GitHub Enterprise).
 
 **Primitives: Base UI** — shadcn 4.x default since 2026-07. Radix not used.
 
