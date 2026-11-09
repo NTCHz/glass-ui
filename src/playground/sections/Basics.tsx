@@ -36,7 +36,7 @@ export const Materials: FC = () => (
     title="Materials"
     note="Glass is for the layer that floats above content."
   >
-    <div className="relative isolate w-full overflow-hidden rounded-[28px] bg-[oklch(0.62_0.19_262)] p-4 sm:p-6">
+    <div className="relative isolate w-full overflow-hidden rounded-[28px] bg-[oklch(0.62_0.19_262)] p-4 glass-stage sm:p-6">
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[radial-gradient(40%_60%_at_15%_30%,oklch(0.8_0.15_200),transparent),radial-gradient(35%_55%_at_80%_70%,oklch(0.72_0.2_340),transparent),radial-gradient(30%_40%_at_55%_10%,oklch(0.88_0.14_90),transparent)]"

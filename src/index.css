@@ -404,3 +404,8 @@
     animation-duration: 180ms;
   }
 }
+
+@utility glass-stage {
+  -webkit-backdrop-filter: blur(0.1px);
+  backdrop-filter: blur(0.1px);
+}

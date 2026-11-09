@@ -26,7 +26,7 @@ const BANDS = [
 
 const Lens: FC = () => (
   <div
-    className={`relative isolate grid h-64 w-full place-items-center overflow-hidden rounded-[28px] ${STRIPES}`}
+    className={`relative isolate grid h-64 w-full place-items-center overflow-hidden rounded-[28px] glass-stage ${STRIPES}`}
   >
     <div className="flex flex-wrap justify-center gap-4 p-4">
       <div className="grid h-28 w-48 content-end rounded-3xl glass p-4">
@@ -86,7 +86,7 @@ const Merge: FC = () => {
   const [apart, setApart] = useState(false);
   return (
     <div
-      className={`relative grid h-40 w-full place-items-center overflow-hidden rounded-[28px] ${STRIPES}`}
+      className={`relative grid h-40 w-full place-items-center overflow-hidden rounded-[28px] glass-stage ${STRIPES}`}
     >
       <LiquidGlassGroup>
         <div

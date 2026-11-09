@@ -13,6 +13,7 @@ shadcn GitHub registry (liquid glass). Consumers run `npx shadcn add NTCHz/glass
 - `color-mix` must use `in_oklab`, never `in_oklch`: `--card` is `oklch(1 0 0)` (hue 0 = red), so an oklch mix with a green/blue token interpolates through pink.
 - Every colour/contrast change: recompute WCAG ratios (oklch → sRGB) for both themes before committing; record the numbers in docs/DECISIONS.md.
 - Tailwind `@utility` bodies: never nest `@media` inside `&:active` / `&:hover` — Tailwind 4.3 mangles it into invalid CSS (`prefers-reduced-motion:active`) and the build fails.
+- Two or more separately blurred glass elements near each other need a `glass-stage` container (opaque background, not the page root). Without it Chromium on macOS redraws a neighbour's backdrop in part and leaves a seam whenever one of them repaints (docs/DECISIONS.md). Playwright screenshots cannot show this bug.
 - Base UI menus: `DropdownMenuLabel` must sit inside `DropdownMenuGroup` (Base UI error #31 otherwise).
 - TypeScript stays on 6.x until typescript-eslint supports 7 (peer `<6.1.0` as of 2026-11-09).
 - Don't commit `public/r/` — build output only.

@@ -96,3 +96,11 @@ What separates Apple's Liquid Glass from frosted glass, and how much of it the w
 - The lib is `glass-optics`, not `liquid-glass`: two items with one name made the ui item depend on itself. `registry.test.ts` now rejects duplicate names.
 - Upgrade note: popover, select, dropdown/context menu, menubar, tooltip, hover-card and combobox now use `glass-morph` instead of `zoom-in-95`. Re-adding one of them over an older install needs `theme` re-added too, or the popup only fades.
 - Tone blocks live in `@layer base` so a `text-*` utility on the glass still wins over the tone's `color`.
+
+## 2026-11-09 — seam in a glass card when a neighbouring glass element repaints (Chromium, macOS)
+
+- Symptom: hovering (or clicking, selecting text in) one glass card drew a vertical line inside a card two places over. Only visible on the real screen: Playwright screenshots force a full redraw and never show it. Measured by capturing the browser window with `screencapture -l` in Helium (Chromium 156).
+- Cause: Chromium redraws one damage rectangle per frame. Damage on card 3 touches card 2, so the rectangle grows to card 2 plus its blur reach (3 × blur = 42px), and its left edge lands inside card 1. Card 1's backdrop is then re-blurred only inside that rectangle, without the pixels left of the edge, so that strip differs from the rest. The seam sat 39px left of card 2 in the screenshots.
+- Did not help: `will-change`, removing `overflow-hidden`, blur on a child layer, `contain: paint`, layer-promoting the stage, dropping `background-attachment: fixed`, removing the hover effect (any repaint triggers it).
+- Fix: `glass-stage` on the container that holds the glass elements. It gives the container a 0.1px backdrop blur, which makes Chromium grow the damage rectangle to the whole container, so no glass inside is ever redrawn in part. 0/16 captured frames show a change in a non-hovered card (6/16 without it, worst column diff 18.8 → 1.0).
+- Cost and limits: the whole stage redraws when anything inside it changes, and (like any `backdrop-filter`) it becomes the containing block for `position: fixed` descendants, so it goes on a local container, not on the page root. Give the stage an opaque background.
