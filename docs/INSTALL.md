@@ -17,12 +17,16 @@ repo เป็น public — ไม่ต้อง login. (ถ้าวันห
 ## 2. ติดตั้ง
 
 ```bash
-# theme ก่อน: สี, กระจก, ฟอนต์
-npx shadcn@latest add NTCHz/glass-ui/theme
+# ใส่ theme ไว้ในคำสั่งด้วยเสมอในการติดตั้งครั้งแรก
+npx shadcn@latest add NTCHz/glass-ui/theme NTCHz/glass-ui/button NTCHz/glass-ui/dialog
 
-# แล้วตามด้วย component ที่ต้องการ
-npx shadcn@latest add NTCHz/glass-ui/button NTCHz/glass-ui/dialog NTCHz/glass-ui/sidebar
+# ครั้งต่อไป add แค่ component ได้
+npx shadcn@latest add NTCHz/glass-ui/sidebar
 ```
+
+**ต้องมี `theme` ในคำสั่งอย่างน้อยหนึ่งครั้ง** — ถ้า add แค่ component, theme ที่ตามมาเป็น dependency จะเพิ่มเฉพาะ token ใหม่ (`--glass-*`, `--field`, utility) แต่ **ไม่ทับ** ค่าที่ `shadcn init` ใส่ไว้แล้ว: `--background`, `--primary`, `--radius`, `--font-sans` ฯลฯ ยังเป็นของ shadcn โดยไม่มี error เตือน. add `theme` ตรงๆ (ก่อนหรือหลัง component ก็ได้) ถึงจะทับ
+
+หลังติดตั้ง ลบ `@import "@fontsource-variable/geist";` (หรือฟอนต์อื่นที่ `shadcn init` ใส่มา) ออกจากไฟล์ CSS — theme เปลี่ยน `--font-sans` แล้ว แต่ CLI ไม่ลบ import เดิม ไฟล์ฟอนต์เลยยังถูก bundle
 
 ชื่อ item = ชื่อไฟล์ใน `src/components/ui/` (เช่น `dropdown-menu`, `input-otp`, `code-block`) — ดูรายชื่อทั้งหมดใน README
 
@@ -37,8 +41,9 @@ npx shadcn@latest add NTCHz/glass-ui/button NTCHz/glass-ui/dialog NTCHz/glass-ui
 1. **หา registry** — `NTCHz/glass-ui/dialog` = `owner/repo/item`. CLI อ่าน `registry.json` ที่ root ของ branch หลัก (`main`) แล้วหา item ชื่อ `dialog`
 2. **ตาม dependency ของ registry** — `dialog` มี `registryDependencies: ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"]` → ติดตั้งสองตัวนั้นให้ด้วย (ถ้ามีอยู่แล้ว CLI ถามก่อนทับ)
 3. **ผสาน theme เข้า CSS ของคุณ** (ไฟล์ที่ `components.json` ชี้)
-   - สี/token ลง `:root` และ `.dark` และ map เป็น `--color-*` ใน `@theme inline` → ใช้ `bg-primary`, `bg-field`, `text-success-text` ฯลฯ ได้
-   - `@utility glass-clear | glass | glass-thick | glass-press | glass-backdrop`
+   - สี/token ลง `:root` และ `.dark` และ map เป็น `--color-*` ใน `@theme inline` → ใช้ `bg-primary`, `bg-field`, `text-success-text` ฯลฯ ได้. token ที่ชื่อซ้ำของเดิมจะถูกทับเฉพาะเมื่อ `theme` อยู่ในคำสั่งเอง (ดูข้อ 2) — มาเป็น dependency จะได้แค่ token ที่ยังไม่มี
+   - `@utility glass-clear | glass | glass-thick | glass-press | glass-backdrop | glass-morph | glass-stage`
+   - CLI ไม่ลบอะไรออก และสั่ง add ซ้ำจะต่อ `@media` ที่ซ้อนใน `@utility` ซ้ำอีกชุด (ค่าเหมือนเดิม ไม่พัง แค่ไฟล์ยาวขึ้น)
    - `@import` ของ `tw-animate-css`, `shadcn/tailwind.css` และฟอนต์ Inter + Sarabun
 4. **ติดตั้ง npm package** ตาม `dependencies` ของแต่ละ item (เช่น `@base-ui/react`, `cn`, `lucide-react`) ด้วย package manager ของโปรเจกต์
 5. **เขียนไฟล์** ไปที่ `components/ui/dialog.tsx` และ rewrite import (`@/components/ui/button` ฯลฯ) ให้ตรง alias ใน `components.json`
