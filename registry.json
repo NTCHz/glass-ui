@@ -1,0 +1,289 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "glass-ui",
+  "homepage": "https://github.com/NTCHz/glass-ui",
+  "items": [
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Glass theme",
+      "description": "Liquid glass tokens, glass-thin / glass / glass-thick materials and the glass-backdrop page background.",
+      "cssVars": {
+        "light": {
+          "background": "oklch(0.97 0.01 255)",
+          "foreground": "oklch(0.2 0.02 260)",
+          "card": "oklch(0.98 0.005 255)",
+          "card-foreground": "oklch(0.2 0.02 260)",
+          "popover": "oklch(0.98 0.005 255)",
+          "popover-foreground": "oklch(0.2 0.02 260)",
+          "primary": "oklch(0.52 0.2 255)",
+          "primary-foreground": "oklch(0.99 0 0)",
+          "secondary": "oklch(1 0 0 / 0.5)",
+          "secondary-foreground": "oklch(0.2 0.02 260)",
+          "muted": "oklch(0.3 0.02 260 / 0.06)",
+          "muted-foreground": "oklch(0.45 0.02 260)",
+          "accent": "oklch(0.6 0.2 255 / 0.12)",
+          "accent-foreground": "oklch(0.2 0.02 260)",
+          "border": "oklch(0.3 0.02 260 / 0.12)",
+          "input": "oklch(0.3 0.02 260 / 0.14)",
+          "ring": "oklch(0.52 0.2 255 / 0.6)",
+          "radius": "1rem",
+          "glass-solid": "oklch(0.98 0.005 255)",
+          "glass-thin": "oklch(1 0 0 / 0.3)",
+          "glass-regular": "oklch(1 0 0 / 0.5)",
+          "glass-thick": "oklch(1 0 0 / 0.72)",
+          "glass-sheen": "oklch(1 0 0 / 0.55)",
+          "glass-highlight": "oklch(1 0 0 / 0.85)",
+          "glass-edge": "oklch(0.3 0.02 260 / 0.1)",
+          "glass-aurora-1": "oklch(0.8 0.12 255)",
+          "glass-aurora-2": "oklch(0.85 0.1 320)",
+          "glass-aurora-3": "oklch(0.88 0.1 190)"
+        },
+        "dark": {
+          "background": "oklch(0.16 0.02 265)",
+          "foreground": "oklch(0.97 0.005 260)",
+          "card": "oklch(0.24 0.02 265)",
+          "card-foreground": "oklch(0.97 0.005 260)",
+          "popover": "oklch(0.24 0.02 265)",
+          "popover-foreground": "oklch(0.97 0.005 260)",
+          "primary": "oklch(0.7 0.16 255)",
+          "primary-foreground": "oklch(0.16 0.02 265)",
+          "secondary": "oklch(1 0 0 / 0.1)",
+          "secondary-foreground": "oklch(0.97 0.005 260)",
+          "muted": "oklch(1 0 0 / 0.06)",
+          "muted-foreground": "oklch(0.72 0.02 260)",
+          "accent": "oklch(0.7 0.16 255 / 0.2)",
+          "accent-foreground": "oklch(0.97 0.005 260)",
+          "border": "oklch(1 0 0 / 0.12)",
+          "input": "oklch(1 0 0 / 0.14)",
+          "ring": "oklch(0.7 0.16 255 / 0.6)",
+          "glass-solid": "oklch(0.24 0.02 265)",
+          "glass-thin": "oklch(0.3 0.02 265 / 0.3)",
+          "glass-regular": "oklch(0.3 0.02 265 / 0.45)",
+          "glass-thick": "oklch(0.3 0.02 265 / 0.65)",
+          "glass-sheen": "oklch(1 0 0 / 0.08)",
+          "glass-highlight": "oklch(1 0 0 / 0.16)",
+          "glass-edge": "oklch(1 0 0 / 0.08)",
+          "glass-aurora-1": "oklch(0.45 0.15 260)",
+          "glass-aurora-2": "oklch(0.4 0.15 320)",
+          "glass-aurora-3": "oklch(0.42 0.1 190)"
+        }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {},
+        ":root": {
+          "--glass-blur": "20px",
+          "--glass-saturate": "180%",
+          "--glass-shadow": "0 1px 2px oklch(0.3 0.03 260 / 0.06), 0 12px 32px -8px oklch(0.3 0.03 260 / 0.18)"
+        },
+        ".dark": {
+          "--glass-shadow": "0 1px 2px oklch(0 0 0 / 0.3), 0 16px 40px -8px oklch(0 0 0 / 0.55)"
+        },
+        "@utility glass-thin": {
+          "background-color": "var(--glass-thin)",
+          "background-image": "linear-gradient(180deg, var(--glass-sheen) 0%, transparent 50%)",
+          "-webkit-backdrop-filter": "blur(calc(var(--glass-blur) * 0.6)) saturate(var(--glass-saturate))",
+          "backdrop-filter": "blur(calc(var(--glass-blur) * 0.6)) saturate(var(--glass-saturate))",
+          "--tw-inset-shadow": "inset 0 1px 0 0 var(--glass-highlight), inset 0 0 0 1px var(--glass-edge)",
+          "box-shadow": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000)",
+          "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more)": {
+            "background-color": "var(--glass-solid)",
+            "-webkit-backdrop-filter": "none",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility glass": {
+          "background-color": "var(--glass-regular)",
+          "background-image": "linear-gradient(180deg, var(--glass-sheen) 0%, transparent 50%)",
+          "-webkit-backdrop-filter": "blur(var(--glass-blur)) saturate(var(--glass-saturate))",
+          "backdrop-filter": "blur(var(--glass-blur)) saturate(var(--glass-saturate))",
+          "--tw-inset-shadow": "inset 0 1px 0 0 var(--glass-highlight), inset 0 0 0 1px var(--glass-edge)",
+          "--tw-shadow": "var(--glass-shadow)",
+          "box-shadow": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
+          "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more)": {
+            "background-color": "var(--glass-solid)",
+            "-webkit-backdrop-filter": "none",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility glass-thick": {
+          "background-color": "var(--glass-thick)",
+          "background-image": "linear-gradient(180deg, var(--glass-sheen) 0%, transparent 50%)",
+          "-webkit-backdrop-filter": "blur(calc(var(--glass-blur) * 1.5)) saturate(var(--glass-saturate))",
+          "backdrop-filter": "blur(calc(var(--glass-blur) * 1.5)) saturate(var(--glass-saturate))",
+          "--tw-inset-shadow": "inset 0 1px 0 0 var(--glass-highlight), inset 0 0 0 1px var(--glass-edge)",
+          "--tw-shadow": "var(--glass-shadow)",
+          "box-shadow": "var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000), var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)",
+          "@media (prefers-reduced-transparency: reduce), (prefers-contrast: more)": {
+            "background-color": "var(--glass-solid)",
+            "-webkit-backdrop-filter": "none",
+            "backdrop-filter": "none"
+          }
+        },
+        "@utility glass-backdrop": {
+          "background-color": "var(--background)",
+          "background-image": "radial-gradient(at 15% 10%, var(--glass-aurora-1) 0, transparent 45%), radial-gradient(at 85% 20%, var(--glass-aurora-2) 0, transparent 45%), radial-gradient(at 50% 95%, var(--glass-aurora-3) 0, transparent 50%)",
+          "background-attachment": "fixed"
+        }
+      },
+      "dependencies": ["shadcn", "tw-animate-css"]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "dependencies": ["cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "dependencies": ["cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "dependencies": ["cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}
