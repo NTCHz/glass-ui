@@ -93,7 +93,7 @@ export const Cards: FC = () => (
         Body content sits on solid paper so it stays legible under any
         background.
       </CardContent>
-      <CardFooter className="justify-end gap-2">
+      <CardFooter>
         <Button variant="ghost" size="sm">
           Cancel
         </Button>
@@ -222,7 +222,7 @@ export const People: FC = () => (
 
 export const Empties: FC = () => (
   <Section id="empty" title="Empty" note="Every list needs one.">
-    <Empty className="border border-dashed bg-card">
+    <Empty className="border border-dashed border-foreground/15 bg-card">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <InboxIcon />

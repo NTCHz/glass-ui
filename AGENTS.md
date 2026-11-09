@@ -5,11 +5,12 @@ shadcn GitHub registry (liquid glass). Consumers run `npx shadcn add NTCHz/glass
 ## Rules
 
 - `registry.json` `theme` item is the **single source** for tokens and `@utility glass*`. Never hand-edit glass rules in `src/index.css` — edit `registry.json`, then `pnpm registry:build && npx shadcn add ./public/r/theme.json -y`. `pnpm test` fails on drift.
-- Every new file in `src/components/ui/` needs a `registry.json` item with `dependencies` matching its imports and `registryDependencies` including `NTCHz/glass-ui/theme` (test enforces).
+- After adding a file to `src/components/ui/`, `src/hooks/` or `src/lib/`, or changing its imports, run `pnpm registry:gen` — it rebuilds every non-theme item in `registry.json` from the imports (deps, intra-registry deps, theme dep). Never hand-edit those items; the test fails on drift.
 - Intra-registry deps use `NTCHz/glass-ui/<name>`, never a bare name — bare `button` pulls upstream shadcn.
 - Components keep shadcn's `function` style (not `FC`) so upstream diffs stay readable. `FC` applies to playground code only.
 - Two layers: glass only on the control layer (nav, toolbars, tab bar, menus, dialogs, tooltips, toasts). Content (cards, tables, fields) stays opaque — see PRODUCT.md principles.
 - Glass surfaces: no `bg-*`, `ring-1`, or `shadow-*` next to `glass*` — they override the material.
+- `color-mix` must use `in_oklab`, never `in_oklch`: `--card` is `oklch(1 0 0)` (hue 0 = red), so an oklch mix with a green/blue token interpolates through pink.
 - Every colour/contrast change: recompute WCAG ratios (oklch → sRGB) for both themes before committing; record the numbers in docs/DECISIONS.md.
 - Tailwind `@utility` bodies: never nest `@media` inside `&:active` / `&:hover` — Tailwind 4.3 mangles it into invalid CSS (`prefers-reduced-motion:active`) and the build fails.
 - Base UI menus: `DropdownMenuLabel` must sit inside `DropdownMenuGroup` (Base UI error #31 otherwise).

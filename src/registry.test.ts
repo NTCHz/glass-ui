@@ -13,7 +13,9 @@ type RegistryItem = {
 };
 
 const OWN_PREFIX = "NTCHz/glass-ui/";
-const UI_DIR = "src/components/ui";
+const SHIPPED_DIRS = ["src/components/ui", "src/hooks", "src/lib"];
+// re-exports the `cn` package for the playground; consumers have their own
+const NOT_SHIPPED = new Set(["src/lib/utils.ts"]);
 // resolved by the consumer's own setup, not by registry `dependencies`
 const PROVIDED_IMPORTS = new Set(["react", "react-dom"]);
 
@@ -64,11 +66,13 @@ describe("registry.json", () => {
     expect(paths.filter(f => !existsSync(f.path))).toEqual([]);
   });
 
-  it("lists every component in src/components/ui", () => {
+  it("lists every shipped file in ui, hooks and lib", () => {
     const listed = new Set(
       components.flatMap(item => item.files ?? []).map(f => f.path)
     );
-    const onDisk = readdirSync(UI_DIR).map(f => `${UI_DIR}/${f}`);
+    const onDisk = SHIPPED_DIRS.filter(dir => existsSync(dir))
+      .flatMap(dir => readdirSync(dir).map(f => `${dir}/${f}`))
+      .filter(p => !NOT_SHIPPED.has(p));
     expect(onDisk.filter(p => !listed.has(p))).toEqual([]);
   });
 

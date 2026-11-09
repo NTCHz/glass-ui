@@ -44,3 +44,27 @@ v0.1 put glass on every surface (cards, inputs) and read as washed-out. Rebuilt 
 - v0.1 contrast history: L 0.6 primary was 3.9:1 vs white — failed AA; see v0.2 numbers above.
 - `registryDependencies` refs aren't inherited: installing `button#v0.1.0` pulls `theme` from the default branch.
 - `background-attachment: fixed` in `glass-backdrop` is ignored on iOS Safari (gradient scrolls with page).
+
+## 2026-11-09 — full shadcn coverage
+
+- All 64 `registry:ui` items from shadcn's `base-nova` registry are in the kit (`form` skipped: upstream ships it with zero files). Restyled to the same contract by four parallel passes, then reviewed together.
+- `registry.json` component items are generated (`pnpm registry:gen`) from imports, including `src/hooks` (`registry:hook`) and `src/lib` (`registry:lib`, minus the playground-only `utils.ts`).
+- `color-mix` switched from `in oklch` to `in oklab` everywhere: mixing the achromatic `--card` (hue 0) with green/blue tokens in oklch swung through red and tinted success/warning alerts pink.
+- Button gained a `clear` variant (`glass-clear`) for controls over media; carousel uses it.
+- `use-mobile` rewritten on `useSyncExternalStore` (the upstream setState-in-effect failed lint).
+- Upstream `scrollbar-*` classes (thin, none, gutter-stable, thumb/track-transparent) have no definition in Tailwind or `shadcn/tailwind.css`; they are no-ops upstream too and are left as-is.
+- Message scroller items use `content-visibility: auto`, so full-page screenshots show them blank off-screen; they render normally in the viewport.
+- Destructive menu rows use `focus:text-white` on `bg-destructive` (dropdown-menu, context-menu, menubar) — a deliberate raw colour: white on the red fill in both themes, which no foreground token guarantees.
+- Command drops its own glass inside dialogs and popovers (`not-in-[…]:glass-thick`) so the combobox recipe `<PopoverContent><Command>` never stacks two glass layers.
+
+## 2026-11-09 — critique + polish (27/40 → fixes)
+
+- New `--field` token (opaque): light oklch(0.955 0.004 255), dark oklch(0.25 0.012 260). Fields no longer use the translucent `--secondary` veil, which picked up the backdrop. Placeholder (muted-fg) on field = 5.99:1 both themes; foreground ≥ 14:1.
+- Light `--destructive` darkened 0.58 → 0.53: 5.89:1 vs white (solid confirm), 4.95:1 on its 12% tint, 5.48:1 on the page ground. v0.2's 0.58 measured 4.08:1 on tint — failed AA.
+- Button `destructive-solid` for final confirms; `destructive` (tint) for initiating actions.
+- Selected state unified to two languages: Lift (nav, segmented, pagination, toggles) and Blue (choices, menus, checks).
+- Base UI disabled state is `data-disabled`, not `:disabled` — checkbox, radio, accordion now dim.
+- Menus use Apple's leading gutter (check/radio indicator at the start, `inset` aligns plain rows).
+- Combobox list uses shadcn's scroll-aware `scroll-fade-b` (fades only while more content is below).
+- Carousel gains `CarouselDots`; mobile catalog header tracks the section in view.
+- Detector after polish: 0 findings (was 2 CLI advisories + 33 in-browser).

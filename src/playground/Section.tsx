@@ -11,7 +11,7 @@ export const Section: FC<SectionProps> = ({ id, title, note, children }) => (
   <section
     id={id}
     aria-labelledby={`${id}-title`}
-    className="grid scroll-mt-32 gap-4 border-t py-10 first:border-t-0 lg:grid-cols-[13rem_minmax(0,1fr)]"
+    className="grid scroll-mt-36 gap-4 border-t py-10 first:border-t-0 lg:grid-cols-[13rem_minmax(0,1fr)]"
   >
     <div>
       <h2

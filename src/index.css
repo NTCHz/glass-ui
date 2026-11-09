@@ -69,6 +69,7 @@
   --color-warning: var(--warning);
   --color-success-text: var(--success-text);
   --color-success: var(--success);
+  --color-field: var(--field);
 }
 
 :root {
@@ -86,7 +87,7 @@
   --muted-foreground: oklch(0.47 0.015 260);
   --accent: oklch(0.53 0.21 262 / 0.1);
   --accent-foreground: oklch(0.45 0.2 262);
-  --destructive: oklch(0.58 0.22 25);
+  --destructive: oklch(0.53 0.21 25);
   --border: oklch(0.21 0.015 260 / 0.09);
   --input: oklch(0.21 0.015 260 / 0.12);
   --ring: oklch(0.53 0.21 262 / 0.5);
@@ -127,6 +128,7 @@
     0 8px 24px -6px oklch(0.25 0.04 260 / 0.16),
     0 2px 6px -2px oklch(0.25 0.04 260 / 0.1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --field: oklch(0.955 0.004 255);
 }
 
 .dark {
@@ -181,6 +183,7 @@
   --glass-brightness: 0.96;
   --glass-shadow:
     0 10px 30px -6px oklch(0 0 0 / 0.5), 0 2px 6px oklch(0 0 0 / 0.3);
+  --field: oklch(0.25 0.012 260);
 }
 
 @layer base {
@@ -227,6 +230,12 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background-color: var(--glass-solid);
+    background-image: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 @utility glass {
@@ -249,6 +258,12 @@
     var(--tw-inset-shadow), var(--tw-inset-ring-shadow, 0 0 #0000),
     var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
     var(--tw-shadow, 0 0 #0000);
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background-color: var(--glass-solid);
+    background-image: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
   @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
     background-color: var(--glass-solid);
     background-image: none;
@@ -283,6 +298,12 @@
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    background-color: var(--glass-solid);
+    background-image: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 @utility glass-press {
@@ -297,6 +318,14 @@
     transform: scale(1.05);
     filter: brightness(1.12) saturate(1.15);
     transition-duration: 140ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition-duration: 0ms;
+    transform: none !important;
+  }
+  @variant hover {
+    transform: scale(1.02);
+    filter: brightness(1.06) saturate(1.1);
   }
   @media (prefers-reduced-motion: reduce) {
     transition-duration: 0ms;

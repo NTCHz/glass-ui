@@ -42,7 +42,9 @@ Type: system SF on Apple devices → Inter Variable → Sarabun for Thai glyphs.
 
 ## Components
 
-`theme` · `button` · `badge` (success / warning / info / destructive) · `card` · `input` · `textarea` · `label` · `select` · `switch` · `tabs` (segmented, sliding indicator; `glass` variant) · `tooltip` · `popover` · `dropdown-menu` · `dialog` · `sonner` (toasts) · `avatar` · `skeleton` · `empty` · `table` · `chart` (recharts) · `separator`
+Every component in shadcn’s base registry (64), plus `theme`. `form` is omitted — upstream ships it with no files; use `field`.
+
+`accordion` · `alert` · `alert-dialog` · `aspect-ratio` · `attachment` · `avatar` · `badge` · `breadcrumb` · `bubble` · `button` · `button-group` · `calendar` · `card` · `carousel` · `chart` · `checkbox` · `code-block` · `collapsible` · `combobox` · `command` · `context-menu` · `dialog` · `direction` · `drawer` · `dropdown-menu` · `empty` · `field` · `hover-card` · `input` · `input-group` · `input-otp` · `item` · `kbd` · `label` · `marker` · `menubar` · `message` · `message-scroller` · `native-select` · `navigation-menu` · `pagination` · `popover` · `progress` · `questionnaire` · `radio-group` · `resizable` · `scroll-area` · `select` · `separator` · `sheet` · `sidebar` · `skeleton` · `slider` · `sonner` · `spinner` · `switch` · `table` · `tabs` · `textarea` · `toast` · `toggle` · `toggle-group` · `tooltip` · `trace`
 
 The playground (`src/playground/`) is a one-page catalog: a section per component, generic sample data.
 

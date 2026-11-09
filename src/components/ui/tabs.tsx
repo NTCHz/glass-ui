@@ -59,7 +59,7 @@ function TabsList({
           className={cn(
             "absolute top-(--active-tab-top) left-(--active-tab-left) -z-10 h-(--active-tab-height) w-(--active-tab-width) rounded-full transition-[left,width] duration-500 ease-(--ease-spring) motion-reduce:transition-none",
             variant === "glass"
-              ? "bg-[color-mix(in_oklch,var(--card),transparent_15%)] shadow-[0_2px_8px_-2px_oklch(0.2_0.02_260/0.2),inset_1px_1px_0_0_var(--glass-rim-hi)]"
+              ? "bg-[color-mix(in_oklab,var(--card),transparent_15%)] shadow-[0_2px_8px_-2px_oklch(0.2_0.02_260/0.2),inset_1px_1px_0_0_var(--glass-rim-hi)] dark:bg-[oklch(1_0_0/0.16)]"
               : "bg-card shadow-[0_1px_3px_oklch(0.2_0.02_260/0.14),0_0_0_0.5px_oklch(0.2_0.02_260/0.06)] dark:bg-[oklch(1_0_0/0.16)]"
           )}
         />

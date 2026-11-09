@@ -34,7 +34,7 @@
           "muted-foreground": "oklch(0.47 0.015 260)",
           "accent": "oklch(0.53 0.21 262 / 0.1)",
           "accent-foreground": "oklch(0.45 0.2 262)",
-          "destructive": "oklch(0.58 0.22 25)",
+          "destructive": "oklch(0.53 0.21 25)",
           "success": "oklch(0.68 0.17 150)",
           "success-text": "oklch(0.5 0.14 150)",
           "warning": "oklch(0.78 0.16 70)",
@@ -59,7 +59,8 @@
           "glass-glow": "oklch(1 0 0 / 0.35)",
           "glass-field-1": "oklch(0.85 0.09 255)",
           "glass-field-2": "oklch(0.9 0.07 200)",
-          "glass-field-3": "oklch(0.88 0.07 300)"
+          "glass-field-3": "oklch(0.88 0.07 300)",
+          "field": "oklch(0.955 0.004 255)"
         },
         "dark": {
           "background": "oklch(0.17 0.01 260)",
@@ -100,7 +101,8 @@
           "glass-glow": "oklch(1 0 0 / 0.05)",
           "glass-field-1": "oklch(0.36 0.12 262)",
           "glass-field-2": "oklch(0.33 0.08 200)",
-          "glass-field-3": "oklch(0.32 0.1 300)"
+          "glass-field-3": "oklch(0.32 0.1 300)",
+          "field": "oklch(0.25 0.012 260)"
         }
       },
       "css": {
@@ -205,6 +207,71 @@
       }
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "dependencies": ["class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "dependencies": ["cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",
@@ -231,6 +298,48 @@
       ]
     },
     {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/breadcrumb.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/bubble.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/separator"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
@@ -239,6 +348,19 @@
       "files": [
         {
           "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "dependencies": ["cn", "lucide-react", "react-day-picker"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/calendar.tsx",
           "type": "registry:ui"
         }
       ]
@@ -257,6 +379,19 @@
       ]
     },
     {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "dependencies": ["cn", "embla-carousel-react", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/carousel.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "chart",
       "type": "registry:ui",
       "title": "Chart",
@@ -270,6 +405,92 @@
       ]
     },
     {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "dependencies": ["class-variance-authority", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/code-block.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/button",
+        "NTCHz/glass-ui/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "dependencies": ["cmdk", "cn", "lucide-react"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/dialog",
+        "NTCHz/glass-ui/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -278,6 +499,32 @@
       "files": [
         {
           "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/direction.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/drawer.tsx",
           "type": "registry:ui"
         }
       ]
@@ -309,6 +556,67 @@
       ]
     },
     {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "dependencies": ["class-variance-authority", "cn"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/label",
+        "NTCHz/glass-ui/separator"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "dependencies": ["class-variance-authority", "cn"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/button",
+        "NTCHz/glass-ui/input",
+        "NTCHz/glass-ui/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input Otp",
+      "dependencies": ["cn", "input-otp", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
@@ -317,6 +625,35 @@
       "files": [
         {
           "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/separator"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/item.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "dependencies": ["cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/kbd.tsx",
           "type": "registry:ui"
         }
       ]
@@ -335,6 +672,105 @@
       ]
     },
     {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/marker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/menubar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "dependencies": ["@shadcn/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/message-scroller.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "dependencies": ["cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/message.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "dependencies": ["cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/native-select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "dependencies": ["cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/pagination.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "title": "Popover",
@@ -343,6 +779,71 @@
       "files": [
         {
           "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "dependencies": ["@shadcn/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/questionnaire.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "dependencies": ["cn", "react-resizable-panels"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/resizable.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
           "type": "registry:ui"
         }
       ]
@@ -374,6 +875,46 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/button",
+        "NTCHz/glass-ui/input",
+        "NTCHz/glass-ui/separator",
+        "NTCHz/glass-ui/sheet",
+        "NTCHz/glass-ui/skeleton",
+        "NTCHz/glass-ui/tooltip",
+        "NTCHz/glass-ui/use-mobile"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
@@ -387,6 +928,19 @@
       ]
     },
     {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "sonner",
       "type": "registry:ui",
       "title": "Sonner",
@@ -395,6 +949,19 @@
       "files": [
         {
           "path": "src/components/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "dependencies": ["cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/spinner.tsx",
           "type": "registry:ui"
         }
       ]
@@ -452,6 +1019,45 @@
       ]
     },
     {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "dependencies": ["@base-ui/react", "cn", "lucide-react"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/button"],
+      "files": [
+        {
+          "path": "src/components/ui/toast.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme", "NTCHz/glass-ui/toggle"],
+      "files": [
+        {
+          "path": "src/components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
@@ -461,6 +1067,64 @@
         {
           "path": "src/components/ui/tooltip.tsx",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "dependencies": ["cn", "lucide-react"],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/collapsible"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/trace.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "use-highlighted-code",
+      "type": "registry:hook",
+      "title": "Use Highlighted Code",
+      "dependencies": [],
+      "registryDependencies": [
+        "NTCHz/glass-ui/theme",
+        "NTCHz/glass-ui/highlighter"
+      ],
+      "files": [
+        {
+          "path": "src/hooks/use-highlighted-code.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "useIsMobile",
+      "dependencies": [],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/hooks/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "highlighter",
+      "type": "registry:lib",
+      "title": "Highlighter",
+      "dependencies": ["shiki"],
+      "registryDependencies": ["NTCHz/glass-ui/theme"],
+      "files": [
+        {
+          "path": "src/lib/highlighter.tsx",
+          "type": "registry:lib"
         }
       ]
     }

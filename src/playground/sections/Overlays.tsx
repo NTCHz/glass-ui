@@ -52,13 +52,13 @@ export const Overlays: FC = () => (
     note="Overlays use glass-thick for readable text."
   >
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="glass" />}>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
         Account
         <ChevronDownIcon data-icon="inline-end" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>My account</DropdownMenuLabel>
+          <DropdownMenuLabel inset>My account</DropdownMenuLabel>
           <DropdownMenuItem>
             <UserIcon />
             Profile
@@ -78,7 +78,7 @@ export const Overlays: FC = () => (
     </DropdownMenu>
 
     <Popover>
-      <PopoverTrigger render={<Button variant="glass" />}>
+      <PopoverTrigger render={<Button variant="outline" />}>
         <CalendarIcon data-icon="inline-start" />
         Popover
       </PopoverTrigger>
@@ -91,8 +91,8 @@ export const Overlays: FC = () => (
     </Popover>
 
     <Dialog>
-      <DialogTrigger render={<Button variant="outline" />}>
-        Open dialog
+      <DialogTrigger render={<Button variant="destructive" />}>
+        Delete item
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -102,10 +102,10 @@ export const Overlays: FC = () => (
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose render={<Button variant="secondary" />}>
+          <DialogClose render={<Button variant="outline" />}>
             Cancel
           </DialogClose>
-          <DialogClose render={<Button className="bg-destructive" />}>
+          <DialogClose render={<Button variant="destructive-solid" />}>
             Delete
           </DialogClose>
         </DialogFooter>
@@ -113,14 +113,14 @@ export const Overlays: FC = () => (
     </Dialog>
 
     <Tooltip>
-      <TooltipTrigger render={<Button variant="ghost" />}>
+      <TooltipTrigger render={<Button variant="outline" />}>
         Hover me
       </TooltipTrigger>
       <TooltipContent>Tooltip on glass</TooltipContent>
     </Tooltip>
 
     <Button
-      variant="secondary"
+      variant="outline"
       onClick={() =>
         toast.success("Saved", { description: "Your changes are live." })
       }
