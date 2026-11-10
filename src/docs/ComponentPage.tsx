@@ -97,6 +97,7 @@ const DocSection: FC<SectionProps> = ({ title, note, children }) => {
           <TabsTrigger value="code">Code</TabsTrigger>
         </TabsList>
         <TabsContent value="preview">
+          <h2 className="sr-only">Example</h2>
           <div className="flex min-h-72 min-w-0 flex-wrap content-center items-center justify-center gap-3 rounded-[28px] border bg-background/40 p-4 sm:p-8">
             {children}
           </div>

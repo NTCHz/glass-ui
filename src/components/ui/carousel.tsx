@@ -257,7 +257,7 @@ function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="carousel-dots"
       className={cn(
-        "absolute inset-x-0 bottom-3 z-10 flex justify-center gap-1.5",
+        "absolute inset-x-0 bottom-1.5 z-10 flex justify-center",
         className
       )}
       {...props}
@@ -269,7 +269,8 @@ function CarouselDots({ className, ...props }: React.ComponentProps<"div">) {
           aria-label={`Go to slide ${index + 1}`}
           aria-current={index === selectedIndex || undefined}
           onClick={() => api?.scrollTo(index)}
-          className="relative h-2 w-2 rounded-full bg-white/55 shadow-[0_0_0_0.5px_rgb(0_0_0/0.18)] transition-[width,background-color] duration-300 ease-(--ease-spring) outline-none after:absolute after:-inset-2 focus-visible:ring-3 focus-visible:ring-ring aria-current:w-5 aria-current:bg-white motion-reduce:transition-none"
+          // the button is the 24px target (WCAG 2.5.8); the dot is drawn inside it
+          className="grid size-6 place-items-center rounded-full outline-none before:h-2 before:w-2 before:rounded-full before:bg-white/55 before:shadow-[0_0_0_0.5px_rgb(0_0_0/0.18)] before:transition-[width,background-color] before:duration-300 before:ease-(--ease-spring) focus-visible:ring-3 focus-visible:ring-ring aria-current:before:w-5 aria-current:before:bg-white motion-reduce:before:transition-none"
         />
       ))}
     </div>

@@ -35,6 +35,21 @@ const aliases: Record<string, keyof typeof languages> = {
   zsh: "bash",
 };
 
+// GitHub's syntax colours, darkened (light) or lightened (dark) in OKLCH at the
+// same hue until each is >= 4.6:1 on the card and on the added / removed /
+// highlighted line tints; the stock values measure 2.85-4.04:1 (DECISIONS.md)
+const COLOR_REPLACEMENTS = {
+  "github-light": {
+    "#6a737d": "#606973",
+    "#22863a": "#09782d",
+    "#d73a49": "#c7283c",
+    "#e36209": "#bb3c00",
+  },
+  "github-dark": {
+    "#6a737d": "#8d97a1",
+  },
+};
+
 let highlighter: Promise<HighlighterCore> | undefined;
 
 function getHighlighter() {
@@ -87,6 +102,7 @@ export async function loadHighlighter(language: string) {
         shiki.codeToTokens(text, {
           lang,
           themes: { light: "github-light", dark: "github-dark" },
+          colorReplacements: COLOR_REPLACEMENTS,
           defaultColor: false,
           grammarState: state,
         }).tokens;

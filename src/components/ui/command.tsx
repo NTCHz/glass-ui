@@ -1,6 +1,6 @@
 "use client";
 
-import { Command as CommandPrimitive } from "cmdk";
+import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { cn } from "cn";
 import * as React from "react";
 
@@ -159,13 +159,20 @@ function CommandGroup({
   );
 }
 
+// cmdk's Separator is role="separator", which a listbox may not contain; a hidden
+// rule keeps the visual and cmdk's hide-while-searching behaviour
 function CommandSeparator({
   className,
+  alwaysRender = false,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Separator>) {
+}: React.ComponentProps<"div"> & { alwaysRender?: boolean }) {
+  const searching = useCommandState(state => state.search !== "");
+  if (searching && !alwaysRender) return null;
   return (
-    <CommandPrimitive.Separator
+    <div
       data-slot="command-separator"
+      cmdk-separator=""
+      aria-hidden="true"
       className={cn("mx-2 my-1 h-px bg-border", className)}
       {...props}
     />

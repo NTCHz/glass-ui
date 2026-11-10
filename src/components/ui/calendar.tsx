@@ -1,8 +1,11 @@
 import { cn } from "cn";
 import * as React from "react";
 import {
+  DateLib,
   DayPicker,
   getDefaultClassNames,
+  labelDayButton,
+  labelGridcell,
   type DayButton,
   type Locale,
 } from "react-day-picker";
@@ -14,6 +17,27 @@ import {
   ChevronRightIcon,
 } from "lucide-react";
 
+// react-day-picker names a day "Tuesday, November 10th, 2026" while it shows "10";
+// lead with the shown number so speech input ("click 10") matches (WCAG 2.5.3).
+// The rest stays the locale's own label (or the library default), so translations survive.
+type DayLabel = typeof labelDayButton;
+
+const withDayNumber =
+  (fallback: DayLabel, own: unknown): typeof labelGridcell =>
+  (date, modifiers, options, dateLib) => {
+    const lib = dateLib ?? new DateLib(options);
+    const rest =
+      typeof own === "string"
+        ? own
+        : (typeof own === "function" ? (own as DayLabel) : fallback)(
+            date,
+            modifiers ?? {},
+            options,
+            lib
+          );
+    return `${lib.format(date, "d")}, ${rest}`;
+  };
+
 function Calendar({
   className,
   classNames,
@@ -22,6 +46,7 @@ function Calendar({
   buttonVariant = "ghost",
   locale,
   formatters,
+  labels,
   components,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
@@ -40,6 +65,17 @@ function Calendar({
       )}
       captionLayout={captionLayout}
       locale={locale}
+      labels={{
+        labelDayButton: withDayNumber(
+          labelDayButton,
+          locale?.labels?.labelDayButton
+        ),
+        labelGridcell: withDayNumber(
+          labelGridcell,
+          locale?.labels?.labelGridcell
+        ),
+        ...labels,
+      }}
       formatters={{
         formatMonthDropdown: date =>
           date.toLocaleString(locale?.code, { month: "short" }),

@@ -5,9 +5,11 @@ import * as React from "react";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
+    // focusable so a keyboard can scroll a table wider than its container
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      tabIndex={0}
+      className="relative w-full overflow-x-auto rounded-[inherit] outline-none focus-visible:ring-3 focus-visible:ring-ring"
     >
       <table
         data-slot="table"
