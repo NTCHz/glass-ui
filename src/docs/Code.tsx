@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from "react";
+import { cloneElement, isValidElement } from "react";
 
 import {
   CodeBlock,
@@ -11,6 +12,22 @@ import {
 } from "@/components/ui/code-block";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useHighlightedCode } from "@/hooks/use-highlighted-code";
+
+type TokenProps = { children?: ReactNode; className?: string };
+
+// shiki gives every word and every space its own span; a command should wrap
+// at the spaces only, never inside NTCHz/glass-ui at the hyphen
+const keepWordsWhole = (line: ReactNode) =>
+  Array.isArray(line)
+    ? line.map(token => {
+        if (!isValidElement<TokenProps>(token)) return token;
+        const text = token.props.children;
+        if (typeof text === "string" && !text.trim()) return text;
+        return cloneElement(token, {
+          className: `${token.props.className ?? ""} whitespace-nowrap`,
+        });
+      })
+    : line;
 
 type CodeProps = {
   code: string;
@@ -26,6 +43,7 @@ export const Code: FC<CodeProps> = ({
   className,
 }) => {
   const lines = useHighlightedCode(code, language);
+  const wrap = language === "bash";
   return (
     <CodeBlock className={className}>
       {title ? (
@@ -40,9 +58,11 @@ export const Code: FC<CodeProps> = ({
           <CodeBlockCopyButton value={code} />
         </CodeBlockActions>
       )}
-      <CodeBlockContent className="max-h-[32rem]" wrap={language === "bash"}>
+      <CodeBlockContent className="max-h-[32rem]" wrap={wrap}>
         {lines.map((line, index) => (
-          <CodeBlockLine key={index}>{line}</CodeBlockLine>
+          <CodeBlockLine key={index}>
+            {wrap ? keepWordsWhole(line) : line}
+          </CodeBlockLine>
         ))}
       </CodeBlockContent>
     </CodeBlock>
@@ -56,7 +76,7 @@ const RUNNERS = [
 ] as const;
 
 export const CommandTabs: FC<{ args: string }> = ({ args }) => (
-  <Tabs defaultValue="pnpm" className="gap-2">
+  <Tabs defaultValue="pnpm" className="gap-3">
     <TabsList variant="line">
       {RUNNERS.map(({ id }) => (
         <TabsTrigger key={id} value={id}>

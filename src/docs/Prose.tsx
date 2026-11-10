@@ -18,7 +18,7 @@ export const PageTitle: FC<{ title: string; lead: string }> = ({
 export const H2: FC<ComponentProps<"h2">> = ({ className, ...props }) => (
   <h2
     className={cn(
-      "mt-12 mb-3 scroll-mt-24 font-heading text-xl font-semibold tracking-[-0.02em]",
+      "mt-12 mb-3 scroll-mt-24 font-heading text-xl font-semibold tracking-[-0.02em] [header+&]:mt-0",
       className
     )}
     {...props}
