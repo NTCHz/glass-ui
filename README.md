@@ -53,7 +53,21 @@ Give the page soft colour fields so the glass has something to bend:
 </LiquidGlassGroup>
 ```
 
-Lensing renders in Chromium only; Safari and Firefox keep the frosted glass. Details and limits: `docs/DECISIONS.md`.
+Every pane can be tuned on its own. Unset props keep the theme, so the defaults look exactly as before:
+
+| prop                               | range                       | what it changes                                                                                       |
+| ---------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `strength`                         | 0–4                         | how far the rim bends the backdrop (× bezel; default 2.4)                                             |
+| `bezel`                            | 0–64 px                     | width of the bending rim (default 0.8 × corner radius, 8–28px)                                        |
+| `dispersion`                       | 0–0.6                       | rainbow fringe: blue bends this much more than red. Three passes, so keep it to hero surfaces         |
+| `blur` / `saturate` / `brightness` | 0–40 px / 0–300 % / 0.5–1.5 | the frost, per pane (`blur` is the regular value; clear halves it, thick doubles it)                  |
+| `tint`                             | any colour                  | fill of the pane                                                                                      |
+| `shine`                            | 0–1                         | opacity of the specular sheen                                                                         |
+| `lightAngle`                       | degrees                     | where the light comes from (0 = top, clockwise); the pointer still moves it unless `specular={false}` |
+
+Values outside a range are clamped. Try them live on the [Glass Tuner](https://glass.shipfold.com/docs/components/glass-tuner) page and copy the result.
+
+Lensing and dispersion render in Chromium only; Safari and Firefox keep the frosted glass (blur, saturate, brightness, tint and shine work everywhere). Details and limits: `docs/DECISIONS.md`.
 
 All glass falls back to opaque `--glass-solid` under `prefers-reduced-transparency: reduce` or `prefers-contrast: more`.
 

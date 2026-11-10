@@ -9,7 +9,8 @@ export type DemoFile =
   | "Layout"
   | "Liquid"
   | "Navigation"
-  | "Overlays";
+  | "Overlays"
+  | "Tuner";
 
 export type ComponentEntry = {
   group: string;
@@ -44,6 +45,14 @@ export const COMPONENTS: readonly ComponentEntry[] = [
     label: "Liquid Glass",
     file: "Liquid",
     demo: "LiquidSection",
+  },
+  {
+    group: "Foundations",
+    id: "glass-tuner",
+    label: "Glass Tuner",
+    file: "Tuner",
+    demo: "LiquidTuner",
+    items: ["liquid-glass"],
   },
   {
     group: "Actions",

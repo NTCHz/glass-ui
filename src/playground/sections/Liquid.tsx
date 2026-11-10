@@ -9,9 +9,7 @@ import {
 } from "@/components/ui/liquid-glass";
 
 import { Section } from "../Section";
-
-const STRIPES =
-  "bg-[repeating-linear-gradient(115deg,oklch(0.62_0.19_262)_0_18px,oklch(0.86_0.12_200)_18px_36px,oklch(0.72_0.2_340)_36px_54px,oklch(0.9_0.14_90)_54px_72px)]";
+import { STRIPES } from "../tuner";
 
 const BANDS = [
   { tone: "light", className: "bg-white", label: "White page" },

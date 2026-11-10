@@ -123,3 +123,12 @@ What separates Apple's Liquid Glass from frosted glass, and how much of it the w
 - `command` separator: cmdk's is `role="separator"`, which a listbox may not contain. Replaced with an `aria-hidden` rule that still hides while searching (`alwaysRender` keeps it).
 - `carousel` dots: 8px dots 6px apart put target centres 14px apart, failing WCAG 2.5.8 even with the enlarged hit area. Each dot is now a 24px button with the dot drawn inside; the row is a little wider.
 - Docs: an sr-only "Example" h2 above each preview, so demo headings (h3) follow an h2.
+
+## 2026-11-10 — per-pane tuning props on LiquidGlass (v0.5.0)
+
+- `strength`, `bezel`, `dispersion`, `blur`, `saturate`, `brightness`, `tint`, `shine`, `lightAngle` on `<LiquidGlass>` / `useLiquidGlass`. Unset = the old constants and theme tokens, so existing installs render the same. Values are clamped (`TUNING_LIMITS` in `glass-optics`) so a typo cannot blow the lens up or blank the pane.
+- The frost props write the theme's own custom properties inline (`--glass-blur`, `--glass-saturate`, `--glass-brightness`, `--glass-sheen`, `--glass-<material>`) instead of new CSS. The `glass*` utilities, the lens and the reduced-transparency fallback (`--glass-solid`) keep working unchanged, and these props work in every engine.
+- `dispersion` runs the displacement three times (red at scale × (1 − d), green at scale, blue at scale × (1 + d)), keeps one channel of each and adds them back with `feBlend screen` (exact here, since each layer is zero in the other two channels). Three passes, so it is opt-in. Chromium only, like the lens.
+- `lightAngle` sets the light vars once; the pointer still moves the light while `specular` is on. 315° equals the old top-left default.
+- Docs: a Glass Tuner page puts every prop on a slider over the stripe backdrop and prints the JSX with only the changed props. Tint presets mix the hue into `--glass-solid` (72%) at 0.65 alpha so text keeps the theme's contrast in both themes (dark: L 0.36, light: L ≈ 0.9 before the backdrop shows through).
+- Not done: dispersion and refraction for `LiquidGlassGroup` (the merged sheet has no lens at all); per-pane rim colours.

@@ -5,12 +5,18 @@ import { cn } from "cn";
 import * as React from "react";
 
 import {
+  channelScales,
   displacementPixels,
   gooeyMasks,
+  lensBezel,
+  lightFromAngle,
   luminance,
   nextTone,
+  tuned,
+  tuningVars,
   type GlassRect,
   type GlassTone,
+  type GlassTuning,
 } from "@/lib/glass-optics";
 
 const REDUCED_TRANSPARENCY =
@@ -20,8 +26,6 @@ const BLUR_SCALE = { clear: 0.5, regular: 1, thick: 2 } as const;
 // the lens needs a clearer pane than plain frost or the bent backdrop blurs away
 const LENS_BLUR = 0.45;
 const DEFAULT_BLUR = 14;
-const MAX_BEZEL = 28;
-const MIN_BEZEL = 8;
 // rim shift = scale / 2 = 1.2 × bezel; measured on the playground stripes, text stays legible
 const LENS_STRENGTH = 2.4;
 const GROUP_PAD = 16;
@@ -45,20 +49,23 @@ type Lens = {
   height: number;
   blur: number;
   scale: number;
+  dispersion: number;
 };
 
-function buildLens(el: HTMLElement, material: Material): Lens | null {
+type LensShape = Pick<GlassTuning, "bezel" | "strength" | "dispersion">;
+
+function buildLens(
+  el: HTMLElement,
+  material: Material,
+  shape: LensShape
+): Lens | null {
   const width = el.offsetWidth;
   const height = el.offsetHeight;
   const ctx = document.createElement("canvas").getContext("2d");
   if (!width || !height || !ctx) return null;
   const style = getComputedStyle(el);
   const radius = parseFloat(style.borderTopLeftRadius) || 0;
-  const bezel = Math.min(
-    MAX_BEZEL,
-    Math.max(MIN_BEZEL, radius * 0.8),
-    Math.min(width, height) / 2
-  );
+  const bezel = lensBezel(radius, width, height, shape.bezel);
   ctx.canvas.width = width;
   ctx.canvas.height = height;
   ctx.putImageData(
@@ -79,18 +86,28 @@ function buildLens(el: HTMLElement, material: Material): Lens | null {
     width,
     height,
     blur,
-    scale: bezel * LENS_STRENGTH,
+    scale: bezel * (tuned("strength", shape.strength) ?? LENS_STRENGTH),
+    dispersion: tuned("dispersion", shape.dispersion) ?? 0,
   };
 }
 
-function useLens(el: HTMLElement | null, enabled: boolean, material: Material) {
+function useLens(
+  el: HTMLElement | null,
+  enabled: boolean,
+  material: Material,
+  { bezel, strength, dispersion, blur }: LensShape & Pick<GlassTuning, "blur">
+) {
   const [lens, setLens] = React.useState<Lens | null>(null);
   React.useEffect(() => {
     if (!enabled || !el || !supportsLens()) return;
     let frame = 0;
     const build = () => {
       frame = 0;
-      setLens(matches(REDUCED_TRANSPARENCY) ? null : buildLens(el, material));
+      setLens(
+        matches(REDUCED_TRANSPARENCY)
+          ? null
+          : buildLens(el, material, { bezel, strength, dispersion })
+      );
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(build);
@@ -103,15 +120,33 @@ function useLens(el: HTMLElement | null, enabled: boolean, material: Material) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       query.removeEventListener("change", schedule);
-      setLens(null);
     };
-  }, [el, enabled, material]);
-  return lens;
+    // blur is read back from the computed --glass-blur, so a new value must rebuild
+  }, [el, enabled, material, bezel, strength, dispersion, blur]);
+  // the old lens stays up until the rebuild lands; nulling it would flash full frost for a frame on every prop change
+  return enabled && el ? lens : null;
 }
 
-function useSpecular(el: HTMLElement | null, enabled: boolean) {
+function useLight(
+  el: HTMLElement | null,
+  follow: boolean,
+  angle: number | undefined
+) {
   React.useEffect(() => {
-    if (!enabled || !el || matches(REDUCED_MOTION)) return;
+    if (!el) return;
+    const fixed =
+      angle !== undefined && Number.isFinite(angle)
+        ? lightFromAngle(angle)
+        : null;
+    const names = ["x", "y"].flatMap(n => [
+      `--glass-light-${n}`,
+      `--glass-rim-${n}`,
+    ]);
+    const clear = () => names.forEach(n => el.style.removeProperty(n));
+    if (fixed)
+      Object.entries(fixed).forEach(([k, v]) => el.style.setProperty(k, v));
+    // only clear what this hook wrote: vars passed through `style` must survive
+    if (!follow || matches(REDUCED_MOTION)) return fixed ? clear : undefined;
     let frame = 0;
     let light: [number, number] | null = null;
     const apply = () => {
@@ -156,12 +191,9 @@ function useSpecular(el: HTMLElement | null, enabled: boolean) {
       cancelAnimationFrame(frame);
       window.removeEventListener("pointermove", onPointer);
       window.removeEventListener("deviceorientation", onTilt);
-      for (const name of ["x", "y"]) {
-        el.style.removeProperty(`--glass-light-${name}`);
-        el.style.removeProperty(`--glass-rim-${name}`);
-      }
+      clear();
     };
-  }, [el, enabled]);
+  }, [el, follow, angle]);
 }
 
 const colorCache = new Map<string, number[]>();
@@ -252,12 +284,86 @@ function useAdaptiveTone(el: HTMLElement | null, enabled: boolean) {
   }, [el, enabled]);
 }
 
-type LiquidGlassOptions = {
+type LiquidGlassOptions = GlassTuning & {
   material?: Material;
   refraction?: boolean;
   specular?: boolean;
   adaptive?: boolean;
+  /** Where the light comes from in degrees (0 = top, clockwise); the pointer still moves it while `specular` is on. */
+  lightAngle?: number;
 };
+
+const CHANNELS = [
+  { name: "r", matrix: "1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" },
+  { name: "g", matrix: "0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" },
+  { name: "b", matrix: "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" },
+] as const;
+
+function LensFilter({ id, lens }: { id: string; lens: Lens }) {
+  const displace = (scale: number, result?: string) => (
+    <feDisplacementMap
+      in="blur"
+      in2="map"
+      scale={scale}
+      xChannelSelector="R"
+      yChannelSelector="G"
+      result={result}
+    />
+  );
+  const scales = channelScales(lens.scale, lens.dispersion);
+  return (
+    <svg
+      aria-hidden
+      width="0"
+      height="0"
+      className="pointer-events-none absolute"
+    >
+      <filter
+        id={id}
+        x="0"
+        y="0"
+        width={lens.width}
+        height={lens.height}
+        filterUnits="userSpaceOnUse"
+        colorInterpolationFilters="sRGB"
+      >
+        <feGaussianBlur
+          in="SourceGraphic"
+          stdDeviation={lens.blur}
+          result="blur"
+        />
+        <feImage
+          href={lens.map}
+          x="0"
+          y="0"
+          width={lens.width}
+          height={lens.height}
+          preserveAspectRatio="none"
+          result="map"
+        />
+        {lens.dispersion > 0 ? (
+          <>
+            {CHANNELS.map(({ name, matrix }, i) => (
+              <React.Fragment key={name}>
+                {displace(scales[i], `${name}-shift`)}
+                <feColorMatrix
+                  in={`${name}-shift`}
+                  values={matrix}
+                  result={name}
+                />
+              </React.Fragment>
+            ))}
+            {/* screen adds the channels: each layer is zero in the other two. Exact on an opaque backdrop; a translucent one comes out slightly more opaque */}
+            <feBlend in="r" in2="g" mode="screen" result="rg" />
+            <feBlend in="rg" in2="b" mode="screen" />
+          </>
+        ) : (
+          displace(lens.scale)
+        )}
+      </filter>
+    </svg>
+  );
+}
 
 /** Attach lensing, moving light and adaptive tint to any element that already has a glass* class. */
 function useLiquidGlass<T extends HTMLElement>({
@@ -265,59 +371,31 @@ function useLiquidGlass<T extends HTMLElement>({
   refraction = true,
   specular = true,
   adaptive = false,
+  lightAngle,
+  strength,
+  bezel,
+  dispersion,
+  ...tuning
 }: LiquidGlassOptions = {}) {
   // state, not useRef: a `render` prop that swaps the element must re-run the effects on the new node
   const [node, ref] = React.useState<T | null>(null);
   const id = `liquid-lens-${React.useId().replace(/[^\w-]/g, "")}`;
-  const lens = useLens(node, refraction, material);
-  useSpecular(node, specular);
+  const lens = useLens(node, refraction, material, {
+    bezel,
+    strength,
+    dispersion,
+    blur: tuning.blur,
+  });
+  useLight(node, specular, lightAngle);
   useAdaptiveTone(node, adaptive);
   const backdrop = `url(#${id}) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))`;
+  const vars = tuningVars(material, tuning) as React.CSSProperties;
   return {
     ref,
     style: lens
-      ? { backdropFilter: backdrop, WebkitBackdropFilter: backdrop }
-      : undefined,
-    filter: lens ? (
-      <svg
-        aria-hidden
-        width="0"
-        height="0"
-        className="pointer-events-none absolute"
-      >
-        <filter
-          id={id}
-          x="0"
-          y="0"
-          width={lens.width}
-          height={lens.height}
-          filterUnits="userSpaceOnUse"
-          colorInterpolationFilters="sRGB"
-        >
-          <feGaussianBlur
-            in="SourceGraphic"
-            stdDeviation={lens.blur}
-            result="blur"
-          />
-          <feImage
-            href={lens.map}
-            x="0"
-            y="0"
-            width={lens.width}
-            height={lens.height}
-            preserveAspectRatio="none"
-            result="map"
-          />
-          <feDisplacementMap
-            in="blur"
-            in2="map"
-            scale={lens.scale}
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-      </svg>
-    ) : null,
+      ? { ...vars, backdropFilter: backdrop, WebkitBackdropFilter: backdrop }
+      : vars,
+    filter: lens ? <LensFilter id={id} lens={lens} /> : null,
   };
 }
 
@@ -345,6 +423,15 @@ function LiquidGlass({
   refraction,
   specular,
   adaptive,
+  lightAngle,
+  strength,
+  bezel,
+  dispersion,
+  blur,
+  saturate,
+  brightness,
+  tint,
+  shine,
   render,
   children,
   style,
@@ -355,6 +442,15 @@ function LiquidGlass({
     refraction,
     specular,
     adaptive,
+    lightAngle,
+    strength,
+    bezel,
+    dispersion,
+    blur,
+    saturate,
+    brightness,
+    tint,
+    shine,
   });
   return useRender({
     defaultTagName: "div",
