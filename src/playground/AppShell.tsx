@@ -3,6 +3,8 @@ import { LayersIcon, MoonIcon, SunIcon } from "lucide-react";
 import type { FC, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
+import { Link } from "../docs/router";
+
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -10,7 +12,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export type NavEntry = { id: string; label: string; group: string };
+export type NavEntry = {
+  id: string;
+  label: string;
+  group: string;
+  href: string;
+};
 
 const groupsOf = (nav: readonly NavEntry[]) =>
   [...new Set(nav.map(item => item.group))].map(group => ({
@@ -47,7 +54,10 @@ const ThemeToggle: FC = () => {
 };
 
 const Brand: FC = () => (
-  <div className="flex items-center gap-2.5">
+  <Link
+    href="/"
+    className="flex items-center gap-2.5 rounded-xl outline-none focus-visible:ring-3 focus-visible:ring-ring"
+  >
     <span className="grid size-8 place-items-center rounded-[10px] bg-primary text-primary-foreground shadow-[inset_1px_1px_0_rgb(255_255_255/0.35)]">
       <LayersIcon className="size-4" />
     </span>
@@ -55,38 +65,18 @@ const Brand: FC = () => (
       <p className="text-sm font-semibold tracking-[-0.01em]">glass-ui</p>
       <p className="text-xs text-muted-foreground">Liquid Glass registry</p>
     </div>
-  </div>
+  </Link>
 );
 
 const LIFT = "bg-card text-primary shadow-lift dark:bg-[oklch(1_0_0/0.16)]";
 
-const ACTIVE_BAND = "-30% 0px -65% 0px";
-
-const useActiveSection = (ids: string) => {
-  const [active, setActive] = useState("");
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        const hit = entries.find(entry => entry.isIntersecting);
-        if (hit) setActive(hit.target.id);
-      },
-      { rootMargin: ACTIVE_BAND }
-    );
-    for (const id of ids.split(" ")) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
-  }, [ids]);
-
-  return active;
+type ShellProps = {
+  nav: readonly NavEntry[];
+  active: string;
+  children: ReactNode;
 };
 
-type ShellProps = { nav: readonly NavEntry[]; children: ReactNode };
-
-export const AppShell: FC<ShellProps> = ({ nav, children }) => {
-  const active = useActiveSection(nav.map(item => item.id).join(" "));
+export const AppShell: FC<ShellProps> = ({ nav, active, children }) => {
   const chipsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -98,14 +88,14 @@ export const AppShell: FC<ShellProps> = ({ nav, children }) => {
   return (
     <div className="min-h-svh glass-backdrop text-foreground">
       <aside
-        aria-label="Component index"
+        aria-label="Docs index"
         className="fixed inset-y-3 left-3 z-40 hidden w-60 flex-col rounded-[28px] glass p-3 md:flex"
       >
         <div className="px-2 pt-1 pb-5">
           <Brand />
         </div>
         <nav
-          aria-label="Components"
+          aria-label="Docs"
           className="-mx-1 grid [scrollbar-width:thin] gap-4 overflow-y-auto px-1 pb-2"
         >
           {groupsOf(nav).map(({ group, items }) => (
@@ -114,10 +104,10 @@ export const AppShell: FC<ShellProps> = ({ nav, children }) => {
                 {group}
               </p>
               {items.map(item => (
-                <a
+                <Link
                   key={item.id}
-                  href={`#${item.id}`}
-                  aria-current={item.id === active ? "location" : undefined}
+                  href={item.href}
+                  aria-current={item.id === active ? "page" : undefined}
                   className={cn(
                     "flex h-8 items-center rounded-xl px-3 text-[0.8125rem] font-medium text-foreground/80 transition-colors outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring",
                     item.id === active &&
@@ -125,13 +115,18 @@ export const AppShell: FC<ShellProps> = ({ nav, children }) => {
                   )}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
           ))}
         </nav>
         <div className="mt-auto flex items-center justify-between px-2 pt-3">
-          <code className="text-xs text-muted-foreground">npx shadcn add</code>
+          <a
+            href="https://github.com/NTCHz/glass-ui"
+            className="text-xs font-medium text-muted-foreground hover:text-foreground"
+          >
+            GitHub
+          </a>
           <ThemeToggle />
         </div>
       </aside>
@@ -143,22 +138,22 @@ export const AppShell: FC<ShellProps> = ({ nav, children }) => {
         </div>
         <nav
           ref={chipsRef}
-          aria-label="Jump to component"
+          aria-label="Docs pages"
           className="-mx-3 mt-2 flex [scrollbar-width:none] gap-1.5 overflow-x-auto px-3 pb-1"
         >
           {nav.map(item => (
-            <a
+            <Link
               key={item.id}
-              href={`#${item.id}`}
+              href={item.href}
               data-id={item.id}
-              aria-current={item.id === active ? "location" : undefined}
+              aria-current={item.id === active ? "page" : undefined}
               className={cn(
                 "h-9 shrink-0 rounded-full px-3.5 text-[0.8125rem] leading-9 font-medium whitespace-nowrap outline-none focus-visible:ring-3 focus-visible:ring-ring",
                 item.id === active ? LIFT : "glass-clear"
               )}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </header>

@@ -65,7 +65,7 @@ Every component in shadcn’s base registry (64), plus `theme`. `form` is omitte
 
 `accordion` · `alert` · `alert-dialog` · `aspect-ratio` · `attachment` · `avatar` · `badge` · `breadcrumb` · `bubble` · `button` · `button-group` · `calendar` · `card` · `carousel` · `chart` · `checkbox` · `code-block` · `collapsible` · `combobox` · `command` · `context-menu` · `dialog` · `direction` · `drawer` · `dropdown-menu` · `empty` · `field` · `hover-card` · `input` · `input-group` · `input-otp` · `item` · `liquid-glass` · `kbd` · `label` · `marker` · `menubar` · `message` · `message-scroller` · `native-select` · `navigation-menu` · `pagination` · `popover` · `progress` · `questionnaire` · `radio-group` · `resizable` · `scroll-area` · `select` · `separator` · `sheet` · `sidebar` · `skeleton` · `slider` · `sonner` · `spinner` · `switch` · `table` · `tabs` · `textarea` · `toast` · `toggle` · `toggle-group` · `tooltip` · `trace`
 
-The playground (`src/playground/`) is a one-page catalog: a section per component, generic sample data.
+Docs site: https://glass.shipfold.com — a page per entry in `src/docs/catalog.ts` (Preview / Code from the demo in `src/playground/sections/`, install command, imports, API links). Add a demo there and a catalog entry to get a page.
 
 ## Develop
 
