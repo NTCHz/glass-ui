@@ -86,7 +86,7 @@ const DocSection: FC<SectionProps> = ({ title, note, children }) => {
 
   return (
     <article>
-      <PageTitle eyebrow={entry.group} title={title} lead={note} />
+      <PageTitle title={title} lead={note} />
 
       <Tabs defaultValue="preview" className="gap-3">
         <TabsList variant="line">

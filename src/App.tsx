@@ -1,3 +1,5 @@
+import type { LucideIcon } from "lucide-react";
+import { BookOpenIcon, DownloadIcon, PaletteIcon } from "lucide-react";
 import type { FC } from "react";
 import { useEffect } from "react";
 
@@ -11,10 +13,17 @@ import { LINK, P, PageTitle } from "./docs/Prose";
 import { Link, usePath } from "./docs/router";
 import { AppShell, type NavEntry } from "./playground/AppShell";
 
+const GUIDE_ICONS: Record<string, LucideIcon> = {
+  introduction: BookOpenIcon,
+  installation: DownloadIcon,
+  theming: PaletteIcon,
+};
+
 const NAV: readonly NavEntry[] = [
   ...GUIDES.map(guide => ({
     ...guide,
     group: "Getting started",
+    icon: GUIDE_ICONS[guide.id],
     href: guide.id === "introduction" ? "/" : `/docs/${guide.id}`,
   })),
   ...COMPONENTS.map(({ id, label, group }) => ({
@@ -73,7 +82,6 @@ const useLegacyHashRedirect = () =>
 const NotFound: FC = () => (
   <article>
     <PageTitle
-      eyebrow="404"
       title="Page not found"
       lead="There is no docs page at this address."
     />

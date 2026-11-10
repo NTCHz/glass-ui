@@ -1,19 +1,15 @@
 import { cn } from "cn";
 import type { ComponentProps, FC, ReactNode } from "react";
 
-export const PageTitle: FC<{
-  eyebrow: string;
-  title: string;
-  lead: string;
-}> = ({ eyebrow, title, lead }) => (
-  <header className="pt-6 pb-8 md:pt-10">
-    <p className="text-[0.8125rem] font-medium text-muted-foreground">
-      {eyebrow}
-    </p>
-    <h1 className="mt-1 font-heading text-[2rem] leading-tight font-bold tracking-[-0.03em]">
+export const PageTitle: FC<{ title: string; lead: string }> = ({
+  title,
+  lead,
+}) => (
+  <header className="pt-6 pb-8 md:pt-12">
+    <h1 className="font-heading text-[2rem] leading-tight font-bold tracking-[-0.03em] text-balance">
       {title}
     </h1>
-    <p className="mt-2 max-w-2xl text-[0.9375rem] text-muted-foreground">
+    <p className="mt-2 max-w-2xl text-[0.9375rem] text-pretty text-muted-foreground">
       {lead}
     </p>
   </header>

@@ -16,7 +16,6 @@ const groupsOf = () =>
 export const Introduction: FC = () => (
   <article>
     <PageTitle
-      eyebrow="Getting started"
       title="Introduction"
       lead="Every shadcn component, restyled as Apple Liquid Glass and shipped as a shadcn registry. The CLI copies the source into your project, so the code is yours to change."
     />
@@ -96,7 +95,6 @@ export const Introduction: FC = () => (
 export const Installation: FC = () => (
   <article>
     <PageTitle
-      eyebrow="Getting started"
       title="Installation"
       lead="glass-ui is a shadcn GitHub registry, not an npm package. The shadcn CLI reads registry.json from the repo and writes the files into your project."
     />
@@ -195,7 +193,6 @@ const TOKENS = [
 export const Theming: FC = () => (
   <article>
     <PageTitle
-      eyebrow="Getting started"
       title="Theming"
       lead="The theme item puts tokens and glass utilities into your CSS. Change a value in :root or .dark and every component follows."
     />

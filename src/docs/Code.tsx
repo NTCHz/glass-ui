@@ -52,7 +52,6 @@ export const Code: FC<CodeProps> = ({
 const RUNNERS = [
   { id: "pnpm", run: "pnpx" },
   { id: "npm", run: "npx" },
-  { id: "yarn", run: "yarn dlx" },
   { id: "bun", run: "bunx" },
 ] as const;
 
