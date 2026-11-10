@@ -104,3 +104,12 @@ What separates Apple's Liquid Glass from frosted glass, and how much of it the w
 - Did not help: `will-change`, removing `overflow-hidden`, blur on a child layer, `contain: paint`, layer-promoting the stage, dropping `background-attachment: fixed`, removing the hover effect (any repaint triggers it).
 - Fix: `glass-stage` on the container that holds the glass elements. It gives the container a 0.1px backdrop blur, which makes Chromium grow the damage rectangle to the whole container, so no glass inside is ever redrawn in part. 0/16 captured frames show a change in a non-hovered card (6/16 without it, worst column diff 18.8 → 1.0).
 - Cost and limits: the whole stage redraws when anything inside it changes, and (like any `backdrop-filter`) it becomes the containing block for `position: fixed` descendants, so it goes on a local container, not on the page root. Give the stage an opaque background.
+
+## 2026-11-10 — docs audit (13/20): dark primary text, touch, landmarks, bundle
+
+- Dark `--primary` (L 0.56) is a fill colour, not a text colour: as text it measures 3.98:1 on the page ground (L 0.17) and 3.69:1 on `--card` (L 0.21) — fails AA. Text that used it now switches to `--accent-foreground` (L 0.78) in dark: 9.39:1 on the page, 8.71:1 on card. Applied to `button` `link`, link hover in `empty` / `field` / `item`, and the `sidebar` menu badge on the active row (Avatar did this in the earlier audit). Light keeps `--primary` (5.16:1 for the link button on the page).
+- Docs sidebar: the current page keeps `--foreground` text (9.65:1 on the dark active pill, was 2.41:1 in primary) and marks itself with the pill, the primary line segment and a primary icon — the same pattern as the kit's `Sidebar`.
+- `tabs` `line` variant had no height, so triggers were 20px tall (below WCAG 2.5.8's 24px). Now 32px, 44px under `pointer-coarse`.
+- Docs: nav links, icon buttons and index capsules grow to 44px under `pointer-coarse`; skip link to `#content`; one `nav` landmark instead of a region per group; search result count announced through `role="status"`.
+- Demos load per page (`React.lazy` over the section files): entry chunk 508KB → 167KB gzip. A chunk that fails (offline, stale hash after a redeploy) shows a reload prompt inside the page instead of unmounting the app, and is dropped from the cache so the next visit retries.
+- Not verified: `pointer-coarse` sizes on a real touch device (Chromium on macOS reports a fine pointer even under mobile emulation).

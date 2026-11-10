@@ -30,7 +30,7 @@ const tabsListVariants = cva(
         default:
           "rounded-full bg-secondary p-0.5 group-data-horizontal/tabs:h-9",
         glass: "rounded-full glass p-1 group-data-horizontal/tabs:h-11",
-        line: "gap-1 bg-transparent",
+        line: "gap-1 bg-transparent group-data-horizontal/tabs:h-8 pointer-coarse:group-data-horizontal/tabs:h-11",
       },
     },
     defaultVariants: {

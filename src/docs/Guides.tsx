@@ -67,32 +67,37 @@ export const Introduction: FC = () => (
     <P>{COMPONENTS.length} pages, grouped the way you reach for them.</P>
     <div className="mt-4 divide-y divide-border overflow-hidden rounded-[28px] border bg-card">
       {groupsOf().map(({ group, entries }) => (
-        <section
+        <div
           key={group}
-          aria-label={group}
           className="grid gap-3 px-5 py-4 sm:grid-cols-[9.5rem_minmax(0,1fr)] sm:gap-6"
         >
           <p className="flex items-baseline gap-2 sm:flex-col sm:gap-0.5 sm:pt-1.5">
-            <span className="text-[0.875rem] font-semibold tracking-[-0.01em]">
+            <span
+              id={`index-${group.toLowerCase().replace(/\W+/g, "-")}`}
+              className="text-[0.875rem] font-semibold tracking-[-0.01em]"
+            >
               {group}
             </span>
             <span className="text-xs text-muted-foreground tabular-nums">
               {entries.length} {entries.length === 1 ? "page" : "pages"}
             </span>
           </p>
-          <ul className="flex flex-wrap gap-2">
+          <ul
+            aria-labelledby={`index-${group.toLowerCase().replace(/\W+/g, "-")}`}
+            className="flex flex-wrap gap-2"
+          >
             {entries.map(entry => (
               <li key={entry.id}>
                 <Link
                   href={`/docs/components/${entry.id}`}
-                  className="flex h-8 items-center rounded-full bg-secondary px-3.5 text-[0.8125rem] font-medium text-foreground/85 transition-[background-color,color,transform] duration-200 outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.97]"
+                  className="flex h-8 items-center rounded-full bg-secondary px-3.5 text-[0.8125rem] font-medium text-foreground/85 transition-[background-color,color,transform] duration-200 outline-none hover:bg-accent hover:text-accent-foreground focus-visible:ring-3 focus-visible:ring-ring active:scale-[0.97] pointer-coarse:h-11"
                 >
                   {entry.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </section>
+        </div>
       ))}
     </div>
 

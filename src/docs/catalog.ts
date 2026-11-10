@@ -1,4 +1,5 @@
-import type { FC } from "react";
+import type { FC, LazyExoticComponent } from "react";
+import { lazy } from "react";
 
 export type DemoFile =
   | "Assistant"
@@ -390,10 +391,13 @@ export const COMPONENTS: readonly ComponentEntry[] = [
 
 export const itemsOf = (entry: ComponentEntry) => entry.items ?? [entry.id];
 
+// lazy: a page loads only the section file its demo lives in
 const demoModules = import.meta.glob<Record<string, unknown>>(
-  "../playground/sections/*.tsx",
-  { eager: true }
+  "../playground/sections/*.tsx"
 );
+
+// one lazy component per demo, so its identity survives re-renders
+const lazyDemos = new Map<string, LazyExoticComponent<FC>>();
 
 const demoSources = import.meta.glob<string>("../playground/sections/*.tsx", {
   query: "?raw",
@@ -407,8 +411,26 @@ const uiSources = import.meta.glob<string>("../components/ui/*.tsx", {
 
 const sectionPath = (file: DemoFile) => `../playground/sections/${file}.tsx`;
 
-export const demoOf = (entry: ComponentEntry) =>
-  demoModules[sectionPath(entry.file)]?.[entry.demo] as FC | undefined;
+export const demoOf = (entry: ComponentEntry) => {
+  const key = `${entry.file}#${entry.demo}`;
+  const cached = lazyDemos.get(key);
+  if (cached) return cached;
+  const load = demoModules[sectionPath(entry.file)];
+  if (!load) return undefined;
+  const Demo = lazy(async () => {
+    // a failed chunk (offline, or a stale hash after a redeploy) must not stay cached
+    const module = await load().catch((error: unknown) => {
+      lazyDemos.delete(key);
+      throw error;
+    });
+    const Component = module[entry.demo];
+    if (typeof Component !== "function")
+      throw new Error(`${entry.file}.tsx has no export ${entry.demo}`);
+    return { default: Component as FC };
+  });
+  lazyDemos.set(key, Demo);
+  return Demo;
+};
 
 export const loadDemoSource = (entry: ComponentEntry) =>
   demoSources[sectionPath(entry.file)]?.() ?? Promise.resolve("");

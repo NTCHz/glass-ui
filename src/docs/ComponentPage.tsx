@@ -1,13 +1,16 @@
 import { ArrowLeftIcon, ArrowRightIcon, ExternalLinkIcon } from "lucide-react";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import {
+  Component,
   createContext,
   createElement,
+  Suspense,
   useContext,
   useEffect,
   useState,
 } from "react";
 
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { SectionLayout, type SectionProps } from "../playground/Section";
@@ -199,6 +202,37 @@ const PrevNext: FC<{ entry: ComponentEntry }> = ({ entry }) => {
   );
 };
 
+type BoundaryProps = { entry: ComponentEntry; children: ReactNode };
+
+// a demo that fails to load takes down its page, not the shell
+class DemoBoundary extends Component<BoundaryProps, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <div role="alert">
+        <PageTitle
+          title={this.props.entry.label}
+          lead="This demo failed to load. The site may have been updated since you opened it."
+        />
+        <Button onClick={() => window.location.reload()}>Reload page</Button>
+      </div>
+    );
+  }
+}
+
+const DemoLoading: FC<{ entry: ComponentEntry }> = ({ entry }) => (
+  <div aria-busy="true">
+    <PageTitle title={entry.label} lead="Loading the demo…" />
+    <div className="min-h-72 rounded-[28px] border bg-background/40" />
+  </div>
+);
+
 export const ComponentPage: FC<{ entry: ComponentEntry }> = ({ entry }) => {
   const loaded = useEntrySources(entry);
   // demos are module exports looked up by name, not components made during render
@@ -207,7 +241,11 @@ export const ComponentPage: FC<{ entry: ComponentEntry }> = ({ entry }) => {
   return (
     <PageContext.Provider value={{ entry, loaded }}>
       <SectionLayout.Provider value={DocSection}>
-        {createElement(Demo)}
+        <DemoBoundary entry={entry}>
+          <Suspense fallback={<DemoLoading entry={entry} />}>
+            {createElement(Demo)}
+          </Suspense>
+        </DemoBoundary>
       </SectionLayout.Provider>
       <PrevNext entry={entry} />
     </PageContext.Provider>

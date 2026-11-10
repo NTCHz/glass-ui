@@ -8,7 +8,7 @@ import {
   SunIcon,
 } from "lucide-react";
 import type { FC, ReactNode, RefObject } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -47,6 +47,8 @@ const groupsOf = (nav: readonly NavEntry[]) =>
     items: nav.filter(item => item.group === group),
   }));
 
+const slug = (text: string) => text.toLowerCase().replace(/\W+/g, "-");
+
 const matches = (item: NavEntry, query: string) =>
   `${item.label} ${item.id}`.toLowerCase().includes(query.trim().toLowerCase());
 
@@ -66,6 +68,7 @@ const ThemeToggle: FC = () => {
           <Button
             variant="ghost"
             size="icon-sm"
+            className="pointer-coarse:size-11"
             aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
             onClick={() => setDark(d => !d)}
           />
@@ -103,7 +106,9 @@ const Brand: FC<{ compact?: boolean }> = ({ compact }) => (
   </Link>
 );
 
-const ACTIVE = "bg-card text-primary shadow-lift dark:bg-[oklch(1_0_0/0.14)]";
+// text stays foreground: --primary as text is 3.98:1 on the dark page (see DECISIONS.md)
+const ACTIVE =
+  "bg-card text-foreground shadow-lift dark:bg-[oklch(1_0_0/0.14)] [&_svg]:text-primary dark:[&_svg]:text-accent-foreground";
 
 // scroll only the nav list, never the page behind the fixed sidebar
 const keepInView = (list: HTMLElement | null, active: string) => {
@@ -129,6 +134,7 @@ const Nav: FC<NavProps> = ({ nav, active, searchRef, onNavigate }) => {
   const guides = shown.filter(item => item.icon);
   const components = shown.filter(item => !item.icon);
   const total = nav.filter(item => !item.icon).length;
+  const idPrefix = useId();
 
   useEffect(() => keepInView(listRef.current, active), [active]);
 
@@ -140,12 +146,12 @@ const Nav: FC<NavProps> = ({ nav, active, searchRef, onNavigate }) => {
 
   const linkClass = (id: string) =>
     cn(
-      "relative flex h-8 items-center gap-2.5 rounded-[10px] px-2.5 text-[0.8125rem] font-medium text-foreground/75 transition-colors outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring",
-      id === active && `${ACTIVE} hover:bg-card hover:text-primary`
+      "relative flex h-8 items-center gap-2.5 rounded-[10px] px-2.5 text-[0.8125rem] font-medium text-foreground/75 transition-colors outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring pointer-coarse:h-11",
+      id === active && `${ACTIVE} hover:bg-card hover:text-foreground`
     );
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <nav aria-label="Docs" className="flex min-h-0 flex-1 flex-col">
       <div className="px-1 pb-3">
         <InputGroup className="h-9 bg-secondary">
           <InputGroupAddon>
@@ -168,11 +174,16 @@ const Nav: FC<NavProps> = ({ nav, active, searchRef, onNavigate }) => {
             </InputGroupAddon>
           )}
         </InputGroup>
+        <p role="status" className="sr-only">
+          {query
+            ? `${shown.length} ${shown.length === 1 ? "page" : "pages"} match`
+            : ""}
+        </p>
       </div>
 
       <div
         ref={listRef}
-        className="-mx-1 min-h-0 flex-1 [scrollbar-width:thin] overflow-y-auto [mask-image:linear-gradient(to_bottom,transparent,black_12px,black_calc(100%-24px),transparent)] px-1 pb-4"
+        className="-mx-1 min-h-0 flex-1 [scrollbar-width:thin] overflow-y-auto [mask-image:linear-gradient(to_bottom,black_calc(100%-24px),transparent)] px-1 pb-4"
       >
         {guides.length > 0 && (
           <ul className="grid gap-0.5 pt-1">
@@ -203,11 +214,17 @@ const Nav: FC<NavProps> = ({ nav, active, searchRef, onNavigate }) => {
             </p>
             <div className="grid gap-4">
               {groupsOf(components).map(({ group, items }) => (
-                <section key={group} aria-label={group}>
-                  <p className="px-2.5 pb-1 text-xs font-medium text-muted-foreground">
+                <div key={group}>
+                  <p
+                    id={`${idPrefix}-${slug(group)}`}
+                    className="px-2.5 pb-1 text-xs font-medium text-muted-foreground"
+                  >
                     {group}
                   </p>
-                  <ul className="ml-3.5 grid gap-0.5 border-l border-border pl-2">
+                  <ul
+                    aria-labelledby={`${idPrefix}-${slug(group)}`}
+                    className="ml-3.5 grid gap-0.5 border-l border-border pl-2"
+                  >
                     {items.map(({ id, href, label }) => (
                       <li key={id}>
                         <Link
@@ -226,7 +243,7 @@ const Nav: FC<NavProps> = ({ nav, active, searchRef, onNavigate }) => {
                       </li>
                     ))}
                   </ul>
-                </section>
+                </div>
               ))}
             </div>
           </div>
@@ -238,7 +255,7 @@ const Nav: FC<NavProps> = ({ nav, active, searchRef, onNavigate }) => {
           </p>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 
@@ -246,7 +263,7 @@ const Footer: FC = () => (
   <div className="flex items-center justify-between border-t border-border px-1 pt-3">
     <a
       href={REPO}
-      className="flex h-8 items-center gap-2 rounded-[10px] px-2 text-[0.8125rem] font-medium text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring"
+      className="flex h-8 items-center gap-2 rounded-[10px] px-2 text-[0.8125rem] font-medium text-muted-foreground outline-none hover:bg-secondary hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring pointer-coarse:h-11"
     >
       <GitHubMark />
       GitHub
@@ -285,10 +302,13 @@ export const AppShell: FC<ShellProps> = ({ nav, active, children }) => {
 
   return (
     <div className="min-h-svh glass-backdrop text-foreground">
-      <aside
-        aria-label="Docs"
-        className="fixed inset-y-3 left-3 z-40 hidden w-64 flex-col rounded-[28px] glass p-3 md:flex"
+      <a
+        href="#content"
+        className="fixed top-3 left-3 z-50 -translate-y-16 rounded-full bg-card px-4 py-2 text-[0.8125rem] font-medium shadow-lift outline-none focus-visible:translate-y-0 focus-visible:ring-3 focus-visible:ring-ring"
       >
+        Skip to content
+      </a>
+      <aside className="fixed inset-y-3 left-3 z-40 hidden w-64 flex-col rounded-[28px] glass p-3 md:flex">
         <div className="px-1.5 pt-1 pb-4">
           <Brand />
         </div>
@@ -305,6 +325,7 @@ export const AppShell: FC<ShellProps> = ({ nav, active, children }) => {
           <Button
             variant="ghost"
             size="icon-sm"
+            className="pointer-coarse:size-11"
             aria-label="Open docs menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
@@ -336,7 +357,11 @@ export const AppShell: FC<ShellProps> = ({ nav, active, children }) => {
         </SheetContent>
       </Sheet>
 
-      <main className="px-4 pb-16 md:pr-8 md:pl-[18.5rem] lg:pl-[20rem]">
+      <main
+        id="content"
+        tabIndex={-1}
+        className="scroll-mt-20 px-4 pb-16 outline-none md:scroll-mt-0 md:pr-8 md:pl-[18.5rem] lg:pl-[20rem]"
+      >
         <div className="mx-auto max-w-4xl">{children}</div>
       </main>
     </div>
