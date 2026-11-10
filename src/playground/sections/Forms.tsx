@@ -241,33 +241,42 @@ export const InputGroupDemo: FC = () => (
   </Section>
 );
 
-export const InputOTPDemo: FC = () => (
-  <Section id="input-otp" title="Input OTP" note="Separate filled cells.">
-    <div className="grid gap-4">
-      <InputOTP maxLength={6} defaultValue="314" aria-label="Verification code">
-        <InputOTPGroup>
-          <InputOTPSlot index={0} />
-          <InputOTPSlot index={1} />
-          <InputOTPSlot index={2} />
-        </InputOTPGroup>
-        <InputOTPSeparator />
-        <InputOTPGroup>
-          <InputOTPSlot index={3} />
-          <InputOTPSlot index={4} />
-          <InputOTPSlot index={5} />
-        </InputOTPGroup>
-      </InputOTP>
-      <InputOTP maxLength={4} disabled aria-label="PIN (disabled)">
-        <InputOTPGroup>
-          <InputOTPSlot index={0} />
-          <InputOTPSlot index={1} />
-          <InputOTPSlot index={2} />
-          <InputOTPSlot index={3} />
-        </InputOTPGroup>
-      </InputOTP>
-    </div>
-  </Section>
-);
+export const InputOTPDemo: FC = () => {
+  // input-otp keeps its own value; a defaultValue reaches the <input> as well and React warns
+  const [code, setCode] = useState("314");
+  return (
+    <Section id="input-otp" title="Input OTP" note="Separate filled cells.">
+      <div className="grid justify-items-center gap-4">
+        <InputOTP
+          maxLength={6}
+          value={code}
+          onChange={setCode}
+          aria-label="Verification code"
+        >
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+        <InputOTP maxLength={4} disabled aria-label="PIN (disabled)">
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+        </InputOTP>
+      </div>
+    </Section>
+  );
+};
 
 export const FieldDemo: FC = () => (
   <Section

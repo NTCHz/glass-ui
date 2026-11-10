@@ -233,7 +233,7 @@ export const Progresses: FC = () => (
         <ProgressLabel>กำลังเตรียมไฟล์</ProgressLabel>
       </Progress>
     </div>
-    <div className="grid gap-3">
+    <div className="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-3 pt-2">
       <p className="flex items-center gap-2 text-[0.8125rem] text-muted-foreground">
         <Spinner />
         Loading messages…

@@ -84,7 +84,7 @@ const GitHubMark: FC = () => (
   </svg>
 );
 
-const Brand: FC = () => (
+const Brand: FC<{ compact?: boolean }> = ({ compact }) => (
   <Link
     href="/"
     className="flex items-center gap-2.5 rounded-xl outline-none focus-visible:ring-3 focus-visible:ring-ring"
@@ -94,9 +94,11 @@ const Brand: FC = () => (
     </span>
     <span className="grid leading-tight">
       <span className="text-sm font-semibold tracking-[-0.01em]">glass-ui</span>
-      <span className="text-xs text-muted-foreground">
-        Liquid Glass registry
-      </span>
+      {!compact && (
+        <span className="text-xs text-muted-foreground">
+          Liquid Glass registry
+        </span>
+      )}
     </span>
   </Link>
 );
@@ -296,8 +298,8 @@ export const AppShell: FC<ShellProps> = ({ nav, active, children }) => {
 
       <header className="sticky top-0 z-30 px-3 pt-3 pb-4 md:hidden">
         <div className="flex h-14 items-center gap-1 rounded-full glass pr-2 pl-4">
-          <Brand />
-          <span className="ml-auto max-w-[9rem] truncate text-[0.8125rem] font-medium text-muted-foreground">
+          <Brand compact />
+          <span className="ml-auto max-w-[55%] truncate text-[0.8125rem] font-medium text-muted-foreground">
             {current?.label}
           </span>
           <Button

@@ -67,15 +67,17 @@ function CommandDialog({
 }) {
   return (
     <Dialog {...props}>
-      <DialogHeader className="sr-only">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
-      </DialogHeader>
       <DialogContent
         className={cn("top-1/3 translate-y-0 overflow-hidden p-0", className)}
         showCloseButton={showCloseButton}
         overlayClassName="dark:bg-black/55"
       >
+        {/* inside the popup: Base UI's Dialog root renders nothing of its own, so a header
+            outside it is a stray heading on the page and never names the dialog */}
+        <DialogHeader className="sr-only">
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
         {children}
       </DialogContent>
     </Dialog>
