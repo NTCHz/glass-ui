@@ -59,7 +59,7 @@ npx shadcn@latest view NTCHz/glass-ui/sidebar
 
 - **โค้ดเป็นของคุณ** — แก้ใน `components/ui/*` ได้ตรงๆ ไม่ต้อง fork
 - **อัปเดต** — fix ใน glass-ui ไม่ไหลมาเอง; สั่ง `add` ซ้ำ (CLI ถามก่อนทับ) หรือ `--overwrite`. ถ้าแก้ไฟล์ไปแล้ว ให้ดู diff ก่อนทับ
-- **ล็อกเวอร์ชัน** — ต่อท้ายด้วย git tag: `NTCHz/glass-ui/button#v0.5.0`. ข้อควรรู้: ref ไม่ส่งต่อให้ dependency — `button#v0.5.0` ยังดึง `theme` จาก `main`. จะล็อกทั้งชุดให้ระบุ tag กับ theme ด้วย
+- **ล็อกเวอร์ชัน** — ต่อท้ายด้วย git tag: `NTCHz/glass-ui/button#v0.6.0`. ข้อควรรู้: ref ไม่ส่งต่อให้ dependency — `button#v0.6.0` ยังดึง `theme` จาก `main`. จะล็อกทั้งชุดให้ระบุ tag กับ theme ด้วย
 - **ปรับธีม** — แก้ค่าใน `:root` / `.dark` ของ CSS โปรเจกต์ (เช่น `--primary`, `--radius`, `--glass-blur`) ทุก component ตามทันที
 
 ## 5. กฎดีไซน์ย่อ

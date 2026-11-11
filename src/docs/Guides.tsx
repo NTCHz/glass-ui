@@ -171,11 +171,11 @@ export const Installation: FC = () => (
         first.
       </li>
       <li>
-        Pin to a release with a tag: <C>NTCHz/glass-ui/button#v0.5.0</C>. The
+        Pin to a release with a tag: <C>NTCHz/glass-ui/button#v0.6.0</C>. The
         tag is not passed on to dependencies, so pin <C>theme</C> too.
       </li>
     </UL>
-    <CommandTabs args="add NTCHz/glass-ui/theme#v0.5.0 NTCHz/glass-ui/button#v0.5.0" />
+    <CommandTabs args="add NTCHz/glass-ui/theme#v0.6.0 NTCHz/glass-ui/button#v0.6.0" />
   </article>
 );
 
