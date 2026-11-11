@@ -1,6 +1,7 @@
 import { cn } from "cn";
 import * as React from "react";
 
+import { displacementMapUrl } from "@/lib/glass-dom";
 import {
   CHANNEL_MATRICES,
   channelScales,
@@ -10,8 +11,8 @@ import {
   type GlassTuning,
 } from "@/lib/glass-optics";
 
-// gentler than LiquidGlass's 2.4: this bends sharp content, not a blurred backdrop, and text breaks up past ~1.2
-const LENS_STRENGTH = 1.2;
+// the rim shift grows at strength × t px per px, so past 1 the rim folds sharp text back on itself (1.2 scribbled the capsule ends)
+const LENS_STRENGTH = 0.9;
 
 type LensRect = {
   x: number;
@@ -28,20 +29,6 @@ type LiquidLensProps = React.ComponentProps<"div"> &
     lens: LensRect;
     lensClassName?: string;
   };
-
-// One map the size of the content, neutral except under the lens. Positioning the lens with
-// feImage x/y instead breaks in WebKit, which reads primitive coordinates from the page origin
-// rather than the element and then drops the whole filter.
-function mapUrl(size: [number, number], lens: ImageData, x: number, y: number) {
-  const ctx = document.createElement("canvas").getContext("2d");
-  if (!ctx) return null;
-  ctx.canvas.width = size[0];
-  ctx.canvas.height = size[1];
-  ctx.fillStyle = "rgb(128 128 128)";
-  ctx.fillRect(0, 0, size[0], size[1]);
-  ctx.putImageData(lens, x, y);
-  return ctx.canvas.toDataURL();
-}
 
 const noop = () => () => {};
 
@@ -104,7 +91,10 @@ function LiquidLens({
   const x = Math.round(lens.x);
   const y = Math.round(lens.y);
   const map = React.useMemo(
-    () => (pixels && box ? mapUrl([box[0], box[1]], pixels, x, y) : null),
+    () =>
+      pixels && box
+        ? displacementMapUrl(box[0], box[1], [{ pixels, x, y }])
+        : null,
     [pixels, box, x, y]
   );
   const base = React.useId().replace(/[^\w-]/g, "");
@@ -112,8 +102,10 @@ function LiquidLens({
   const id = [base, x, y, size?.join("x"), width, height, radius, rim]
     .join("-")
     .replace(/[^\w-]/g, "_");
-  const scale = rim * (tuned("strength", strength) ?? LENS_STRENGTH);
   const spread = tuned("dispersion", dispersion) ?? 0;
+  // blue bends (1 + spread)× more, so the default backs off to keep that pass from folding too
+  const scale =
+    rim * (tuned("strength", strength) ?? LENS_STRENGTH / (1 + spread));
 
   return (
     <div

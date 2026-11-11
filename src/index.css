@@ -274,9 +274,13 @@
     var(--glass-sheen) 0%,
     transparent 55%
   );
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 0.5))
+  -webkit-backdrop-filter: blur(
+      calc(var(--glass-blur) * 0.5 * var(--glass-lens-blur, 1))
+    )
     saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
-  backdrop-filter: blur(calc(var(--glass-blur) * 0.5))
+  backdrop-filter: blur(
+      calc(var(--glass-blur) * 0.5 * var(--glass-lens-blur, 1))
+    )
     saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
   --tw-inset-shadow:
     inset calc(var(--glass-rim-x, 1) * 1px) calc(var(--glass-rim-y, 1) * 1px) 0
@@ -303,10 +307,12 @@
     var(--glass-sheen) 0%,
     transparent 55%
   );
-  -webkit-backdrop-filter: blur(var(--glass-blur))
+  -webkit-backdrop-filter: blur(
+      calc(var(--glass-blur) * var(--glass-lens-blur, 1))
+    )
     saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
-    brightness(var(--glass-brightness));
+  backdrop-filter: blur(calc(var(--glass-blur) * var(--glass-lens-blur, 1)))
+    saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
   --tw-inset-shadow:
     inset calc(var(--glass-rim-x, 1) * 1px) calc(var(--glass-rim-y, 1) * 1px) 0
       0 var(--glass-rim-hi),
@@ -333,9 +339,11 @@
     var(--glass-sheen) 0%,
     transparent 55%
   );
-  -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 2))
+  -webkit-backdrop-filter: blur(
+      calc(var(--glass-blur) * 2 * var(--glass-lens-blur, 1))
+    )
     saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
-  backdrop-filter: blur(calc(var(--glass-blur) * 2))
+  backdrop-filter: blur(calc(var(--glass-blur) * 2 * var(--glass-lens-blur, 1)))
     saturate(var(--glass-saturate)) brightness(var(--glass-brightness));
   --tw-inset-shadow:
     inset calc(var(--glass-rim-x, 1) * 1px) calc(var(--glass-rim-y, 1) * 1px) 0

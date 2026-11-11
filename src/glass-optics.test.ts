@@ -4,14 +4,19 @@ import { describe, expect, it } from "vitest";
 import {
   channelScales,
   displacementPixels,
+  dockScale,
   elasticPose,
   gooeyMasks,
   lensBezel,
   lightFromAngle,
   luminance,
+  motionStretch,
   nextTone,
+  pressImpulse,
   REST_POSE,
-  settlePose,
+  REST_SPRING,
+  scaleDisplacement,
+  springStep,
   tuned,
   tuningVars,
 } from "./lib/glass-optics";
@@ -255,14 +260,69 @@ describe("elasticPose", () => {
   });
 });
 
-describe("settlePose", () => {
-  it("eases toward the goal and snaps when close", () => {
-    const goal = { tx: 10, ty: 0, sx: 1.1, sy: 0.95 };
-    const step = settlePose(REST_POSE, goal);
-    expect(step.tx).toBeCloseTo(1.8);
-    let pose = REST_POSE;
-    for (let i = 0; i < 100; i++) pose = settlePose(pose, goal);
-    expect(pose).toBe(goal);
+describe("springStep", () => {
+  const goal = { tx: 10, ty: 0, sx: 1.1, sy: 0.95 };
+  const run = (frames: number) => {
+    let spring = REST_SPRING;
+    const seen: number[] = [];
+    for (let i = 0; i < frames; i++) {
+      spring = springStep(spring, goal);
+      seen.push(spring.pose.tx);
+    }
+    return { spring, seen };
+  };
+
+  it("overshoots the goal before it settles, like jelly", () => {
+    expect(Math.max(...run(200).seen)).toBeGreaterThan(goal.tx);
+  });
+
+  it("returns the goal itself with no velocity once settled", () => {
+    const { spring } = run(400);
+    expect(spring.pose).toBe(goal);
+    expect(spring.velocity.tx).toBe(0);
+  });
+});
+
+describe("motionStretch", () => {
+  it("stretches along horizontal motion and squeezes vertically", () => {
+    const pose = motionStretch(REST_POSE, 40, 0, 1);
+    expect(pose.sx).toBeGreaterThan(1);
+    expect(pose.sy).toBeLessThan(1);
+  });
+
+  it("leaves the pose alone when still or with elasticity off", () => {
+    expect(motionStretch(REST_POSE, 0, 0, 1)).toBe(REST_POSE);
+    expect(motionStretch(REST_POSE, 40, 0, 0)).toBe(REST_POSE);
+  });
+});
+
+describe("pressImpulse", () => {
+  it("kicks the spring into a squash that wobbles back to rest", () => {
+    let spring = pressImpulse(REST_SPRING, 1);
+    spring = springStep(spring, REST_POSE);
+    expect(spring.pose.sx).toBeGreaterThan(1);
+    expect(spring.pose.sy).toBeLessThan(1);
+    for (let i = 0; i < 400; i++) spring = springStep(spring, REST_POSE);
+    expect(spring.pose).toBe(REST_POSE);
+  });
+});
+
+describe("scaleDisplacement", () => {
+  it("scales shifts around neutral and does not touch the input", () => {
+    const input = new Uint8ClampedArray([228, 28, 128, 255]);
+    const half = scaleDisplacement(input, 0.5);
+    expect([...half]).toEqual([178, 78, 128, 255]);
+    expect(input[0]).toBe(228);
+  });
+});
+
+describe("dockScale", () => {
+  it("peaks under the pointer and falls to 1 past the reach", () => {
+    expect(dockScale(0, 48, 1.6)).toBeCloseTo(1.6);
+    expect(dockScale(48, 48, 1.6)).toBeGreaterThan(1);
+    expect(dockScale(48, 48, 1.6)).toBeLessThan(1.6);
+    expect(dockScale(48 * 3, 48, 1.6)).toBe(1);
+    expect(dockScale(Infinity, 48, 1.6)).toBe(1);
   });
 });
 

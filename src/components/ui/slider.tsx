@@ -1,5 +1,59 @@
+"use client";
+
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 import { cn } from "cn";
+import * as React from "react";
+
+import { useLiquidGlass } from "@/components/ui/liquid-glass";
+import { supportsBackdropLens } from "@/lib/glass-dom";
+
+const THUMB =
+  "relative block h-5 w-7 shrink-0 rounded-full transition-[scale,box-shadow,background-color] duration-300 ease-(--ease-spring) select-none after:absolute after:-inset-2 focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none data-vertical:h-7 data-vertical:w-5";
+
+type ThumbProps = React.ComponentProps<"div"> & { dragging: boolean };
+
+// Quiet at rest, a lens while dragged: the thumb clears and bends the track and fill edge under it.
+function LensThumb({
+  dragging,
+  ref,
+  className,
+  style,
+  children,
+  ...props
+}: ThumbProps) {
+  const glass = useLiquidGlass<HTMLDivElement>({
+    material: "clear",
+    // elsewhere refraction would register the thumb with a GlassScope, which bends the content the slider sits in, thumb included
+    refraction: dragging && supportsBackdropLens(),
+    specular: false,
+    bezel: 8,
+  });
+  const glassRef = glass.ref;
+  const setRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      glassRef(node);
+      if (typeof ref === "function") return ref(node);
+      if (ref) ref.current = node;
+    },
+    [glassRef, ref]
+  );
+  return (
+    <div
+      ref={setRef}
+      className={cn(
+        className,
+        dragging
+          ? "scale-150 glass-clear"
+          : "bg-white shadow-[0_2px_6px_rgb(0_0_0/0.18),0_0_0_0.5px_rgb(0_0_0/0.04)]"
+      )}
+      style={dragging ? { ...glass.style, ...style } : style}
+      {...props}
+    >
+      {dragging ? glass.filter : null}
+      {children}
+    </div>
+  );
+}
 
 function Slider({
   className,
@@ -46,7 +100,13 @@ function Slider({
                 ? `${ariaLabel} ${index + 1}`
                 : ariaLabel
             }
-            className="relative block h-5 w-7 shrink-0 rounded-full bg-white shadow-[0_2px_6px_rgb(0_0_0/0.18),0_0_0_0.5px_rgb(0_0_0/0.04)] transition-[scale,box-shadow] duration-300 ease-(--ease-spring) select-none after:absolute after:-inset-2 focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-hidden active:scale-110 disabled:pointer-events-none disabled:opacity-50 motion-reduce:transition-none data-vertical:h-7 data-vertical:w-5"
+            className={THUMB}
+            render={(thumbProps, state) => (
+              <LensThumb
+                {...thumbProps}
+                dragging={state.dragging && state.activeThumbIndex === index}
+              />
+            )}
           />
         ))}
       </SliderPrimitive.Control>

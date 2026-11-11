@@ -171,11 +171,25 @@ export const Installation: FC = () => (
         first.
       </li>
       <li>
-        Pin to a release with a tag: <C>NTCHz/glass-ui/button#v0.6.0</C>. The
+        Pin to a release with a tag: <C>NTCHz/glass-ui/button#v0.7.0</C>. The
         tag is not passed on to dependencies, so pin <C>theme</C> too.
       </li>
     </UL>
-    <CommandTabs args="add NTCHz/glass-ui/theme#v0.6.0 NTCHz/glass-ui/button#v0.6.0" />
+    <CommandTabs args="add NTCHz/glass-ui/theme#v0.7.0 NTCHz/glass-ui/button#v0.7.0" />
+
+    <H2>AI tools</H2>
+    <P>
+      The shadcn MCP server reads this registry straight from GitHub, with no
+      extra config. Set it up once, then ask your agent for a glass-ui item by
+      its <C>NTCHz/glass-ui/</C> name.
+    </P>
+    <CommandTabs args="mcp init --client claude" />
+    <P>
+      For agents that read docs instead, <A href="/llms.txt">/llms.txt</A> lists
+      every page, its install command and the rules glass-ui expects (theme
+      first, glass on the control layer only, how to get refraction in Safari
+      and Firefox).
+    </P>
   </article>
 );
 

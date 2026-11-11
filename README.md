@@ -11,7 +11,7 @@ Requires a project already set up with `shadcn init` (Tailwind v4, `@/` alias).
 ```bash
 npx shadcn@latest add NTCHz/glass-ui/theme NTCHz/glass-ui/button NTCHz/glass-ui/card
 npx shadcn@latest add NTCHz/glass-ui/dialog              # later adds: component only
-npx shadcn@latest add NTCHz/glass-ui/button#v0.6.0       # pin to a tag
+npx shadcn@latest add NTCHz/glass-ui/button#v0.7.0       # pin to a tag
 ```
 
 Name `theme` in the command at least once. Pulled in only as a dependency, it adds the new tokens but does not overwrite the ones `shadcn init` wrote (`--background`, `--primary`, `--radius`, `--font-sans`), so colours and fonts stay shadcn's with no warning. Afterwards delete the `@import` of the font `shadcn init` added (e.g. `@fontsource-variable/geist`); the CLI leaves it in.
@@ -66,12 +66,19 @@ Every pane can be tuned on its own. Unset props keep the theme, so the defaults 
 | `shine`                            | 0–1                         | opacity of the specular sheen                                                                                                                           |
 | `lightAngle`                       | degrees                     | where the light comes from (0 = top, clockwise); the pointer still moves it unless `specular={false}`                                                   |
 | `rim` / `glow`                     | 0–1                         | brightness of the lit rim / the inner glow                                                                                                              |
-| `elasticity`                       | 0–1                         | the pane leans and stretches toward a nearby pointer (off by default; off under reduced motion)                                                         |
+| `elasticity`                       | 0–1                         | the pane leans toward a nearby pointer, stretches with its speed and wobbles on press, on a spring (off by default; off under reduced motion)           |
 | `pointerArea`                      | element                     | only pointer moves inside this element drive the light and the stretch (default: the whole window). Pass the element from a state ref, not a ref object |
 
 Values outside a range are clamped. Try them live on the [Glass Tuner](https://glass.shipfold.com/docs/components/glass-tuner) page and copy the result.
 
-Lensing and dispersion render in Chromium only; Safari and Firefox keep the frosted glass (blur, saturate, brightness, tint and shine work everywhere). Details and limits: `docs/DECISIONS.md`.
+Backdrop lensing and dispersion render in Chromium only; on their own, Safari and Firefox keep the frosted glass (blur, saturate, brightness, tint and shine work everywhere). Wrap the region in `<GlassScope>` to get the bend there too: the scope bends its `<GlassScopeContent>` under each pane instead of the backdrop. Keep the panes outside `GlassScopeContent`, since anything inside it is bent too. Chromium keeps the backdrop lens and the scope does nothing. Details and limits: `docs/DECISIONS.md`.
+
+```tsx
+<GlassScope className="h-80 overflow-y-auto">
+  <LiquidGlass className="sticky top-3 rounded-full">Library</LiquidGlass>
+  <GlassScopeContent>{rows}</GlassScopeContent>
+</GlassScope>
+```
 
 `<LiquidLens>` refracts in **every engine**: it bends the content it wraps instead of the backdrop, so it suits a lens over content you own (an image, a card, a slider track), not a bar floating over the whole page. The text under it stays selectable.
 
@@ -81,15 +88,31 @@ Lensing and dispersion render in Chromium only; Safari and Firefox keep the fros
 </LiquidLens>
 ```
 
+`<Dock>` is a macOS-style dock on Base UI Toolbar: items grow toward the pointer (`magnify`, default 1.6) and the arrow keys move between them. Magnification is off for touch and reduced motion. The `Slider` thumb turns into a clear lens while it is dragged (Chromium bends the fill under it).
+
+```tsx
+<Dock aria-label="Apps">
+  <DockItem label="Mail" active>
+    <MailIcon />
+  </DockItem>
+  <DockSeparator />
+  <DockItem label="Trash">
+    <TrashIcon />
+  </DockItem>
+</Dock>
+```
+
 All glass falls back to opaque `--glass-solid` under `prefers-reduced-transparency: reduce` or `prefers-contrast: more`.
 
 Type: system SF on Apple devices → Inter Variable → Sarabun for Thai glyphs.
 
 ## Components
 
-Every component in shadcn’s base registry (64), plus `theme`. `form` is omitted — upstream ships it with no files; use `field`.
+Every component in shadcn’s base registry (64), plus `theme`. `form` is omitted — upstream ships it with no files; use `field`. Glass-only additions: `liquid-glass` (with `LiquidGlassGroup`), `glass-scope`, `liquid-lens`, `dock`.
 
-`accordion` · `alert` · `alert-dialog` · `aspect-ratio` · `attachment` · `avatar` · `badge` · `breadcrumb` · `bubble` · `button` · `button-group` · `calendar` · `card` · `carousel` · `chart` · `checkbox` · `code-block` · `collapsible` · `combobox` · `command` · `context-menu` · `dialog` · `direction` · `drawer` · `dropdown-menu` · `empty` · `field` · `hover-card` · `input` · `input-group` · `input-otp` · `item` · `liquid-glass` · `kbd` · `label` · `marker` · `menubar` · `message` · `message-scroller` · `native-select` · `navigation-menu` · `pagination` · `popover` · `progress` · `questionnaire` · `radio-group` · `resizable` · `scroll-area` · `select` · `separator` · `sheet` · `sidebar` · `skeleton` · `slider` · `sonner` · `spinner` · `switch` · `table` · `tabs` · `textarea` · `toast` · `toggle` · `toggle-group` · `tooltip` · `trace`
+`accordion` · `alert` · `alert-dialog` · `aspect-ratio` · `attachment` · `avatar` · `badge` · `breadcrumb` · `bubble` · `button` · `button-group` · `calendar` · `card` · `carousel` · `chart` · `checkbox` · `code-block` · `collapsible` · `combobox` · `command` · `context-menu` · `dialog` · `direction` · `dock` · `drawer` · `dropdown-menu` · `empty` · `field` · `hover-card` · `input` · `input-group` · `input-otp` · `item` · `kbd` · `label` · `marker` · `menubar` · `message` · `message-scroller` · `native-select` · `navigation-menu` · `pagination` · `popover` · `progress` · `questionnaire` · `radio-group` · `resizable` · `scroll-area` · `select` · `separator` · `sheet` · `sidebar` · `skeleton` · `slider` · `sonner` · `spinner` · `switch` · `table` · `tabs` · `textarea` · `toast` · `toggle` · `toggle-group` · `tooltip` · `trace`
+
+AI agents: `npx shadcn@latest mcp init --client claude` lets the shadcn MCP server browse and install from this registry with no extra config. https://glass.shipfold.com/llms.txt lists every page, its install command and the rules glass-ui expects.
 
 Docs site: https://glass.shipfold.com — a page per entry in `src/docs/catalog.ts` (Preview / Code from the demo in `src/playground/sections/`, install command, imports, API links). Add a demo there and a catalog entry to get a page.
 

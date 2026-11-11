@@ -25,6 +25,8 @@ dist-ssr
 
 # shadcn build output — consumers read registry.json from GitHub directly
 public/r
+# generated at build by scripts/gen-llms.mjs
+public/llms.txt
 
 .env*
 !.env.example

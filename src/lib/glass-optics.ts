@@ -8,7 +8,7 @@ export type GlassRect = {
 
 export type GlassTone = "light" | "dark";
 
-const NEUTRAL = 128;
+export const NEUTRAL = 128;
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
@@ -301,20 +301,110 @@ export function elasticPose(
   };
 }
 
-const SETTLE = 0.18;
+export type ElasticSpring = { pose: ElasticPose; velocity: ElasticPose };
+
+const STILL: ElasticPose = { tx: 0, ty: 0, sx: 0, sy: 0 };
+const POSE_KEYS = ["tx", "ty", "sx", "sy"] as const;
+
+export const REST_SPRING: ElasticSpring = { pose: REST_POSE, velocity: STILL };
+
+// per 60fps frame; damping < 1 leaves one or two small overshoots before it settles, the jelly feel
+const STIFFNESS = 0.14;
+const DAMPING = 0.74;
 const AT_REST = 0.002;
 
-/** One spring-less ease step from `pose` toward `goal`; snaps once every field is within AT_REST. */
-export function settlePose(pose: ElasticPose, goal: ElasticPose): ElasticPose {
-  const keys = ["tx", "ty", "sx", "sy"] as const;
-  const near = keys.every(k => Math.abs(goal[k] - pose[k]) < AT_REST);
-  if (near) return goal;
+/** One underdamped spring step toward `goal`; returns `goal` itself (and no velocity) once it has settled. */
+export function springStep(
+  { pose, velocity }: ElasticSpring,
+  goal: ElasticPose
+): ElasticSpring {
+  const settled = POSE_KEYS.every(
+    k =>
+      Math.abs(goal[k] - pose[k]) < AT_REST && Math.abs(velocity[k]) < AT_REST
+  );
+  if (settled) return { pose: goal, velocity: STILL };
+  const next = (k: (typeof POSE_KEYS)[number]) =>
+    (velocity[k] + (goal[k] - pose[k]) * STIFFNESS) * DAMPING;
+  const v = { tx: next("tx"), ty: next("ty"), sx: next("sx"), sy: next("sy") };
   return {
-    tx: pose.tx + (goal.tx - pose.tx) * SETTLE,
-    ty: pose.ty + (goal.ty - pose.ty) * SETTLE,
-    sx: pose.sx + (goal.sx - pose.sx) * SETTLE,
-    sy: pose.sy + (goal.sy - pose.sy) * SETTLE,
+    pose: {
+      tx: pose.tx + v.tx,
+      ty: pose.ty + v.ty,
+      sx: pose.sx + v.sx,
+      sy: pose.sy + v.sy,
+    },
+    velocity: v,
   };
+}
+
+// px per frame at which the motion stretch tops out; a brisk flick across a toolbar
+const FAST = 40;
+const MOTION_STRETCH = 0.08;
+
+/** `pose` stretched along the pointer's motion (px per frame) and squeezed across it. */
+export function motionStretch(
+  pose: ElasticPose,
+  vx: number,
+  vy: number,
+  elasticity: number
+): ElasticPose {
+  const e = tuned("elasticity", elasticity) ?? 0;
+  const speed = Math.hypot(vx, vy);
+  if (!e || speed < AT_REST) return pose;
+  const amount = Math.min(speed / FAST, 1) * e * MOTION_STRETCH;
+  const ux = Math.abs(vx) / speed;
+  const uy = Math.abs(vy) / speed;
+  return {
+    ...pose,
+    sx: pose.sx * (1 + amount * (ux - uy / 2)),
+    sy: pose.sy * (1 + amount * (uy - ux / 2)),
+  };
+}
+
+const PRESS_SQUASH = 0.035;
+
+/** The spring after a press: a sideways squash that wobbles back through the spring. */
+export function pressImpulse(
+  spring: ElasticSpring,
+  elasticity: number
+): ElasticSpring {
+  const kick = (tuned("elasticity", elasticity) ?? 0) * PRESS_SQUASH;
+  return {
+    pose: spring.pose,
+    velocity: {
+      ...spring.velocity,
+      sx: spring.velocity.sx + kick,
+      sy: spring.velocity.sy - kick,
+    },
+  };
+}
+
+/** A copy of displacement pixels with every shift multiplied by `factor` (0–1). */
+export function scaleDisplacement(
+  pixels: Uint8ClampedArray<ArrayBuffer>,
+  factor: number
+): Uint8ClampedArray<ArrayBuffer> {
+  const out = new Uint8ClampedArray(pixels);
+  if (factor === 1) return out;
+  for (let i = 0; i < out.length; i += 4) {
+    out[i] = NEUTRAL + (out[i] - NEUTRAL) * factor;
+    out[i + 1] = NEUTRAL + (out[i + 1] - NEUTRAL) * factor;
+  }
+  return out;
+}
+
+const DOCK_REACH = 2.5;
+
+/** Magnification of a dock item whose centre is `distance` px from the pointer: `max` on top, 1 past `reach` items away. */
+export function dockScale(
+  distance: number,
+  itemSize: number,
+  max: number
+): number {
+  const reach = itemSize * DOCK_REACH;
+  if (!(distance < reach)) return 1;
+  // cosine falloff: flat under the pointer, no kink where the neighbours stop growing
+  return 1 + (max - 1) * (0.5 + 0.5 * Math.cos((Math.PI * distance) / reach));
 }
 
 /** feColorMatrix values that keep one channel (and alpha) for the dispersion passes. */

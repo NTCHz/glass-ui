@@ -5,6 +5,7 @@ export type DemoFile =
   | "Assistant"
   | "Basics"
   | "DataDisplay"
+  | "Dock"
   | "Edge"
   | "Forms"
   | "Layout"
@@ -12,6 +13,7 @@ export type DemoFile =
   | "Liquid"
   | "Navigation"
   | "Overlays"
+  | "Scope"
   | "Tuner";
 
 export type ComponentEntry = {
@@ -62,6 +64,14 @@ export const COMPONENTS: readonly ComponentEntry[] = [
     label: "Liquid Lens",
     file: "Lens",
     demo: "LensSection",
+  },
+  {
+    group: "Foundations",
+    id: "glass-scope",
+    label: "Glass Scope",
+    file: "Scope",
+    demo: "GlassScopeSection",
+    items: ["glass-scope", "liquid-glass"],
   },
   {
     group: "Foundations",
@@ -235,6 +245,13 @@ export const COMPONENTS: readonly ComponentEntry[] = [
     label: "Toast",
     file: "Navigation",
     demo: "ToastSection",
+  },
+  {
+    group: "Navigation",
+    id: "dock",
+    label: "Dock",
+    file: "Dock",
+    demo: "DockSection",
   },
   {
     group: "Navigation",

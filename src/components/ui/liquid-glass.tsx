@@ -1,9 +1,18 @@
+"use client";
+
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
 import * as React from "react";
 
+import { useGlassScope } from "@/components/ui/glass-scope";
+import {
+  matches,
+  REDUCED_MOTION,
+  REDUCED_TRANSPARENCY,
+  supportsBackdropLens,
+} from "@/lib/glass-dom";
 import {
   CHANNEL_MATRICES,
   channelScales,
@@ -13,9 +22,12 @@ import {
   lensBezel,
   lightFromAngle,
   luminance,
+  motionStretch,
   nextTone,
+  pressImpulse,
   REST_POSE,
-  settlePose,
+  REST_SPRING,
+  springStep,
   tuned,
   tuningVars,
   type GlassRect,
@@ -23,9 +35,6 @@ import {
   type GlassTuning,
 } from "@/lib/glass-optics";
 
-const REDUCED_TRANSPARENCY =
-  "(prefers-reduced-transparency: reduce), (prefers-contrast: more)";
-const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 const BLUR_SCALE = { clear: 0.5, regular: 1, thick: 2 } as const;
 // the lens needs a clearer pane than plain frost or the bent backdrop blurs away
 const LENS_BLUR = 0.45;
@@ -35,17 +44,6 @@ const LENS_STRENGTH = 2.4;
 const GROUP_PAD = 16;
 
 type Material = keyof typeof BLUR_SCALE;
-
-// Only Chromium renders url() filters inside backdrop-filter; Safari parses them and drops the whole backdrop.
-const supportsLens = () =>
-  typeof navigator !== "undefined" &&
-  ((
-    navigator as { userAgentData?: { brands?: { brand: string }[] } }
-  ).userAgentData?.brands?.some(b => b.brand === "Chromium") ??
-    false);
-
-const matches = (query: string) =>
-  typeof matchMedia !== "undefined" && matchMedia(query).matches;
 
 type Lens = {
   map: string;
@@ -103,7 +101,7 @@ function useLens(
 ) {
   const [lens, setLens] = React.useState<Lens | null>(null);
   React.useEffect(() => {
-    if (!enabled || !el || !supportsLens()) return;
+    if (!enabled || !el || !supportsBackdropLens()) return;
     let frame = 0;
     const build = () => {
       frame = 0;
@@ -208,6 +206,11 @@ function useLight(
   }, [el, follow, angle, area]);
 }
 
+// low-pass on pointer velocity so one jittery event does not jerk the pane
+const VELOCITY_SMOOTHING = 0.25;
+const VELOCITY_DECAY = 0.85;
+const FRAME_MS = 1000 / 60;
+
 function useElastic(
   el: HTMLElement | null,
   elasticity: number | undefined,
@@ -217,8 +220,10 @@ function useElastic(
     const e = tuned("elasticity", elasticity) ?? 0;
     if (!el || !e || matches(REDUCED_MOTION)) return;
     let frame = 0;
-    let pose = REST_POSE;
-    let goal = REST_POSE;
+    let spring = REST_SPRING;
+    let lean = REST_POSE;
+    let velocity: [number, number] = [0, 0];
+    let last: [number, number, number] | null = null;
     // individual translate/scale, not transform: glass-press owns transform for its hover scale.
     // shortcut: while leaning this overrides translate-*/scale-* classes and a style translate/scale; wrap the pane if it needs its own
     const clear = () => {
@@ -226,8 +231,16 @@ function useElastic(
       el.style.removeProperty("scale");
     };
     const step = () => {
-      pose = settlePose(pose, goal);
-      frame = pose === goal ? 0 : requestAnimationFrame(step);
+      velocity = [velocity[0] * VELOCITY_DECAY, velocity[1] * VELOCITY_DECAY];
+      // out of reach the pane only settles: motion far away must not keep it stretching
+      const goal =
+        lean === REST_POSE
+          ? lean
+          : motionStretch(lean, velocity[0], velocity[1], e);
+      spring = springStep(spring, goal);
+      const moving = spring.pose !== goal || goal !== lean;
+      frame = moving ? requestAnimationFrame(step) : 0;
+      const { pose } = spring;
       if (pose === REST_POSE) return clear();
       el.style.translate = `${pose.tx.toFixed(2)}px ${pose.ty.toFixed(2)}px`;
       el.style.scale = `${pose.sx.toFixed(4)} ${pose.sy.toFixed(4)}`;
@@ -237,25 +250,41 @@ function useElastic(
     };
     const onMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
+      if (last) {
+        const frames = Math.max((event.timeStamp - last[2]) / FRAME_MS, 1);
+        velocity = [0, 1].map(
+          i =>
+            velocity[i] +
+            (((i ? event.clientY : event.clientX) - last![i]) / frames -
+              velocity[i]) *
+              VELOCITY_SMOOTHING
+        ) as [number, number];
+      }
+      last = [event.clientX, event.clientY, event.timeStamp];
       const box = el.getBoundingClientRect();
       // the box already carries the current lean; take it back out so the pane does not chase itself
       const next = elasticPose(
         event.clientX,
         event.clientY,
         {
-          cx: box.left + box.width / 2 - pose.tx,
-          cy: box.top + box.height / 2 - pose.ty,
+          cx: box.left + box.width / 2 - spring.pose.tx,
+          cy: box.top + box.height / 2 - spring.pose.ty,
           width: el.offsetWidth,
           height: el.offsetHeight,
         },
         e
       );
-      if (next === REST_POSE && pose === REST_POSE) return;
-      goal = next;
+      if (next === REST_POSE && lean === REST_POSE && !frame) return;
+      lean = next;
       kick();
     };
     const onLeave = () => {
-      goal = REST_POSE;
+      lean = REST_POSE;
+      last = null;
+      kick();
+    };
+    const onPress = () => {
+      spring = pressImpulse(spring, e);
       kick();
     };
     const target = listenTarget(area);
@@ -264,10 +293,12 @@ function useElastic(
       passive: true,
     });
     exit.addEventListener("pointerleave", onLeave);
+    el.addEventListener("pointerdown", onPress, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
       target.removeEventListener("pointermove", onMove as EventListener);
       exit.removeEventListener("pointerleave", onLeave);
+      el.removeEventListener("pointerdown", onPress);
       clear();
     };
   }, [el, elasticity, area]);
@@ -461,11 +492,16 @@ function useLiquidGlass<T extends HTMLElement>({
     dispersion,
     blur: tuning.blur,
   });
+  const scoped = useGlassScope(node, refraction, bezel);
   useLight(node, specular, lightAngle, pointerArea);
   useElastic(node, elasticity, pointerArea);
   useAdaptiveTone(node, adaptive);
   const backdrop = `url(#${id}) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))`;
-  const vars = tuningVars(material, tuning) as React.CSSProperties;
+  const vars = {
+    ...tuningVars(material, tuning),
+    // the scope bends the content under the pane; full frost would blur the bend away
+    ...(scoped && { "--glass-lens-blur": LENS_BLUR }),
+  } as React.CSSProperties;
   return {
     ref,
     style: lens
