@@ -4,11 +4,14 @@ import { describe, expect, it } from "vitest";
 import {
   channelScales,
   displacementPixels,
+  elasticPose,
   gooeyMasks,
   lensBezel,
   lightFromAngle,
   luminance,
   nextTone,
+  REST_POSE,
+  settlePose,
   tuned,
   tuningVars,
 } from "./lib/glass-optics";
@@ -174,5 +177,111 @@ describe("tuningVars", () => {
       "--glass-sheen": "oklch(1 0 0 / 0.3)",
       "--glass-thick": "oklch(0.7 0.1 250 / 0.4)",
     });
+  });
+});
+
+// the per-pixel version displacementPixels replaced; the quadrant copy must match it exactly
+const referencePixels = (
+  w: number,
+  h: number,
+  radius: number,
+  bezel: number
+) => {
+  const pixels = new Uint8ClampedArray(w * h * 4);
+  const r = Math.min(Math.max(radius, 0), Math.min(w, h) / 2);
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const px = x + 0.5 - w / 2;
+      const py = y + 0.5 - h / 2;
+      const qx = Math.abs(px) - (w / 2 - r);
+      const qy = Math.abs(py) - (h / 2 - r);
+      const ox = Math.max(qx, 0);
+      const oy = Math.max(qy, 0);
+      const out = Math.hypot(ox, oy);
+      const d = out + Math.min(Math.max(qx, qy), 0) - r;
+      const [nx, ny] =
+        out > 0 ? [ox / out, oy / out] : qx > qy ? [1, 0] : [0, 1];
+      const t = Math.min(Math.max(1 + d / bezel, 0), 1);
+      const i = (y * w + x) * 4;
+      pixels[i] = 128 - nx * Math.sign(px || 1) * t * t * 127;
+      pixels[i + 1] = 128 - ny * Math.sign(py || 1) * t * t * 127;
+      pixels[i + 2] = 128;
+      pixels[i + 3] = 255;
+    }
+  return pixels;
+};
+
+describe("displacementPixels quadrant copy", () => {
+  it.each([
+    [100, 60, 20, 16],
+    [101, 61, 30, 12],
+    [7, 9, 3, 3],
+    [240, 44, 22, 18],
+  ])("matches the per-pixel field at %ix%i", (w, h, radius, bezel) => {
+    expect(displacementPixels(w, h, radius, bezel)).toEqual(
+      referencePixels(w, h, radius, bezel)
+    );
+  });
+});
+
+describe("rim and glow", () => {
+  it("set the theme's rim and glow alpha", () => {
+    expect(tuningVars("regular", { rim: 0.5, glow: 2 })).toEqual({
+      "--glass-rim-hi": "oklch(1 0 0 / 0.5)",
+      "--glass-glow": "oklch(1 0 0 / 1)",
+    });
+  });
+});
+
+describe("elasticPose", () => {
+  const box = { cx: 100, cy: 100, width: 100, height: 40 };
+
+  it("rests when elasticity is 0 or the pointer is out of reach", () => {
+    expect(elasticPose(180, 100, box, 0)).toEqual(REST_POSE);
+    expect(elasticPose(1000, 100, box, 1)).toEqual(REST_POSE);
+  });
+
+  it("leans toward the pointer and stretches along that axis", () => {
+    const pose = elasticPose(180, 100, box, 1);
+    expect(pose.tx).toBeGreaterThan(0);
+    expect(pose.ty).toBe(0);
+    expect(pose.sx).toBeGreaterThan(1);
+    expect(pose.sy).toBeLessThan(1);
+  });
+
+  it("fades to rest at the edge of its reach", () => {
+    expect(elasticPose(309, 100, box, 1).sx - 1).toBeLessThan(0.01);
+    expect(elasticPose(310, 100, box, 1)).toEqual(REST_POSE);
+  });
+});
+
+describe("settlePose", () => {
+  it("eases toward the goal and snaps when close", () => {
+    const goal = { tx: 10, ty: 0, sx: 1.1, sy: 0.95 };
+    const step = settlePose(REST_POSE, goal);
+    expect(step.tx).toBeCloseTo(1.8);
+    let pose = REST_POSE;
+    for (let i = 0; i < 100; i++) pose = settlePose(pose, goal);
+    expect(pose).toBe(goal);
+  });
+});
+
+describe("displacementPixels clip", () => {
+  const W = 60;
+  const shift = (map: Uint8ClampedArray, x: number, y: number) => {
+    const i = (y * W + x) * 4;
+    return [map[i], map[i + 1]];
+  };
+
+  it("is neutral in the cut-off corners and still bends along the edges", () => {
+    const map = displacementPixels(W, 40, 20, 12, true);
+    expect(shift(map, 0, 0)).toEqual([128, 128]);
+    expect(shift(map, W - 1, 39)).toEqual([128, 128]);
+    expect(shift(map, 30, 0)[1]).toBeGreaterThan(200);
+  });
+
+  it("shifts the corners without clip", () => {
+    const map = displacementPixels(W, 40, 20, 12);
+    expect(shift(map, 0, 0)).not.toEqual([128, 128]);
   });
 });

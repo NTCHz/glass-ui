@@ -190,6 +190,12 @@ const UTILITIES = [
     "glass-stage",
     "Container for two or more neighbouring glass elements (see below)",
   ],
+  [
+    "scroll-edge-top",
+    "On a sticky top bar: content fades and blurs as it scrolls under it",
+  ],
+  ["scroll-edge-bottom", "The same for a bottom toolbar"],
+  ["scroll-edge-hard", "Add to either for a more opaque, hard edge"],
 ] as const;
 
 const TOKENS = [

@@ -316,7 +316,7 @@ export const AppShell: FC<ShellProps> = ({ nav, active, children }) => {
         <Footer />
       </aside>
 
-      <header className="sticky top-0 z-30 px-3 pt-3 pb-4 md:hidden">
+      <header className="scroll-edge-top sticky top-0 z-30 px-3 pt-3 pb-4 md:hidden">
         <div className="flex h-14 items-center gap-1 rounded-full glass pr-2 pl-4">
           <Brand compact />
           <span className="ml-auto max-w-[55%] truncate text-[0.8125rem] font-medium text-muted-foreground">

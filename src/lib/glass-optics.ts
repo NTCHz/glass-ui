@@ -35,19 +35,30 @@ const roundedRectField = (
 /**
  * RGBA pixels for an feDisplacementMap: R/G = 128 is no shift. Inside the bezel
  * the backdrop is sampled from further in, so the rim magnifies like a lens.
+ * `clip` makes everything outside the rounded shape neutral (antialiased at the edge), so the
+ * square corners of the map do not shift anything.
  */
 export function displacementPixels(
   width: number,
   height: number,
   radius: number,
-  bezel: number
+  bezel: number,
+  clip = false
 ): Uint8ClampedArray<ArrayBuffer> {
   const pixels = new Uint8ClampedArray(width * height * 4);
   const r = clamp(radius, 0, Math.min(width, height) / 2);
   const halfW = width / 2;
   const halfH = height / 2;
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
+  const put = (x: number, y: number, red: number, green: number) => {
+    const i = (y * width + x) * 4;
+    pixels[i] = red;
+    pixels[i + 1] = green;
+    pixels[i + 2] = NEUTRAL;
+    pixels[i + 3] = 255;
+  };
+  // the field is mirror-symmetric, so one quadrant is computed and copied with the shift negated
+  for (let y = 0; y < Math.ceil(height / 2); y++) {
+    for (let x = 0; x < Math.ceil(width / 2); x++) {
       const { distance, nx, ny } = roundedRectField(
         x + 0.5 - halfW,
         y + 0.5 - halfH,
@@ -56,12 +67,15 @@ export function displacementPixels(
         r
       );
       const t = clamp(1 + distance / bezel, 0, 1);
-      const strength = t * t;
-      const i = (y * width + x) * 4;
-      pixels[i] = NEUTRAL - nx * strength * 127;
-      pixels[i + 1] = NEUTRAL - ny * strength * 127;
-      pixels[i + 2] = NEUTRAL;
-      pixels[i + 3] = 255;
+      const cover = clip ? clamp(0.5 - distance, 0, 1) : 1;
+      const dx = nx * t * t * 127 * cover;
+      const dy = ny * t * t * 127 * cover;
+      const mx = width - 1 - x;
+      const my = height - 1 - y;
+      put(mx, my, NEUTRAL + dx, NEUTRAL + dy);
+      put(x, my, NEUTRAL - dx, NEUTRAL + dy);
+      put(mx, y, NEUTRAL + dx, NEUTRAL - dy);
+      put(x, y, NEUTRAL - dx, NEUTRAL - dy);
     }
   }
   return pixels;
@@ -143,6 +157,12 @@ export type GlassTuning = {
   tint?: string;
   /** Opacity of the specular sheen, 0–1. */
   shine?: number;
+  /** Opacity of the bright rim on the lit edge, 0–1. */
+  rim?: number;
+  /** Opacity of the inner glow, 0–1. */
+  glow?: number;
+  /** How far the pane stretches toward a nearby pointer, 0–1. */
+  elasticity?: number;
 };
 
 type Limited = Exclude<keyof GlassTuning, "tint">;
@@ -155,6 +175,9 @@ export const TUNING_LIMITS: Record<Limited, [number, number]> = {
   saturate: [0, 300],
   brightness: [0.5, 1.5],
   shine: [0, 1],
+  rim: [0, 1],
+  glow: [0, 1],
+  elasticity: [0, 1],
 };
 
 /** The value clamped to its limits, or undefined when it is not a finite number. */
@@ -213,20 +236,90 @@ export function lightFromAngle(degrees: number): Record<string, string> {
 /** Inline custom properties that override the theme for one pane. */
 export function tuningVars(
   material: "clear" | "regular" | "thick",
-  { blur, saturate, brightness, tint, shine }: GlassTuning
+  { blur, saturate, brightness, tint, shine, rim, glow }: GlassTuning
 ): Record<string, string> {
   const b = tuned("blur", blur);
   const s = tuned("saturate", saturate);
   const l = tuned("brightness", brightness);
   const h = tuned("shine", shine);
+  const white = (alpha: number | undefined) =>
+    alpha === undefined ? undefined : `oklch(1 0 0 / ${alpha})`;
   const entries: [string, string | undefined][] = [
     ["--glass-blur", b === undefined ? undefined : `${b}px`],
     ["--glass-saturate", s === undefined ? undefined : `${s}%`],
     ["--glass-brightness", l === undefined ? undefined : String(l)],
-    ["--glass-sheen", h === undefined ? undefined : `oklch(1 0 0 / ${h})`],
+    ["--glass-sheen", white(h)],
+    ["--glass-rim-hi", white(tuned("rim", rim))],
+    ["--glass-glow", white(tuned("glow", glow))],
     [`--glass-${material}`, tint || undefined],
   ];
   return Object.fromEntries(
     entries.filter((e): e is [string, string] => e[1] !== undefined)
   );
 }
+
+export type ElasticPose = { tx: number; ty: number; sx: number; sy: number };
+
+export const REST_POSE: ElasticPose = { tx: 0, ty: 0, sx: 1, sy: 1 };
+
+const ELASTIC_REACH = 160;
+const ELASTIC_PULL = 0.12;
+const ELASTIC_STRETCH = 0.25;
+
+/**
+ * Where a pane leans for a pointer at (px, py): it drifts toward the pointer and
+ * stretches along that axis, fading to rest ELASTIC_REACH px outside its edge.
+ */
+export function elasticPose(
+  px: number,
+  py: number,
+  box: { cx: number; cy: number; width: number; height: number },
+  elasticity: number
+): ElasticPose {
+  const e = tuned("elasticity", elasticity) ?? 0;
+  const dx = px - box.cx;
+  const dy = py - box.cy;
+  const length = Math.hypot(dx, dy);
+  const outside = Math.hypot(
+    Math.max(Math.abs(dx) - box.width / 2, 0),
+    Math.max(Math.abs(dy) - box.height / 2, 0)
+  );
+  const fade = clamp(1 - outside / ELASTIC_REACH, 0, 1);
+  if (!e || !fade || !length) return REST_POSE;
+  const ux = Math.abs(dx) / length;
+  const uy = Math.abs(dy) / length;
+  const stretch =
+    Math.min(length / Math.max(box.width, box.height), 1) *
+    e *
+    fade *
+    ELASTIC_STRETCH;
+  return {
+    tx: dx * e * fade * ELASTIC_PULL,
+    ty: dy * e * fade * ELASTIC_PULL,
+    sx: 1 + stretch * (ux - uy / 2),
+    sy: 1 + stretch * (uy - ux / 2),
+  };
+}
+
+const SETTLE = 0.18;
+const AT_REST = 0.002;
+
+/** One spring-less ease step from `pose` toward `goal`; snaps once every field is within AT_REST. */
+export function settlePose(pose: ElasticPose, goal: ElasticPose): ElasticPose {
+  const keys = ["tx", "ty", "sx", "sy"] as const;
+  const near = keys.every(k => Math.abs(goal[k] - pose[k]) < AT_REST);
+  if (near) return goal;
+  return {
+    tx: pose.tx + (goal.tx - pose.tx) * SETTLE,
+    ty: pose.ty + (goal.ty - pose.ty) * SETTLE,
+    sx: pose.sx + (goal.sx - pose.sx) * SETTLE,
+    sy: pose.sy + (goal.sy - pose.sy) * SETTLE,
+  };
+}
+
+/** feColorMatrix values that keep one channel (and alpha) for the dispersion passes. */
+export const CHANNEL_MATRICES = [
+  { name: "r", matrix: "1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" },
+  { name: "g", matrix: "0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" },
+  { name: "b", matrix: "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" },
+] as const;

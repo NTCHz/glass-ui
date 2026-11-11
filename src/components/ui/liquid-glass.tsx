@@ -5,13 +5,17 @@ import { cn } from "cn";
 import * as React from "react";
 
 import {
+  CHANNEL_MATRICES,
   channelScales,
   displacementPixels,
+  elasticPose,
   gooeyMasks,
   lensBezel,
   lightFromAngle,
   luminance,
   nextTone,
+  REST_POSE,
+  settlePose,
   tuned,
   tuningVars,
   type GlassRect,
@@ -127,10 +131,15 @@ function useLens(
   return enabled && el ? lens : null;
 }
 
+type PointerArea = HTMLElement | null | undefined;
+
+const listenTarget = (area: PointerArea): EventTarget => area ?? window;
+
 function useLight(
   el: HTMLElement | null,
   follow: boolean,
-  angle: number | undefined
+  angle: number | undefined,
+  area: PointerArea
 ) {
   React.useEffect(() => {
     if (!el) return;
@@ -185,15 +194,83 @@ function useLight(
       ];
       schedule();
     };
-    window.addEventListener("pointermove", onPointer, { passive: true });
+    const target = listenTarget(area);
+    target.addEventListener("pointermove", onPointer as EventListener, {
+      passive: true,
+    });
     window.addEventListener("deviceorientation", onTilt, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("pointermove", onPointer);
+      target.removeEventListener("pointermove", onPointer as EventListener);
       window.removeEventListener("deviceorientation", onTilt);
       clear();
     };
-  }, [el, follow, angle]);
+  }, [el, follow, angle, area]);
+}
+
+function useElastic(
+  el: HTMLElement | null,
+  elasticity: number | undefined,
+  area: PointerArea
+) {
+  React.useEffect(() => {
+    const e = tuned("elasticity", elasticity) ?? 0;
+    if (!el || !e || matches(REDUCED_MOTION)) return;
+    let frame = 0;
+    let pose = REST_POSE;
+    let goal = REST_POSE;
+    // individual translate/scale, not transform: glass-press owns transform for its hover scale.
+    // shortcut: while leaning this overrides translate-*/scale-* classes and a style translate/scale; wrap the pane if it needs its own
+    const clear = () => {
+      el.style.removeProperty("translate");
+      el.style.removeProperty("scale");
+    };
+    const step = () => {
+      pose = settlePose(pose, goal);
+      frame = pose === goal ? 0 : requestAnimationFrame(step);
+      if (pose === REST_POSE) return clear();
+      el.style.translate = `${pose.tx.toFixed(2)}px ${pose.ty.toFixed(2)}px`;
+      el.style.scale = `${pose.sx.toFixed(4)} ${pose.sy.toFixed(4)}`;
+    };
+    const kick = () => {
+      if (!frame) frame = requestAnimationFrame(step);
+    };
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      const box = el.getBoundingClientRect();
+      // the box already carries the current lean; take it back out so the pane does not chase itself
+      const next = elasticPose(
+        event.clientX,
+        event.clientY,
+        {
+          cx: box.left + box.width / 2 - pose.tx,
+          cy: box.top + box.height / 2 - pose.ty,
+          width: el.offsetWidth,
+          height: el.offsetHeight,
+        },
+        e
+      );
+      if (next === REST_POSE && pose === REST_POSE) return;
+      goal = next;
+      kick();
+    };
+    const onLeave = () => {
+      goal = REST_POSE;
+      kick();
+    };
+    const target = listenTarget(area);
+    const exit = area ?? document.documentElement;
+    target.addEventListener("pointermove", onMove as EventListener, {
+      passive: true,
+    });
+    exit.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      target.removeEventListener("pointermove", onMove as EventListener);
+      exit.removeEventListener("pointerleave", onLeave);
+      clear();
+    };
+  }, [el, elasticity, area]);
 }
 
 const colorCache = new Map<string, number[]>();
@@ -291,13 +368,9 @@ type LiquidGlassOptions = GlassTuning & {
   adaptive?: boolean;
   /** Where the light comes from in degrees (0 = top, clockwise); the pointer still moves it while `specular` is on. */
   lightAngle?: number;
+  /** Only pointer moves inside this element drive the light and the stretch; defaults to the whole window. Pass the element (e.g. from a state ref), not a ref object, so a remount rebinds. */
+  pointerArea?: HTMLElement | null;
 };
-
-const CHANNELS = [
-  { name: "r", matrix: "1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" },
-  { name: "g", matrix: "0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" },
-  { name: "b", matrix: "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" },
-] as const;
 
 function LensFilter({ id, lens }: { id: string; lens: Lens }) {
   const displace = (scale: number, result?: string) => (
@@ -343,7 +416,7 @@ function LensFilter({ id, lens }: { id: string; lens: Lens }) {
         />
         {lens.dispersion > 0 ? (
           <>
-            {CHANNELS.map(({ name, matrix }, i) => (
+            {CHANNEL_MATRICES.map(({ name, matrix }, i) => (
               <React.Fragment key={name}>
                 {displace(scales[i], `${name}-shift`)}
                 <feColorMatrix
@@ -372,9 +445,11 @@ function useLiquidGlass<T extends HTMLElement>({
   specular = true,
   adaptive = false,
   lightAngle,
+  pointerArea,
   strength,
   bezel,
   dispersion,
+  elasticity,
   ...tuning
 }: LiquidGlassOptions = {}) {
   // state, not useRef: a `render` prop that swaps the element must re-run the effects on the new node
@@ -386,7 +461,8 @@ function useLiquidGlass<T extends HTMLElement>({
     dispersion,
     blur: tuning.blur,
   });
-  useLight(node, specular, lightAngle);
+  useLight(node, specular, lightAngle, pointerArea);
+  useElastic(node, elasticity, pointerArea);
   useAdaptiveTone(node, adaptive);
   const backdrop = `url(#${id}) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))`;
   const vars = tuningVars(material, tuning) as React.CSSProperties;
@@ -424,14 +500,18 @@ function LiquidGlass({
   specular,
   adaptive,
   lightAngle,
+  pointerArea,
   strength,
   bezel,
   dispersion,
+  elasticity,
   blur,
   saturate,
   brightness,
   tint,
   shine,
+  rim,
+  glow,
   render,
   children,
   style,
@@ -443,14 +523,18 @@ function LiquidGlass({
     specular,
     adaptive,
     lightAngle,
+    pointerArea,
     strength,
     bezel,
     dispersion,
+    elasticity,
     blur,
     saturate,
     brightness,
     tint,
     shine,
+    rim,
+    glow,
   });
   return useRender({
     defaultTagName: "div",

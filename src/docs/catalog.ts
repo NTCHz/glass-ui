@@ -5,8 +5,10 @@ export type DemoFile =
   | "Assistant"
   | "Basics"
   | "DataDisplay"
+  | "Edge"
   | "Forms"
   | "Layout"
+  | "Lens"
   | "Liquid"
   | "Navigation"
   | "Overlays"
@@ -45,6 +47,21 @@ export const COMPONENTS: readonly ComponentEntry[] = [
     label: "Liquid Glass",
     file: "Liquid",
     demo: "LiquidSection",
+  },
+  {
+    group: "Foundations",
+    id: "scroll-edge",
+    label: "Scroll Edge",
+    file: "Edge",
+    demo: "ScrollEdgeSection",
+    items: ["theme"],
+  },
+  {
+    group: "Foundations",
+    id: "liquid-lens",
+    label: "Liquid Lens",
+    file: "Lens",
+    demo: "LensSection",
   },
   {
     group: "Foundations",

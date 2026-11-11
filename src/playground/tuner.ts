@@ -20,6 +20,9 @@ export type TunerKey =
   | "saturate"
   | "brightness"
   | "shine"
+  | "rim"
+  | "glow"
+  | "elasticity"
   | "lightAngle";
 
 export type TunerControl = {
@@ -34,7 +37,7 @@ export type TunerControl = {
   unit?: string;
 };
 
-// base values are the light theme's; dark uses saturate 160%, brightness 0.96, sheen 0.07
+// base values are the light theme's; dark uses saturate 160%, brightness 0.96, sheen 0.07, rim 0.3, glow 0.05
 export const TUNER_CONTROLS: readonly TunerControl[] = [
   {
     key: "strength",
@@ -101,6 +104,33 @@ export const TUNER_CONTROLS: readonly TunerControl[] = [
     step: 0.05,
     base: 0.6,
     baseLabel: "theme",
+  },
+  {
+    key: "rim",
+    label: "Rim",
+    min: 0,
+    max: 1,
+    step: 0.05,
+    base: 0.95,
+    baseLabel: "theme",
+  },
+  {
+    key: "glow",
+    label: "Glow",
+    min: 0,
+    max: 1,
+    step: 0.05,
+    base: 0.35,
+    baseLabel: "theme",
+  },
+  {
+    key: "elasticity",
+    label: "Elasticity",
+    min: 0,
+    max: 1,
+    step: 0.05,
+    base: 0,
+    baseLabel: "off",
   },
   {
     key: "lightAngle",

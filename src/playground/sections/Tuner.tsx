@@ -101,6 +101,7 @@ const NO_TINT = "theme";
 
 const Tuner: FC = () => {
   const [state, setState] = useState<TunerState>(TUNER_DEFAULTS);
+  const [stage, setStage] = useState<HTMLDivElement | null>(null);
   const patch = (next: Partial<TunerState>) =>
     setState(current => ({ ...current, ...next }));
   const code = tunerSnippet(state);
@@ -108,12 +109,14 @@ const Tuner: FC = () => {
     <div className="grid w-full gap-4">
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_16rem]">
         <div
+          ref={setStage}
           className={`relative isolate grid min-h-72 place-items-center overflow-hidden rounded-[28px] p-6 glass-stage ${STRIPES}`}
         >
           <LiquidGlass
             material={state.material}
             refraction={state.refraction}
             specular={state.specular}
+            pointerArea={stage}
             tint={state.tint ?? undefined}
             {...state.values}
             className="grid w-full max-w-72 gap-1 rounded-3xl p-6"
@@ -122,7 +125,8 @@ const Tuner: FC = () => {
               Liquid Glass
             </span>
             <span className="text-sm text-foreground/75">
-              Drag the sliders. Refraction and dispersion need Chrome or Edge.
+              Drag the sliders, then move the pointer near me. Refraction and
+              dispersion need Chrome or Edge.
             </span>
           </LiquidGlass>
         </div>
